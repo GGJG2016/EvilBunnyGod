@@ -1,4 +1,4 @@
-package at.ggjg.evg;
+package at.ggjg.evg.screens;
 
 /**
  * Created by Veit on 29.01.2016.
@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class MainMenuScreen extends Screen{
+public class MainMenuScreen extends Screen {
 
     private Stage stage;
     private Table table;

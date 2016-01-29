@@ -1,4 +1,4 @@
-package at.ggjg.evg;
+package at.ggjg.evg.screens;
 
 /**
  * Created by Veit on 29.01.2016.

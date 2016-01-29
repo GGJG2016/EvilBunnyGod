@@ -1,7 +1,8 @@
-package at.ggjg.evg;
+package at.ggjg.evg.screens;
 
-import at.ggjg.evg.Mechanic.World;
-import at.ggjg.evg.Mechanic.WorldRenderer;
+import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.mechanic.World;
+import at.ggjg.evg.mechanic.WorldRenderer;
 
 /**
  * Created by Veit on 29.01.2016.
