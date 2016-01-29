@@ -2,7 +2,6 @@ package at.ggjg.evg.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.github.dreamsnatcher.utils.Assets;
 
 public abstract class GameObject {
     public Vector2 position;
