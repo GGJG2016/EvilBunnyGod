@@ -25,3 +25,5 @@ public class EvilBunnyGodGame extends ApplicationAdapter {
 		batch.end();
 	}
 }
+
+// Test oh fuck yeah!
