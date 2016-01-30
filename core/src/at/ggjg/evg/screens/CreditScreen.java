@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 /**
@@ -22,8 +24,7 @@ public class CreditScreen extends Screen {
             "SPECIAL THANKS TO\nMathias Lux [Sound]\n\n" +
             "EvilBunnyGod was developed during the\n" +
             "GlobalGamejam 2016, Graz, AT\n\n" +
-            "A big THANK YOU to all who have contributed to the game - in whatever way,\n" +
-            "to Johanna for organizing stuff, food, beer and COFFEE\n\n" +
+            "A big THANK YOU to all who have contributed to the game - in whatever way\n" +
             "#ggjg #ggj16";
     private Stage stage;
 
@@ -66,7 +67,9 @@ public class CreditScreen extends Screen {
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
 
         Image image = new Image(region);
-        table.add(image);
+
+        table.setBackground(new TextureRegionDrawable(region));
+
         table.row();
         table.add(scrollPane).fill().expand().row();
         table.add(button).size(150, 60).pad(10);

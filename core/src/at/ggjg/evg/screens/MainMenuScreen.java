@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import at.ggjg.evg.AudioManager;
+
 public class MainMenuScreen extends Screen {
 
     private Stage stage;
@@ -34,9 +36,12 @@ public class MainMenuScreen extends Screen {
         skin = new Skin(Gdx.files.internal("mainmenu/uiskin.json"));
         stage = new Stage();
         table = new Table();
+     //   audio = new AudioManager();
         table.setFillParent(true);
         table.row();
+        audioManager = new AudioManager();
 
+        audioManager.menu_loop_all.play();
 
         TextButton button;
 
