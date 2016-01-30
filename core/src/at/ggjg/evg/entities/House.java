@@ -23,6 +23,11 @@ public class House extends GameObject {
     }
 
     @Override
+    public void update(World world, float deltaTime) {
+
+    }
+
+    @Override
     public void init(World world) {
         this.state = State.IDLE;
         this.house_destroyed = Assets.house_destroyed;

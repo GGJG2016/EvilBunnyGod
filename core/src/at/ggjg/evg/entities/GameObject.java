@@ -33,13 +33,11 @@ public abstract class GameObject {
 
     }
 
-    public void update(World world, float deltaTime) {
-    }
+    public abstract void update(World world, float deltaTime);
 
     public abstract void init(World world);
 
-    public void update(float deltaTime) {
-    }
+
 
     public abstract void render(SpriteBatch batch);
 }

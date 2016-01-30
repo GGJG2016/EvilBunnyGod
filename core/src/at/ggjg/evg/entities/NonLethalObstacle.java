@@ -14,6 +14,11 @@ public class NonLethalObstacle extends GameObject {
     }
 
     @Override
+    public void update(World world, float deltaTime) {
+
+    }
+
+    @Override
     public void init(World world) {
 
     }

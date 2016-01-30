@@ -91,7 +91,7 @@ public class World implements OnMapClickedListener {
         for(int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
             String type = object.get("type", String.class);
-            System.out.println(type);
+//            System.out.println(type);
             if(type.equals("bunny")) {
                 Bunny bunny = new Bunny(object.get("x", Float.class), object.get("y", Float.class));
                 bunny.position.scl(1f / TILE_SIZE);
@@ -121,10 +121,10 @@ public class World implements OnMapClickedListener {
         for(GameObject entity: entities) {
             entity.update(this, deltaTime);
         }
-        for(Bunny b: bunnies)
-        {
-            b.update(deltaTime);
-        }
+//        for(Bunny b: bunnies)
+//        {
+//            b.update(deltaTime);
+//        }
 //
 //        for(Entity entity : delete) {
 //            entities.removeValue(entity, true);
@@ -237,7 +237,6 @@ public class World implements OnMapClickedListener {
     @Override
     public void onMapClicked(float x, float y, boolean isRightClick) {
         // todo bunnys dorthin schicken
-
         if(isRightClick){
             // todo get gesture and do magic
             return;
