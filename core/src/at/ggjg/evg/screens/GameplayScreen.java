@@ -7,7 +7,6 @@ import at.ggjg.evg.mechanic.World;
 import at.ggjg.evg.mechanic.WorldRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
@@ -85,6 +84,7 @@ public class GameplayScreen extends Screen {
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         renderer.resize(width, height);
     }
 

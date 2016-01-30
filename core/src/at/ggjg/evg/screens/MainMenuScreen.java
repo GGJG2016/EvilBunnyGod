@@ -3,6 +3,7 @@ package at.ggjg.evg.screens;
 /**
  * Created by Veit on 29.01.2016.
  */
+import at.ggjg.evg.helpers.Constants;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import at.ggjg.evg.AudioManager;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MainMenuScreen extends Screen {
 
@@ -34,7 +37,7 @@ public class MainMenuScreen extends Screen {
 
     private void initUI() {
         skin = new Skin(Gdx.files.internal("mainmenu/uiskin.json"));
-        stage = new Stage();
+        stage = new Stage(new FitViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT));
         table = new Table();
      //   audio = new AudioManager();
         table.setFillParent(true);

@@ -56,7 +56,7 @@ public class WorldRenderer {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / (float) World.TILE_SIZE, Gdx.graphics.getHeight() / (float) World.TILE_SIZE);
-        camera.zoom += 1;
+        camera.zoom += 2;
 
         tileMapRenderer = new OrthogonalTiledMapRenderer(world.map, 1f / World.TILE_SIZE, batch);
 
@@ -216,14 +216,15 @@ public class WorldRenderer {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             camera.translate(0, 0.3f, 0);
         }
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.2f, camera.viewportWidth);
 
-        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
-        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
-        float camViewportHalfX = effectiveViewportWidth / 2;
-        float camViewportHalfY = effectiveViewportHeight / 2;
         int mapWidth = world.mapWidth;
         int mapHeight = world.mapHeight;
+        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+
+        float camViewportHalfX = effectiveViewportWidth / 2;
+        float camViewportHalfY = effectiveViewportHeight / 2;
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.3f, 3); // TODO: make generic
 
         if (camera.position.x < camViewportHalfX) {
             camera.position.x = camViewportHalfX;
