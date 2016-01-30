@@ -3,6 +3,8 @@ package at.ggjg.evg.mechanic;
 /**
  * Created by Veit on 29.01.2016.
  */
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -48,7 +50,10 @@ public class WorldRenderer {
     public Texture patient1RedEyes;
     public Texture patient2RedEyes;
 
+    ShapeRenderer shapeDebugger;
+
     public WorldRenderer(World world) {
+          shapeDebugger = new ShapeRenderer();
 //        this.world = world;
 //        loadAssets();
 //        batch = new SpriteBatch();
@@ -148,6 +153,23 @@ public class WorldRenderer {
 //
     }
     public void render (float deltaTime) {
+
+
+        int height = Gdx.graphics.getHeight() / 4;
+        int width = Gdx.graphics.getWidth() / 3;
+        for(int i = 0; i<4; i++){
+            shapeDebugger.begin(ShapeRenderer.ShapeType.Line);
+            shapeDebugger.setColor(1, 1, 1, 1);
+            shapeDebugger.line(0, i*height, Gdx.graphics.getWidth(), i*height);
+            shapeDebugger.end();
+        }
+        for (int i = 0; i < 4; i++) {
+            shapeDebugger.begin(ShapeRenderer.ShapeType.Line);
+            shapeDebugger.setColor(1, 1, 1, 1);
+            shapeDebugger.line(i*width, 0, i*width, Gdx.graphics.getHeight());
+            shapeDebugger.end();
+        }
+
 //        // set vignette based on
 //        vignetteShader.begin();
 //        vignetteShader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

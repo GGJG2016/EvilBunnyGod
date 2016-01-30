@@ -56,7 +56,8 @@ public class SequenceGestureListener implements GestureDetector.GestureListener 
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-        sequenceHolder.clearLastArea();
+        sequenceHolder.stopPanning();
+        sequenceHolder.clearTmpLastArea();
         return false;
     }
 
