@@ -9,7 +9,20 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class Assets implements Disposable {
     //DO THIS WITH ASSETMANAGER LATER TODO
-    public static TextureRegion bunny;
+
+    public static Animation bunnyAnim;
+    public static Animation houseAnim;
+
+    public static TextureRegion bunny_1;
+    public static TextureRegion bunny_2;
+    public static TextureRegion bunny_3;
+    public static TextureRegion cornfield;
+    public static TextureRegion fence;
+    public static TextureRegion trap;
+    public static TextureRegion sacrifice;
+    public static TextureRegion house_idle;
+    public static TextureRegion house_attacking;
+    public static TextureRegion house_destroyed;
 
     static Array<Animation> allAnimations = new Array<Animation>();
     static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
@@ -19,7 +32,9 @@ public class Assets implements Disposable {
         /**
          * Begin Loading Animations
          */
-
+        bunnyAnim = new Animation(3, bunny_1, bunny_2, bunny_3);
+        allAnimations.add(bunnyAnim);
+        houseAnim = new Animation(3, house_idle, house_attacking, house_destroyed);
         /**
          * End Loading Animations
          */
@@ -28,9 +43,26 @@ public class Assets implements Disposable {
         /**
          * Begin Loading TextureRegions
          */
-        bunny = new TextureRegion(new Texture("rabbit-animation-1.png"));
-        allTextureRegions.add(bunny);
-
+        bunny_1 = new TextureRegion(new Texture("rabbit-animation-1.png"));
+        bunny_2 = new TextureRegion(new Texture("rabbit-animation-2.png"));
+        bunny_3 = new TextureRegion(new Texture("rabbit-animation-3.png"));
+        allTextureRegions.add(bunny_1);
+        allTextureRegions.add(bunny_2);
+        allTextureRegions.add(bunny_3);
+        cornfield = new TextureRegion(new Texture("trap.png"));
+        allTextureRegions.add(cornfield);
+        fence = new TextureRegion(new Texture("fence.png"));
+        allTextureRegions.add(fence);
+        house_idle = new TextureRegion(new Texture("house-1.png"));
+        house_attacking = new TextureRegion(new Texture("house-2.png"));
+        house_destroyed = new TextureRegion(new Texture("house-3.png"));
+        allTextureRegions.add(house_idle);
+        allTextureRegions.add(house_attacking);
+        allTextureRegions.add(house_destroyed);
+        trap = new TextureRegion(new Texture("trap.png"));
+        allTextureRegions.add(trap);
+        sacrifice = new TextureRegion(new Texture("opfer.png"));
+        allTextureRegions.add(sacrifice);
         /**
          * End Loading TextureRegions
          */
