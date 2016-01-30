@@ -3,6 +3,9 @@ package at.ggjg.evg.mechanic;
 /**
  * Created by Veit on 29.01.2016.
  */
+import at.ggjg.evg.entities.Cornfield;
+import at.ggjg.evg.entities.Fence;
+import at.ggjg.evg.entities.House;
 import at.ggjg.evg.helpers.OnMapClickedListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -31,6 +34,7 @@ public class World implements OnMapClickedListener {
     public Rectangle[][] walls;
     public Array<GameObject> entities = new Array<GameObject>();
     public Array<Bunny> bunnies = new Array<Bunny>();
+    public Array<House> houses = new Array<House>();
 //    public Array<Entity> delete = new Array<Entity>();
     public WorldRenderer renderer;
     public AudioManager audio;
@@ -94,30 +98,20 @@ public class World implements OnMapClickedListener {
                 bunnies.add(bunny);
             }
             else if(type.equals("house")) {
-//                Enemy enemy = new Enemy2(object.get("x", Float.class), object.get("y", Float.class));
-//                enemy.position.scl(1f / TILE_SIZE);
-//                entities.add(enemy);
-//                enemies.add(enemy);
+                House house = new House(object.get("x", Float.class), object.get("y", Float.class));
+                house.position.scl(1f / TILE_SIZE);
+                entities.add(house);
+                houses.add(house);
             }
             else if(type.equals("fence")) {
-//                Pill pill = new Pill(object.get("x", Float.class), object.get("y", Float.class));
-//                pill.position.scl(1f / TILE_SIZE);
-//                pill.bounds.x /= TILE_SIZE;
-//                pill.bounds.y /= TILE_SIZE;
-//                entities.add(pill);
+                Fence fence = new Fence(object.get("x", Float.class), object.get("y", Float.class));
+                fence.position.scl(1f / TILE_SIZE);
+                entities.add(fence);
             }
-            else if(type.equals("lethalobstacle")) {
-//                Axe axe = new Axe(object.get("x", Float.class), object.get("y", Float.class));
-//                axe.position.scl(1f / TILE_SIZE);
-//                axe.bounds.x /= TILE_SIZE;
-//                axe.bounds.y /= TILE_SIZE;
-//                entities.add(axe);
-            }
-            else if(type.equals("nonlethalobstacle")) {
-//                Switch doorswitch =  new Switch(object.get("x", Float.class), object.get("y", Float.class));
-//                doorswitch.position.scl(1f / TILE_SIZE);
-//                doorswitch.name = object.get("name", String.class);
-//                entities.add(doorswitch);
+            else if(type.equals("cornfield")) {
+                Cornfield cf = new Cornfield(object.get("x", Float.class), object.get("y", Float.class));
+                cf.position.scl(1f / TILE_SIZE);
+                entities.add(cf);
             }
         }
     }
