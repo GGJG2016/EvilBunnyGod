@@ -5,6 +5,7 @@ import at.ggjg.evg.helpers.Assets;
 import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -94,36 +95,58 @@ public class Bunny extends GameObject{
         Random r = new Random();
         setNewDestination(new Vector3(r.nextFloat(),r.nextFloat(),0));
     }
+    private boolean collides (Rectangle collision, Rectangle wall) {
+        return( Math.min(collision.x, collision.x + collision.width* 128)
+                < Math.max(wall.x, wall.x + wall.width* 128)
+                && Math.max(collision.x, collision.x + collision.width* 128)
+                > Math.min(wall.x, wall.x + wall.width* 128)
+                && Math.min(collision.y, collision.y + collision.height* 128)
+                < Math.max(wall.y, wall.y + wall.height* 128)
+                && Math.max(collision.y, collision.y + collision.height* 128)
+                > Math.min(wall.y, wall.y + wall.height* 128));
+    }
 
     public GameObject collidesWith(World world) {
         GameObject collidingObject = null;
         for (int i = 0; i < world.entities.size; i++) {
             //  for (Iterator<GameObject> iterator = world.entities.iterator(); iterator.hasNext(); ) {
             GameObject obj = world.entities.get(i);
-//            if (obj instanceof Bunny)
-//                continue;
-//            if (obj instanceof Cornfield) {
-//                // TODO: define bunny in confield
-//                continue;
-//            }
-//            System.out.println(bounds.x + ", " + bounds.y);
-//            System.out.println(obj.bounds.x + ", " + obj.bounds.y);
-            // objRect = ;
-            Rectangle inter = new Rectangle();
-            if (Intersector.intersectRectangles(bounds,obj.bounds,inter))
-            {
-                System.out.println("Collides like a pro");
+            if (collides(this.bounds,obj.bounds)) {
+                Gdx.app.log("Collision Detected", "Player collided with tile");
 
                 return obj;
             }
-//            if ((obj.bounds).(bounds)) {
+        }
+        return null;
+    }
+//        GameObject collidingObject = null;
+//        for (int i = 0; i < world.entities.size; i++) {
+//            //  for (Iterator<GameObject> iterator = world.entities.iterator(); iterator.hasNext(); ) {
+//            GameObject obj = world.entities.get(i);
+////            if (obj instanceof Bunny)
+////                continue;
+////            if (obj instanceof Cornfield) {
+////                // TODO: define bunny in confield
+////                continue;
+////            }
+////            System.out.println(bounds.x + ", " + bounds.y);
+////            System.out.println(obj.bounds.x + ", " + obj.bounds.y);
+//            // objRect = ;
+////            Rectangle inter = new Rectangle();
+////            if (Intersector.intersectRectangles(bounds,obj.bounds,inter))
+////            {
+////                System.out.println("Collides like a pro");
+////
+////                return obj;
+////            }
+//            if ((obj.bounds).overlaps(bounds)) {
 //                System.out.println("Collides");
 //                return obj;
 //
 //            }
-        }
-        return null;
-    }
+//        }
+//        return null;
+//    }
 //                collidingObject = obj;
 //            }
 
