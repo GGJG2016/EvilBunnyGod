@@ -18,7 +18,6 @@ public class Bunny extends GameObject{
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
-        bunny = Assets.bunny;
     }
 
 
@@ -36,12 +35,14 @@ public class Bunny extends GameObject{
     public void render(SpriteBatch batch) {
         switch (this.state) {
             case IDLE:
-                batch.draw(bunny,
-                        position.x - dimension.x / 2, position.y - dimension.y / 2,
-                        origin.x, origin.y,
-                        dimension.x, dimension.y,
-                        scale.x, scale.y,
-                        rotation);
+                batch.draw(bunny, position.x, position.y, 1,1);
+//
+//
+//                        position.x - dimension.x / 2, position.y - dimension.y / 2,
+//                        origin.x, origin.y,
+//                        dimension.x, dimension.y,
+//                        scale.x, scale.y,
+//                        rotation);
 
 //                if (bunny.heading == Heading.Left) {
 //                    frame = anim.getKeyFrame(bunny.stateTime, true);

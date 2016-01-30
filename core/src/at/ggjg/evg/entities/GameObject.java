@@ -28,8 +28,8 @@ public abstract class GameObject {
 
     public GameObject(Float posX, Float posY) {
         this();
-        this.posX = posX;
-        this.posY = posY;
+        this.position.x = posX;
+        this.position.y = posY;
 
     }
 
