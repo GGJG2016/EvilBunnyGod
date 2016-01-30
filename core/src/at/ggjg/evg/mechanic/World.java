@@ -115,25 +115,15 @@ public class World {
     }
 
     public void update(float deltaTime) {
-//        for(Entity entity: entities) {
-//            entity.update(this, deltaTime);
-//        }
+        for(GameObject entity: entities) {
+            entity.update(this, deltaTime);
+        }
 //
 //        for(Entity entity : delete) {
 //            entities.removeValue(entity, true);
 //        }
 //
 //        delete.clear();
-//
-//        modeTime += deltaTime;
-//        if(mode == Mode.REAL) {
-//            if(modeTime > REAL_TIME - audio.GHOST_FADE_TIME) {
-//                audio.setMode(Mode.GHOST);
-//            }
-//            if(modeTime > REAL_TIME){
-//                toggleMode();
-//            }
-//        }
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {
