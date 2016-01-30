@@ -24,6 +24,11 @@ public class Cornfield extends GameObject {
     }
 
     @Override
+    public void update(float deltaTime) {
+
+    }
+
+    @Override
     public void init(World world) {
         tr = Assets.cornfield;
         bounds = new Bounds(position.x , position.y, 1,1);

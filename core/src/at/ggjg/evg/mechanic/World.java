@@ -18,6 +18,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Iterator;
+
 public class World implements OnMapClickedListener {
 
     public static int TILE_SIZE = 128;
@@ -111,19 +113,10 @@ public class World implements OnMapClickedListener {
     }
 
     public void update(float deltaTime) {
-        for (GameObject entity : entities) {
+        for (Iterator<GameObject> iterator = entities.iterator(); iterator.hasNext(); ) {
+            GameObject entity = iterator.next();
             entity.update(this, deltaTime);
         }
-
-        for (Bunny b : bunnies) {
-            b.update(deltaTime);
-        }
-//
-//        for(Entity entity : delete) {
-//            entities.removeValue(entity, true);
-//        }
-//
-//        delete.clear();
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {
@@ -232,9 +225,7 @@ public class World implements OnMapClickedListener {
         }
 
         for (Bunny bunny : bunnies) {
-
-            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x ,y, 0)));
-
+            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x, y, 0)));
         }
     }
 }
