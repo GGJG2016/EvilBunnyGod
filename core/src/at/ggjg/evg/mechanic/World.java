@@ -80,6 +80,7 @@ public class World {
         for(int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
             String type = object.get("type", String.class);
+            System.out.println(type);
             if(type.equals("bunny")) {
                 Bunny bunny = new Bunny(object.get("x", Float.class), object.get("y", Float.class));
                 bunny.position.scl(1f / TILE_SIZE);
