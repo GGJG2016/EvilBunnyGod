@@ -8,6 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Bunny extends GameObject{
 
+    public Bunny(Float posX, Float posY) {
+        super(posX, posY);
+    }
 
     @Override
     public void init(World world) {
