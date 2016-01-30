@@ -1,4 +1,4 @@
-package com.github.dreamsnatcher.screens;
+package at.ggjg.evg.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,17 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.github.dreamsnatcher.utils.Assets;
 
 /**
  * Created by lschmoli on 19.04.2015.
  */
 public class CreditScreen extends Screen {
-
-    private Stage stage;
 
     private static final String credits = "TEAM\n" +
             "Lukas Knoch [Programming]\nThomas Grafenauer [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristian Zellot [Artwork|Programming]\n\n" +
@@ -29,6 +25,7 @@ public class CreditScreen extends Screen {
             "A big THANK YOU to all who have contributed to the game - in whatever way,\n" +
             "to AAU Klagenfurt for organizing stuff, food, beer and COFFEE\n\n" +
             "#klujam";
+    private Stage stage;
 
     public CreditScreen(ScreenManager manager) {
         super(manager);
