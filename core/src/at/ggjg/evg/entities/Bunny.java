@@ -2,11 +2,13 @@ package at.ggjg.evg.entities;
 
 import at.ggjg.evg.State;
 import at.ggjg.evg.helpers.Assets;
+import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**

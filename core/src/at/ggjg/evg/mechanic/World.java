@@ -237,6 +237,9 @@ public class World implements OnMapClickedListener {
 
     @Override
     public void onMapClicked(float x, float y, boolean isRightClick) {
+        // todo bunnys dorthin schicken
+        for (Bunny bunny:bunnies) {
 
+        }
     }
 }
