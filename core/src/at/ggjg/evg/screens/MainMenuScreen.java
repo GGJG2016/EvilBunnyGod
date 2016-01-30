@@ -31,7 +31,7 @@ public class MainMenuScreen extends Screen {
 
 
     private void initUI() {
-        skin = new Skin(Gdx.files.internal("editor/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("mainmenu/uiskin.json"));
         stage = new Stage();
         table = new Table();
         table.setFillParent(true);
