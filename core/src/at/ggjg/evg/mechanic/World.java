@@ -18,6 +18,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Iterator;
+
 import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.entities.Bunny;
 import at.ggjg.evg.entities.Cornfield;
@@ -118,7 +120,9 @@ public class World implements OnMapClickedListener {
     }
 
     public void update(float deltaTime) {
-        for(GameObject entity: entities) {
+
+        for (Iterator<GameObject> iterator = entities.iterator(); iterator.hasNext(); ) {
+            GameObject entity = iterator.next();
             entity.update(this, deltaTime);
         }
 //        for(Bunny b: bunnies)
@@ -243,9 +247,8 @@ public class World implements OnMapClickedListener {
         }
 
         for (Bunny bunny:bunnies) {
-
             bunny.setNewDestination(renderer.camera.unproject(new Vector3(x ,y, 0)));
-
+//            System.out.println("djsfhgslkdjghskdjhf");
         }
     }
 }

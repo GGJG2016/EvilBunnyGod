@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -97,14 +98,16 @@ public class Bunny extends GameObject{
     {
         GameObject collidingObject = null;
         Rectangle objRect;
-        for (GameObject obj:world.entities) {
-            if(obj instanceof Bunny)
+        for(int i =0 ; i < world.entities.size; i++){
+      //  for (Iterator<GameObject> iterator = world.entities.iterator(); iterator.hasNext(); ) {
+            GameObject obj = world.entities.get(i);
+            if (obj instanceof Bunny)
                 continue;
-            if(obj instanceof Cornfield) {
+            if (obj instanceof Cornfield) {
                 // TODO: define bunny in confield
                 continue;
             }
-            objRect = new Rectangle(obj.posX,obj.posY,obj.dimension.x,obj.dimension.y);
+            objRect = new Rectangle(obj.posX, obj.posY, obj.dimension.x, obj.dimension.y);
 //            if(newbounds.overlaps(objRect)){
 //                System.out.println("Collides");
 //
@@ -155,6 +158,11 @@ public class Bunny extends GameObject{
                 break;
             default:
         }
+
+    }
+
+    @Override
+    public void update(float deltaTime) {
 
     }
 
