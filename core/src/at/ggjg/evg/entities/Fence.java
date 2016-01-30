@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import at.ggjg.evg.helpers.Assets;
+import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
 /**
@@ -19,6 +20,7 @@ public class Fence extends LethalObstacle {
     @Override
     public void init(World world) {
         this.tr = Assets.fence;
+        bounds = new Bounds(position.x , position.y, 1,1);
 
     }
 

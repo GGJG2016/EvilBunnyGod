@@ -120,6 +120,10 @@ public class World implements OnMapClickedListener {
         for(GameObject entity: entities) {
             entity.update(this, deltaTime);
         }
+        for(Bunny b: bunnies)
+        {
+            b.update(deltaTime);
+        }
 //
 //        for(Entity entity : delete) {
 //            entities.removeValue(entity, true);

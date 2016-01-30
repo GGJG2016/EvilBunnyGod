@@ -57,7 +57,12 @@ public class Bunny extends GameObject{
     {
         Vector2 newPosition = new Vector2(position.x + movement.x * deltatime, position.y + movement.y * deltatime);
         // fixxxme auf die states achten
-        position = newPosition;
+        if(state == state.MOVING)
+            position = newPosition;
+        if(newPosition.equals(destination))
+        {
+            state = State.IDLE;
+        }
     }
 
     public Bounds getAndUpdateBounds(){
@@ -68,13 +73,7 @@ public class Bunny extends GameObject{
     public void render(SpriteBatch batch) {
         switch (this.state) {
             case IDLE:
-                updateIdleTime();
                 batch.draw(bunny, position.x, position.y, 1,1);
-                if(idle == 30)
-                {
-                    randomDestination();
-                    this.state = State.MOVING;
-                }
 //
 //
 //                        position.x - dimension.x / 2, position.y - dimension.y / 2,
@@ -97,10 +96,8 @@ public class Bunny extends GameObject{
 //                }
                 break;
             case MOVING:
-                this.idle = 0;
-               //System.out.println("moving");
-                setNewPosition();
-                getAndUpdateBounds();
+                this.idle = 0f;
+
                 batch.draw(bunny, position.x, position.y, 1,1);
                 // todo check for dest reached
 //                if (bunny.heading == Heading.Left) {
@@ -192,10 +189,79 @@ public class Bunny extends GameObject{
         newX = position.x - destination.x;
         newY = position.y - destination.y;
         movement = new Vector2(newX,newY);
+        movement = movement.nor();
         state = State.MOVING;
     }
     public void update(float deltaTime) {
         this.deltatime = deltaTime;
+        switch (this.state) {
+            case IDLE:
+                updateIdleTime();
+                if(idle == 30)
+                {
+                    randomDestination();
+                    this.state = State.MOVING;
+                }
+//
+//
+//                        position.x - dimension.x / 2, position.y - dimension.y / 2,
+//                        origin.x, origin.y,
+//                        dimension.x, dimension.y,
+//                        scale.x, scale.y,
+//                        rotation);
+
+//                if (bunny.heading == Heading.Left) {
+//                    frame = anim.getKeyFrame(bunny.stateTime, true);
+//                    offset = clipOffset(frame, upper);
+//                    frame = clip(frame, upper);
+//                    frame.flip(true, false);
+//                    batch.draw(frame, bunny.position.x, entity.position.y + offset, 1, 1);
+//                } else {
+//                    frame = anim.getKeyFrame(bunny.stateTime, true);
+//                    offset = clipOffset(frame, upper);
+//                    frame = clip(frame, upper);
+//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
+//                }
+                break;
+            case MOVING:
+                this.idle = 0f;
+                //System.out.println("moving");
+                setNewPosition();
+                getAndUpdateBounds();
+                // todo check for dest reached
+//                if (bunny.heading == Heading.Left) {
+//                    frame = anim.getKeyFrame(entity.stateTime, true);
+//                    offset = clipOffset(frame, upper);
+//                    frame = clip(frame, upper);
+//                    frame.flip(true, false);
+//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
+//                } else {
+//                    frame = anim.getKeyFrame(bunny.stateTime, true);
+//                    offset = clipOffset(frame, upper);
+//                    frame = clip(frame, upper);
+//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
+//                }
+                break;
+            case ATTACKING:
+//                if (bunny.heading == Heading.Left) {
+//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
+//                    offset = clipOffset(frame, upper);
+//                    frame = clip(frame, upper);
+//                    frame.flip(true, false);
+//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
+//                } else {
+//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
+//                    offset = clipOffset(frame, upper);
+//                    frame = clip(frame, upper);
+//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
+//                }
+                break;
+            case DESTROYED:
+                //    batch.draw(mainDead, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
+                break;
+            default:
+        }
+
     }
 
 }
