@@ -48,6 +48,7 @@ public class House extends GameObject {
 
     public float getAttacked(float damageGained) {
         System.out.println("House was attacked: " + this.health);
+
         if (this.state == State.DESTROYED)
             return 0;
         this.state = State.ATTACKING;

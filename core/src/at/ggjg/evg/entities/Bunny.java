@@ -123,10 +123,10 @@ public class Bunny extends GameObject {
                     if (r.nextBoolean()) {
                         destination.x += r.nextInt(6 - 1 + 1) + 1;
                     } else {
-                        destination.x += r.nextInt(6 - 1 + 1) + 1;
+                        destination.x -= r.nextInt(6 - 1 + 1) + 1;
                     }
                     if (r.nextBoolean()) {
-                        destination.y -= r.nextInt(6 - 1 + 1) + 1;
+                        destination.y += r.nextInt(6 - 1 + 1) + 1;
                     } else {
                         destination.y -= r.nextInt(6 - 1 + 1) + 1;
                     }
