@@ -61,7 +61,7 @@ public class CreditScreen extends Screen {
         Table table = new Table();
         table.setFillParent(true);
 
-        Texture texture = new Texture("mainmenu/mainscreen.png");
+        Texture texture = new Texture("mainmenu/mainscreen.jpg");
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
 
