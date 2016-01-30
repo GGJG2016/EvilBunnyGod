@@ -46,14 +46,6 @@ public class WorldRenderer {
     ShapeRenderer sr = new ShapeRenderer();
     ShapeRenderer shapeDebugger;
     private int LAYER_FLOOR = 0;
-    //    public Texture pill;
-//    public Texture axe;
-//    public Texture blood;
-//    public Texture switchOn;
-//    public Texture switchOff;
-//    public Texture patient1RedEyes;
-//    public Texture patient2RedEyes;
-    private int LAYER_INTERIEUR = 3;
 
     public WorldRenderer(World world) {
         shapeDebugger = new ShapeRenderer();
@@ -64,20 +56,14 @@ public class WorldRenderer {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / (float) World.TILE_SIZE, Gdx.graphics.getHeight() / (float) World.TILE_SIZE);
-        tileMapRenderer = new OrthogonalTiledMapRenderer(world.map, 1f / World.TILE_SIZE, batch);
+        camera.zoom += 1;
 
-        // vignette shader
-//        ShaderProgram.pedantic = false;
-//        vignetteShader = new ShaderProgram(Gdx.files.internal("graphics/vignette.vsh"), Gdx.files.internal("graphics/vignette.fsh"));
-//        if (!vignetteShader.isCompiled())
-//            System.out.println(vignetteShader.getLog());
-//        batch.setShader(vignetteShader);
+        tileMapRenderer = new OrthogonalTiledMapRenderer(world.map, 1f / World.TILE_SIZE, batch);
 
         // figure out which layer has which id, idiotic
         for (int i = 0; i < world.map.getLayers().getCount(); i++) {
             MapLayer layer = world.map.getLayers().get(i);
             if (layer.getName().equals("floor")) LAYER_FLOOR = i;
-            if (layer.getName().equals("interieur")) LAYER_INTERIEUR = i;
         }
     }
 
@@ -213,10 +199,10 @@ public class WorldRenderer {
      * fetch keyboard input
      */
     private void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             camera.zoom += 0.02;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
             camera.zoom -= 0.02;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
