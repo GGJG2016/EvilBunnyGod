@@ -1,5 +1,5 @@
 package at.ggjg.evg.screens;
-import at.ggjg.evg.screens.Screen;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 

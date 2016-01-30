@@ -1,20 +1,11 @@
 package at.ggjg.evg;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
-
-import java.util.ArrayList;
-
-import at.ggjg.evg.gestures.Sequence;
-import at.ggjg.evg.gestures.SequenceHolder;
-import at.ggjg.evg.screens.GameplayScreen;
 import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.Screen;
 import at.ggjg.evg.screens.ScreenManager;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 
 public class EvilBunnyGodGame extends ApplicationAdapter {
 	ScreenManager manager;
@@ -32,6 +23,12 @@ public class EvilBunnyGodGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		manager.render();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		manager.resize(width, height);
 	}
 
 	@Override
