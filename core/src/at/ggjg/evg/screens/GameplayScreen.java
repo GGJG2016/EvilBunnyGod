@@ -1,8 +1,13 @@
 package at.ggjg.evg.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.input.GestureDetector;
+
+import java.util.ArrayList;
 
 import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.gestures.Sequence;
+import at.ggjg.evg.gestures.SequenceHolder;
 import at.ggjg.evg.mechanic.World;
 import at.ggjg.evg.mechanic.WorldRenderer;
 
@@ -14,6 +19,7 @@ public class GameplayScreen extends Screen {
     WorldRenderer renderer;
     AudioManager audio;
     int lvl;
+    SequenceHolder sequenceHolder;
 
     public GameplayScreen (ScreenManager manager, int lvl) {
         super(manager);
@@ -30,6 +36,12 @@ public class GameplayScreen extends Screen {
         audio = new AudioManager();
         world.setRenderer(renderer);
         world.setAudio(audio);
+        ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
+		//define sequences .. item which first matches wins
+		sequenceList.add(new Sequence(Sequence.SequenceName.CIRCLE, 0, 3, 6, 9, 10, 11, 8, 5, 2, 1));
+		sequenceList.add(new Sequence(Sequence.SequenceName.LINE, 0, 1, 2));
+		sequenceHolder = new SequenceHolder(24, sequenceList);
+		Gdx.input.setInputProcessor(new GestureDetector(new at.ggjg.evg.gestures.SequenceGestureListener(sequenceHolder, Gdx.graphics.getHeight(), Gdx.graphics.getWidth())));
     }
 
     @Override
@@ -39,6 +51,11 @@ public class GameplayScreen extends Screen {
 //        if(delta > 1.0f)
 //            delta = 0.0f;
 //
+        Sequence match = sequenceHolder.getMatch();
+		if(match != null){
+			System.out.println("sequence was a " + match.getSequenceName());
+			sequenceHolder.clearLastArea();
+		}
         renderer.render(delta);
         audio.update(delta);
         world.update(delta);

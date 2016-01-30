@@ -9,6 +9,8 @@ import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -52,7 +54,9 @@ public class WorldRenderer {
 //    public Texture patient1RedEyes;
 //    public Texture patient2RedEyes;
 
+    ShapeRenderer shapeDebugger;
     public WorldRenderer(World world) {
+          shapeDebugger = new ShapeRenderer();
         this.world = world;
         //loadAssets();
         Assets.init();
@@ -148,6 +152,34 @@ public class WorldRenderer {
     }
 
     public void render(float deltaTime) {
+        //debuglines
+        int height = Gdx.graphics.getHeight() / 4;
+        int width = Gdx.graphics.getWidth() / 3;
+        for(int i = 0; i<4; i++){
+            shapeDebugger.begin(ShapeRenderer.ShapeType.Line);
+            shapeDebugger.setColor(1, 1, 1, 1);
+            shapeDebugger.line(0, i*height, Gdx.graphics.getWidth(), i*height);
+            shapeDebugger.end();
+        }
+        for (int i = 0; i < 4; i++) {
+            shapeDebugger.begin(ShapeRenderer.ShapeType.Line);
+            shapeDebugger.setColor(1, 1, 1, 1);
+            shapeDebugger.line(i*width, 0, i*width, Gdx.graphics.getHeight());
+            shapeDebugger.end();
+        }
+        //debuglines end
+        // set vignette based on
+        vignetteShader.begin();
+        vignetteShader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        float transition = 0.0f;
+
+        vignetteShader.setUniformf("tint", 1, 0.7f + transition * 0.3f, 0.7f + transition * 0.3f, 1);
+        vignetteShader.setUniformf("innerRadius", 0.02f);
+        vignetteShader.setUniformf("outerRadius", 0.4f + transition * 0.5f);
+        vignetteShader.setUniformf("intensity", 0.99f);
+        vignetteShader.setUniformf("noise", 1 - transition);
+        vignetteShader.end();
         cameraFollow(deltaTime);
         camera.update();
 

@@ -10,7 +10,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class AudioManager {
     private static final float MUSIC_VOLUME = 0.7f;
-    Music backgroundmusic;
+    public Music backgroundmusic;
+    public Music menu_loop_all;
     Array<Sound> allSounds = new Array<Sound>();
 
     public Sound sampleSound;
@@ -20,6 +21,10 @@ public class AudioManager {
     public AudioManager() {
         backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/backgroundMusic.mp3"));
         backgroundmusic.setLooping(true);
+
+        menu_loop_all = Gdx.audio.newMusic(Gdx.files.internal("audio/menu_loop_all.ogg"));
+        menu_loop_all.setLooping(true);
+
 
 //        sampleSound = Gdx.audio.newSound(Gdx.files.internal("audio/effects/sampleSound.mp3"));
 //        allSounds.add(sampleSound);
@@ -31,6 +36,7 @@ public class AudioManager {
 
     public void dispose() {
         backgroundmusic.dispose();
+        menu_loop_all.dispose();
         for(Sound sound: allSounds) {
             sound.dispose();
         }

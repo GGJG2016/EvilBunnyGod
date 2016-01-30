@@ -57,7 +57,7 @@ public class MainMenuScreen extends Screen {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //manager.setScreen(new CreditScreen(manager));
+                manager.setScreen(new CreditScreen(manager));
             }
         });
         table.add(button).size(150, 60).pad(10);
@@ -76,7 +76,7 @@ public class MainMenuScreen extends Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        Texture texture = new Texture("mainmenu/mainscreen.png");
+        Texture texture = new Texture("mainmenu/mainscreen.jpg");
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         table.setBackground(new TextureRegionDrawable(region));
