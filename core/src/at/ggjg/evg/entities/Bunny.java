@@ -31,7 +31,7 @@ public class Bunny extends GameObject{
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
         inCornfield = false;
-        bunny = Assets.bunny;
+        bunny = Assets.bunny_1;
         movement = new Vector2(0f,0f);
         speed =1f;
         idle = 0;
