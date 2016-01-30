@@ -31,7 +31,7 @@ public class Bunny extends GameObject{
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
         inCornfield = false;
-        bunny = Assets.bunny;
+        bunny = Assets.bunny_1;
         movement = new Vector2(0f,0f);
         speed =1f;
         idle = 0;
@@ -42,7 +42,7 @@ public class Bunny extends GameObject{
     }
     @Override
     public void init(World world) {
-        bunny = Assets.bunny;
+        bunny = Assets.bunny_1;
         dimension.set(1f, 1f);
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
@@ -94,6 +94,7 @@ public class Bunny extends GameObject{
 //                }
                 break;
             case MOVING:
+                this.idle = 0;
                 setNewPosition();
                 getAndUpdateBounds();
                 batch.draw(bunny, position.x, position.y, 1,1);
