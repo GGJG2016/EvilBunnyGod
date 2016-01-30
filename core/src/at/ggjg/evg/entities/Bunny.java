@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.Random;
 
@@ -37,6 +36,8 @@ public class Bunny extends GameObject{
         inCornfield = false;
         bunny = Assets.bunny_1;
         movement = new Vector2(0f,0f);
+        destination = new Vector2();
+
         idle = 0;
         state = State.IDLE;
 
@@ -53,8 +54,7 @@ public class Bunny extends GameObject{
         origin.y = dimension.y / 2;
         scale= new Vector2(1.3f, 1.3f);
         this.state = State.IDLE;
-        bounds = new Bounds(position.x - dimension.x / 2 , position.y - dimension.y / 2, dimension.x,dimension.y);
-        this.destination = this.position;
+        bounds = new Bounds(position.x , position.y , 1,1);
     }
     private void setNewPosition()
     {
@@ -67,7 +67,8 @@ public class Bunny extends GameObject{
     }
 
     public Bounds getAndUpdateBounds(){
-        bounds = new Bounds(position.x - dimension.x / 2 , position.y - dimension.y / 2, dimension.x,dimension.y);
+ //       bounds = new Bounds(position.x - dimension.x / 2 , position.y - dimension.y / 2, dimension.x,dimension.y);
+        bounds = new Bounds(position.x  , position.y , 1,1);
         return bounds;
     }
     @Override
@@ -115,16 +116,16 @@ public class Bunny extends GameObject{
     }
 
     public void setNewDestination(Vector3 newDestination) {
-        System.out.println("SetNewDestination: " +  newDestination.x + " " + newDestination.y);
+//        System.out.println("SetNewDestination: " +  newDestination.x + " " + newDestination.y);
         this.destination = new Vector2(newDestination.x, newDestination.y);
         state = State.MOVING;
     }
 
-    public void update(float deltaTime) {
+    public void update(World world, float deltaTime) {
         this.deltatime = deltaTime;
         if(!this.destination.equals(this.position)) {
-            System.out.println("mx: " + this.destination.x + " my: " + this.destination.y);
-            System.out.println("mx: " + this.position.x + " my: " + this.position.y);
+//            System.out.println("mx: " + this.destination.x + " my: " + this.destination.y);
+//            System.out.println("mx: " + this.position.x + " my: " + this.position.y);
         }
         switch (this.state) {
             case IDLE:
@@ -138,8 +139,12 @@ public class Bunny extends GameObject{
                 break;
             case MOVING:
                 this.idle = 0f;
-                System.out.println("moving!!!!!!!");
+//                System.out.println("moving!!!!!!!");
                 setNewPosition();
+                getAndUpdateBounds();
+                if(collidesWith(world)!=null){
+                    System.out.println("juhydfjhsfgl");
+                }
                 // todo check for dest reached
                 break;
             case ATTACKING:
