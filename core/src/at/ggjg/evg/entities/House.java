@@ -15,6 +15,8 @@ public class House extends GameObject {
     public TextureRegion house_destroyed;
     public TextureRegion house_idle;
     public TextureRegion house_attacking;
+    public int health;
+    public int damageDealt;
     public House(Float posX, Float posY) {
         super(posX, posY);
 
@@ -27,8 +29,20 @@ public class House extends GameObject {
         this.house_attacking = Assets.house_attacking;
         this.house_idle = Assets.house_idle;
         bounds = new Bounds(position.x , position.y, 1,1);
-
+        this.health = 30;
+        this.damageDealt = 1;
     }
+
+    public float getAttacked(float damageGained){
+        if(this.state == State.DESTROYED)
+            return 0;
+        this.state = State.ATTACKING;
+        this.health -= damageDealt;
+        if(this.health<=0){
+            this.state=State.DESTROYED;
+        }
+        return  damageDealt;
+    };
 
     @Override
     public void render(SpriteBatch batch) {
@@ -44,4 +58,14 @@ public class House extends GameObject {
                 break;
         }
     }
+
+    public void update(World world, Float deltaTime){
+        this.stateTime+=deltaTime;
+        if(this.state == State.ATTACKING && this.stateTime>=1){
+            this.state = State.IDLE;
+            this.stateTime = 0;
+        }
+    }
+
+
 }
