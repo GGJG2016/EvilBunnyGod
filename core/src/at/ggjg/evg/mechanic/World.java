@@ -12,26 +12,19 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.entities.GameObject;
 
 public class World {
-    public enum Mode {
-        REAL, GHOST
-    }
 
-    public static final float REAL_TIME = 10;
     public static int TILE_SIZE = 64;
-
     public TiledMap map;
     public Rectangle[][] walls;
-//    public Array<Entity> entities = new Array<Entity>();
-//    public Array<Enemy> enemies = new Array<Enemy>();
+    public Array<GameObject> entities = new Array<GameObject>();
+// public Array<Enemy> enemies = new Array<Enemy>();
 //    public Array<Entity> delete = new Array<Entity>();
-//    public Player player;
-//    public Goal goal;
-    public Mode mode = Mode.GHOST;
-    public float modeTime = 0;
     public WorldRenderer renderer;
     public AudioManager audio;
 
@@ -45,7 +38,6 @@ public class World {
 
     public void setAudio(AudioManager audio) {
         this.audio = audio;
-//        this.audio.setMode(mode);
     }
 
     private void loadLevel (String level) {
@@ -57,8 +49,7 @@ public class World {
 
         // load objects from map
         MapObjects objects = map.getLayers().get("objects").getObjects();
-        MapProperties playerProps = objects.get("player").getProperties();
-        MapProperties goalProps = objects.get("goal").getProperties();
+        MapProperties playerProps = objects.get("bunny").getProperties();
 //        player = new Player(this, new Vector2(playerProps.get("x", Float.class), playerProps.get("y", Float.class)));
 //        player.position.scl(1f / TILE_SIZE);
 //        entities.add(player);
@@ -88,86 +79,51 @@ public class World {
         for(int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
             String type = object.get("type", String.class);
-            if(type.equals("enemy1")) {
+            if(type.equals("bunny")) {
 //                Enemy enemy = new Enemy(object.get("x", Float.class), object.get("y", Float.class));
 //                enemy.position.scl(1f / TILE_SIZE);
 //                entities.add(enemy);
 //                enemies.add(enemy);
             }
-            else if(type.equals("enemy2")) {
+            else if(type.equals("house")) {
 //                Enemy enemy = new Enemy2(object.get("x", Float.class), object.get("y", Float.class));
 //                enemy.position.scl(1f / TILE_SIZE);
 //                entities.add(enemy);
 //                enemies.add(enemy);
             }
-            else if(type.equals("pille")) {
+            else if(type.equals("fence")) {
 //                Pill pill = new Pill(object.get("x", Float.class), object.get("y", Float.class));
 //                pill.position.scl(1f / TILE_SIZE);
 //                pill.bounds.x /= TILE_SIZE;
 //                pill.bounds.y /= TILE_SIZE;
 //                entities.add(pill);
             }
-            else if(type.equals("axe")) {
+            else if(type.equals("lethalobstacle")) {
 //                Axe axe = new Axe(object.get("x", Float.class), object.get("y", Float.class));
 //                axe.position.scl(1f / TILE_SIZE);
 //                axe.bounds.x /= TILE_SIZE;
 //                axe.bounds.y /= TILE_SIZE;
 //                entities.add(axe);
             }
-            else if(type.equals("switch")) {
+            else if(type.equals("nonlethalobstacle")) {
 //                Switch doorswitch =  new Switch(object.get("x", Float.class), object.get("y", Float.class));
 //                doorswitch.position.scl(1f / TILE_SIZE);
 //                doorswitch.name = object.get("name", String.class);
 //                entities.add(doorswitch);
             }
-            else if(type.equals("door_h")) {
-//                Door door = new Door(object.get("x", Float.class), object.get("y", Float.class));
-//                door.switchname = object.get("switch", String.class);
-//                door.position.scl(1f / TILE_SIZE);
-//                door.position.x = (float)Math.floor(door.position.x + 0.5f);
-//                door.position.y = (float)Math.floor(door.position.y + 0.5f);
-//                door.bounds.x = door.position.x;
-//                door.bounds.y = door.position.y;
-//                door.bounds.width = 1;
-//                door.bounds.height = 2;
-//                entities.add(door);
-//                walls[(int)door.position.x][(int)door.position.y] = new Rectangle(door.position.x, door.position.y, 1, 1);
-            }
-            if(type.equals("door_v")) {
-//                DoorVertical door = new DoorVertical(object.get("x", Float.class), object.get("y", Float.class));
-//                door.position.scl(1f / TILE_SIZE);
-//                door.position.x = (float)Math.floor(door.position.x + 0.5f);
-//                door.position.y = (float)Math.floor(door.position.y + 0.5f);
-//                door.bounds.x = door.position.x;
-//                door.bounds.y = door.position.y;
-//                door.bounds.width = 1;
-//                door.bounds.height = 1;
-//                entities.add(door);
-//                walls[(int)door.position.x][(int)door.position.y] = new Rectangle(door.position.x, door.position.y, 1, 1);
-            }
         }
     }
 
     public void update(float deltaTime) {
-//        for(Entity entity: entities) {
-//            entity.update(this, deltaTime);
-//        }
+        for(GameObject entity: entities) {
+            entity.update(this, deltaTime);
+        }
 //
 //        for(Entity entity : delete) {
 //            entities.removeValue(entity, true);
 //        }
 //
 //        delete.clear();
-//
-//        modeTime += deltaTime;
-//        if(mode == Mode.REAL) {
-//            if(modeTime > REAL_TIME - audio.GHOST_FADE_TIME) {
-//                audio.setMode(Mode.GHOST);
-//            }
-//            if(modeTime > REAL_TIME){
-//                toggleMode();
-//            }
-//        }
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {
@@ -265,26 +221,6 @@ public class World {
 //            renderer.sr.rect(rx, ry, rwidth, rheight, c, c, c, c);
 //            renderer.sr.end();
         }
-    }
-
-    public void toggleMode() {
-        if(mode == Mode.GHOST)
-            mode = Mode.REAL;
-        else
-            mode = Mode.GHOST;
-
-        modeTime = 0;
-//        audio.setMode(mode);
-    }
-
-    public Mode getMode() {
-        return mode;
-    }
-
-    public static int modeToInt(Mode mode) {
-        if(mode == Mode.REAL)
-            return 0;
-        return 1;
     }
 
     public void dispose() {

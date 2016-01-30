@@ -1,5 +1,7 @@
 package at.ggjg.evg.screens;
 
+import com.badlogic.gdx.Gdx;
+
 import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.mechanic.World;
 import at.ggjg.evg.mechanic.WorldRenderer;
@@ -30,14 +32,14 @@ public class GameplayScreen extends Screen {
 
     @Override
     public void render () {
-//       float delta = Gdx.graphics.getDeltaTime();
+       float delta = Gdx.graphics.getDeltaTime();
 //
 //        if(delta > 1.0f)
 //            delta = 0.0f;
 //
-//        renderer.render(delta);
-//        audio.update(delta);
-//        world.update(delta);
+        renderer.render(delta);
+        audio.update(delta);
+        world.update(delta);
 //
 //        if(world.player.isDead()) {
 //            manager.setScreen(new GameOverScreen(manager));
