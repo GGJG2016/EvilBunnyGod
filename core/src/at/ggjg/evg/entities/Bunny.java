@@ -21,6 +21,7 @@ import java.util.Random;
  * Created by jarhoax on 1/29/16.
  */
 public class Bunny extends GameObject{
+    Random r;
     public TextureRegion frame;
     public Animation bunny_anim;
     public float health = 10;
@@ -32,6 +33,8 @@ public class Bunny extends GameObject{
     private Vector2 destination;
     private float deltatime;
     public float stateTime = 0;
+    private Vector2 lastPosition;
+    public float timeSinceMoved;
 
     public boolean isInCornfield() {
         return inCornfield;
@@ -42,6 +45,7 @@ public class Bunny extends GameObject{
         inCornfield = false;
         destination = new Vector2();
         bounds = new Bounds(position.x , position.y , 1,1);
+        r = new Random();
 
     }
     @Override
@@ -54,6 +58,8 @@ public class Bunny extends GameObject{
         scale= new Vector2(1.3f, 1.3f);
         this.state = State.IDLE;
         this.bunny_anim = Assets.bunnyAnim;
+        lastPosition = position;
+        timeSinceMoved = 0;
     }
     private void setNewPosition()
     {
@@ -87,11 +93,6 @@ public class Bunny extends GameObject{
         }
     }
 
-    private void randomDestination() {
-        Random r = new Random();
-        setNewDestination(new Vector3(r.nextFloat(),r.nextFloat(),0));
-    }
-
 
     public void setNewDestination(Vector3 newDestination) {
 //        System.out.println("SetNewDestination: " +  newDestination.x + " " + newDestination.y);
@@ -102,22 +103,46 @@ public class Bunny extends GameObject{
 
     public void update(World world, float deltaTime) {
         stateTime+=deltaTime;
+
         if(this.health <= 0)
             this.state = state.DESTROYED;
         if(this.state == state.DESTROYED){
             return;
         }
         this.deltatime = deltaTime;
+        if(this.state != State.ATTACKING && lastPosition.equals(this.position)){
+            timeSinceMoved+= deltaTime;
+            if(timeSinceMoved>1) {
+                this.state = State.IDLE;
+                timeSinceMoved = 0;
+            }
+        }
+
+
+            lastPosition = this.position;
         if(!this.destination.equals(this.position)) {
 //            System.out.println("mx: " + this.destination.x + " my: " + this.destination.y);
 //            System.out.println("mx: " + this.position.x + " my: " + this.position.y);
         }
         switch (this.state) {
             case IDLE:
-                //System.out.println(this.idle);
-                if(stateTime % 5 <= 0)
+                System.out.println("IDLE" + stateTime);
+                if(stateTime >= 2.5)
                 {
-                    randomDestination();
+                    System.out.println("Drinnen");
+                    if(r.nextBoolean()) {
+                        destination.x += r.nextInt(6 - 1 + 1) + 1;
+                    }
+                    else{
+                        destination.x += r.nextInt(6 - 1 + 1) + 1;
+                    }
+                    if(r.nextBoolean()) {
+                        destination.y -= r.nextInt(6 - 1 + 1) + 1;
+                    }
+                    else{
+                        destination.y -= r.nextInt(6 - 1 + 1) + 1;
+                    }
+
                     this.state = State.MOVING;
                 }
                 break;
