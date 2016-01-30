@@ -9,8 +9,6 @@ import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -44,22 +42,23 @@ public class WorldRenderer {
     OrthogonalTiledMapRenderer tileMapRenderer;
     ShaderProgram vignetteShader;
     ShapeRenderer sr = new ShapeRenderer();
+    ShapeRenderer shapeDebugger;
     private int LAYER_FLOOR = 0;
-    private int LAYER_INTERIEUR = 3;
-//    public Texture pill;
+    //    public Texture pill;
 //    public Texture axe;
 //    public Texture blood;
 //    public Texture switchOn;
 //    public Texture switchOff;
 //    public Texture patient1RedEyes;
 //    public Texture patient2RedEyes;
+    private int LAYER_INTERIEUR = 3;
 
-    ShapeRenderer shapeDebugger;
     public WorldRenderer(World world) {
-          shapeDebugger = new ShapeRenderer();
+        shapeDebugger = new ShapeRenderer();
         this.world = world;
         //loadAssets();
         Assets.init();
+        initGameObjects();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / (float) World.TILE_SIZE, Gdx.graphics.getHeight() / (float) World.TILE_SIZE);
@@ -77,6 +76,15 @@ public class WorldRenderer {
             MapLayer layer = world.map.getLayers().get(i);
             if (layer.getName().equals("floor")) LAYER_FLOOR = i;
             if (layer.getName().equals("interieur")) LAYER_INTERIEUR = i;
+        }
+    }
+
+    private void initGameObjects() {
+        for (GameObject entity : world.entities) {
+            entity.init(world);
+        }
+        for (Bunny bunny : world.bunnies) {
+            bunny.init(world);
         }
     }
 
@@ -155,16 +163,16 @@ public class WorldRenderer {
         //debuglines
         int height = Gdx.graphics.getHeight() / 4;
         int width = Gdx.graphics.getWidth() / 3;
-        for(int i = 0; i<4; i++){
+        for (int i = 0; i < 4; i++) {
             shapeDebugger.begin(ShapeRenderer.ShapeType.Line);
             shapeDebugger.setColor(1, 1, 1, 1);
-            shapeDebugger.line(0, i*height, Gdx.graphics.getWidth(), i*height);
+            shapeDebugger.line(0, i * height, Gdx.graphics.getWidth(), i * height);
             shapeDebugger.end();
         }
         for (int i = 0; i < 4; i++) {
             shapeDebugger.begin(ShapeRenderer.ShapeType.Line);
             shapeDebugger.setColor(1, 1, 1, 1);
-            shapeDebugger.line(i*width, 0, i*width, Gdx.graphics.getHeight());
+            shapeDebugger.line(i * width, 0, i * width, Gdx.graphics.getHeight());
             shapeDebugger.end();
         }
         //debuglines end
