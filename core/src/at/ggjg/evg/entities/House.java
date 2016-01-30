@@ -1,5 +1,6 @@
 package at.ggjg.evg.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -8,13 +9,15 @@ import at.ggjg.evg.helpers.Assets;
 import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
+
 /**
  * Created by jarhoax on 1/29/16.
  */
 public class House extends GameObject {
     public TextureRegion house_destroyed;
     public TextureRegion house_idle;
-    public TextureRegion house_attacking;
+    public TextureRegion frame;
+    public Animation house_attacking_anim;
     public int health;
     public int damageDealt;
     public House(Float posX, Float posY) {
@@ -31,7 +34,7 @@ public class House extends GameObject {
     public void init(World world) {
         this.state = State.IDLE;
         this.house_destroyed = Assets.house_destroyed;
-        this.house_attacking = Assets.house_attacking;
+        this.house_attacking_anim = Assets.houseAnim;
         this.house_idle = Assets.house_idle;
         bounds = new Bounds(position.x , position.y, 1,1);
         this.health = 30;
@@ -59,7 +62,9 @@ public class House extends GameObject {
                 batch.draw(house_idle, position.x, position.y, 1,1);
                 break;
             case ATTACKING:
-                batch.draw(house_attacking, position.x, position.y, 1,1);
+                frame = house_attacking_anim.getKeyFrame(stateTime, true);
+                batch.draw(frame, position.x, position.y);
+                //batch.draw(frame, position.x, position.y,1,1);
                 break;
         }
     }
