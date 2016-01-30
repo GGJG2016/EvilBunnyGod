@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.Random;
 
@@ -52,14 +54,13 @@ public class Bunny extends GameObject{
         scale= new Vector2(1.3f, 1.3f);
         this.state = State.IDLE;
         bounds = new Bounds(position.x - dimension.x / 2 , position.y - dimension.y / 2, dimension.x,dimension.y);
+        this.destination = this.position;
     }
     private void setNewPosition()
     {
-        Vector2 newPosition = new Vector2(position.x + movement.x * deltatime, position.y + movement.y * deltatime);
-        // fixxxme auf die states achten
-        if(state == state.MOVING)
-            position = newPosition;
-        if(newPosition.equals(destination))
+        this.position.x = this.position.x + (destination.x- this.position.x) * deltatime;
+        this.position.y = this.position.y + (destination.y- this.position.y) * deltatime;
+        if(position.equals(destination))
         {
             state = State.IDLE;
         }
@@ -74,61 +75,13 @@ public class Bunny extends GameObject{
         switch (this.state) {
             case IDLE:
                 batch.draw(bunny, position.x, position.y, 1,1);
-//
-//
-//                        position.x - dimension.x / 2, position.y - dimension.y / 2,
-//                        origin.x, origin.y,
-//                        dimension.x, dimension.y,
-//                        scale.x, scale.y,
-//                        rotation);
-
-//                if (bunny.heading == Heading.Left) {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x, entity.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                }
                 break;
             case MOVING:
-                this.idle = 0f;
-
                 batch.draw(bunny, position.x, position.y, 1,1);
-                // todo check for dest reached
-//                if (bunny.heading == Heading.Left) {
-//                    frame = anim.getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                }
                 break;
             case ATTACKING:
-//                if (bunny.heading == Heading.Left) {
-//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-//                } else {
-//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-//                }
                 break;
             case DESTROYED:
-            //    batch.draw(mainDead, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
                 break;
             default:
         }
@@ -136,34 +89,12 @@ public class Bunny extends GameObject{
 
     private void randomDestination() {
         Random r = new Random();
-        movement = new Vector2(r.nextFloat(),r.nextFloat());
-        movement = movement.nor();
+        setNewDestination(new Vector3(r.nextFloat(),r.nextFloat(),0));
     }
 
     public GameObject collidesWith(World world)
     {
         GameObject collidingObject = null;
-
-        Rectangle newbounds = new Rectangle(bounds.x + movement.x, bounds.y + movement.y, bounds.width, bounds.height);
-//        int sx, sy, ex, ey, ux, uy;
-//        if(movement.x > 0) {
-//            sx = (int)Math.floor(bounds.x);
-//            ex = (int)Math.ceil(newbounds.x + bounds.width) + 1;
-//        }
-//        else {
-//            sx = (int)Math.ceil(bounds.x + bounds.width);
-//            ex = (int)Math.floor(newbounds.x) - 1;
-//        }
-//
-//        if(movement.y > 0) {
-//            sy = (int)Math.floor(bounds.y);
-//            ey = (int)Math.ceil(newbounds.y + bounds.height) + 1;
-//        }
-//        else {
-//            sy = (int)Math.ceil(bounds.y + bounds.height);
-//            ey = (int)Math.floor(newbounds.y) - 1;
-//        }
-
         Rectangle objRect;
         for (GameObject obj:world.entities) {
             if(obj instanceof Bunny)
@@ -173,91 +104,49 @@ public class Bunny extends GameObject{
                 continue;
             }
             objRect = new Rectangle(obj.posX,obj.posY,obj.dimension.x,obj.dimension.y);
-            if(newbounds.overlaps(objRect)){
-                System.out.println("Collides");
-
-                collidingObject = obj;
-            }
+//            if(newbounds.overlaps(objRect)){
+//                System.out.println("Collides");
+//
+//                collidingObject = obj;
+//            }
         }
 
         return collidingObject;
     }
 
-    public void setNewDestination(Vector2 newDestination) {
-        this.destination = newDestination;
-        float newX,newY;
-        newX = position.x - destination.x;
-        newY = position.y - destination.y;
-        movement = new Vector2(newX,newY);
-        movement = movement.nor();
+    public void setNewDestination(Vector3 newDestination) {
+        System.out.println("SetNewDestination: " +  newDestination.x + " " + newDestination.y);
+        this.destination = new Vector2(newDestination.x, newDestination.y);
         state = State.MOVING;
     }
+
     public void update(float deltaTime) {
         this.deltatime = deltaTime;
+        if(!this.destination.equals(this.position)) {
+            System.out.println("mx: " + this.destination.x + " my: " + this.destination.y);
+            System.out.println("mx: " + this.position.x + " my: " + this.position.y);
+        }
         switch (this.state) {
             case IDLE:
+                //System.out.println(this.idle);
                 updateIdleTime();
-                if(idle == 30)
+                if(idle % 5 <= 0)
                 {
                     randomDestination();
                     this.state = State.MOVING;
                 }
-//
-//
-//                        position.x - dimension.x / 2, position.y - dimension.y / 2,
-//                        origin.x, origin.y,
-//                        dimension.x, dimension.y,
-//                        scale.x, scale.y,
-//                        rotation);
-
-//                if (bunny.heading == Heading.Left) {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x, entity.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                }
                 break;
             case MOVING:
                 this.idle = 0f;
-                //System.out.println("moving");
+                System.out.println("moving!!!!!!!");
                 setNewPosition();
-                getAndUpdateBounds();
                 // todo check for dest reached
-//                if (bunny.heading == Heading.Left) {
-//                    frame = anim.getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                }
                 break;
             case ATTACKING:
-//                if (bunny.heading == Heading.Left) {
-//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-//                } else {
-//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-//                }
+                this.idle = 0f;
                 break;
             case DESTROYED:
-                //    batch.draw(mainDead, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
+                this.idle = 0f;
                 break;
             default:
         }

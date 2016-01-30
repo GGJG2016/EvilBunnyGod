@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import at.ggjg.evg.AudioManager;
@@ -236,6 +237,7 @@ public class World implements OnMapClickedListener {
     @Override
     public void onMapClicked(float x, float y, boolean isRightClick) {
         // todo bunnys dorthin schicken
+
         if(isRightClick){
             // todo get gesture and do magic
             return;
@@ -243,7 +245,7 @@ public class World implements OnMapClickedListener {
 
         for (Bunny bunny:bunnies) {
 
-            bunny.setNewDestination(new Vector2(x,y));
+            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x ,y, 0)));
 
         }
     }
