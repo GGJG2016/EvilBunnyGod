@@ -232,7 +232,14 @@ public class World implements OnMapClickedListener {
     @Override
     public void onMapClicked(float x, float y, boolean isRightClick) {
         // todo bunnys dorthin schicken
+        if(isRightClick){
+            // todo get gesture and do magic
+            return;
+        }
+
         for (Bunny bunny:bunnies) {
+
+            bunny.setNewDestination(new Vector2(x,y));
 
         }
     }

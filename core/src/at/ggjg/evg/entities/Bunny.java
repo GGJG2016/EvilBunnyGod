@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 /**
  * Created by jarhoax on 1/29/16.
  */
@@ -20,8 +22,8 @@ public class Bunny extends GameObject{
     private boolean inCornfield;
     private Vector2 movement;
     private float speed;
-
-
+    private Vector2 destination;
+    private int idle;
     public boolean isInCornfield() {
         return inCornfield;
     }
@@ -32,9 +34,12 @@ public class Bunny extends GameObject{
         bunny = Assets.bunny;
         movement = new Vector2(0f,0f);
         speed =1f;
+        idle = 0;
     }
 
-
+    public void updateIdleTime(){
+        idle++;
+    }
     @Override
     public void init(World world) {
         bunny = Assets.bunny;
@@ -60,7 +65,13 @@ public class Bunny extends GameObject{
     public void render(SpriteBatch batch) {
         switch (this.state) {
             case IDLE:
+                updateIdleTime();
                 batch.draw(bunny, position.x, position.y, 1,1);
+                if(idle == 30)
+                {
+                    randomDestination();
+                    this.state = State.MOVING;
+                }
 //
 //
 //                        position.x - dimension.x / 2, position.y - dimension.y / 2,
@@ -83,6 +94,10 @@ public class Bunny extends GameObject{
 //                }
                 break;
             case MOVING:
+                setNewPosition();
+                getAndUpdateBounds();
+                batch.draw(bunny, position.x, position.y, 1,1);
+                // todo check for dest reached
 //                if (bunny.heading == Heading.Left) {
 //                    frame = anim.getKeyFrame(entity.stateTime, true);
 //                    offset = clipOffset(frame, upper);
@@ -116,6 +131,13 @@ public class Bunny extends GameObject{
             default:
         }
     }
+
+    private void randomDestination() {
+        Random r = new Random();
+        movement = new Vector2(r.nextFloat(),r.nextFloat());
+        movement = movement.nor();
+    }
+
     public GameObject collidesWith(World world)
     {
         GameObject collidingObject = null;
@@ -157,5 +179,15 @@ public class Bunny extends GameObject{
         }
 
         return collidingObject;
+    }
+
+    public void setNewDestination(Vector2 newDestination) {
+        this.destination = newDestination;
+        float newX,newY;
+        newX = position.x - destination.x;
+        newY = position.y - destination.y;
+        movement = new Vector2(newX,newY);
+
+        state = State.MOVING;
     }
 }
