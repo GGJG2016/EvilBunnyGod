@@ -23,7 +23,6 @@ public class Bunny extends GameObject{
 
     public TextureRegion bunny;
     private boolean inCornfield;
-    private Vector2 movement;
 //    private float speed;
     private Vector2 destination;
     private float idle;
@@ -37,9 +36,8 @@ public class Bunny extends GameObject{
         super(posX, posY);
         inCornfield = false;
         bunny = Assets.bunny_1;
-        movement = new Vector2(0f,0f);
         destination = new Vector2();
-
+        bounds = new Bounds(position.x , position.y , 100,100);
         idle = 0;
         state = State.IDLE;
 
@@ -56,7 +54,6 @@ public class Bunny extends GameObject{
         origin.y = dimension.y / 2;
         scale= new Vector2(1.3f, 1.3f);
         this.state = State.IDLE;
-        bounds = new Bounds(position.x , position.y , 1,1);
     }
     private void setNewPosition()
     {
@@ -68,11 +65,6 @@ public class Bunny extends GameObject{
         }
     }
 
-    public Bounds getAndUpdateBounds(){
- //       bounds = new Bounds(position.x - dimension.x / 2 , position.y - dimension.y / 2, dimension.x,dimension.y);
-        bounds = new Bounds(position.x  , position.y , 1,1);
-        return bounds;
-    }
     @Override
     public void render(SpriteBatch batch) {
         switch (this.state) {
@@ -94,40 +86,6 @@ public class Bunny extends GameObject{
         Random r = new Random();
         setNewDestination(new Vector3(r.nextFloat(),r.nextFloat(),0));
     }
-
-    public GameObject collidesWith(World world) {
-        GameObject collidingObject = null;
-        for (int i = 0; i < world.entities.size; i++) {
-            //  for (Iterator<GameObject> iterator = world.entities.iterator(); iterator.hasNext(); ) {
-            GameObject obj = world.entities.get(i);
-//            if (obj instanceof Bunny)
-//                continue;
-//            if (obj instanceof Cornfield) {
-//                // TODO: define bunny in confield
-//                continue;
-//            }
-//            System.out.println(bounds.x + ", " + bounds.y);
-//            System.out.println(obj.bounds.x + ", " + obj.bounds.y);
-            // objRect = ;
-            Rectangle inter = new Rectangle();
-            if (Intersector.intersectRectangles(bounds,obj.bounds,inter))
-            {
-                System.out.println("Collides like a pro");
-
-                return obj;
-            }
-//            if ((obj.bounds).(bounds)) {
-//                System.out.println("Collides");
-//                return obj;
-//
-//            }
-        }
-        return null;
-    }
-//                collidingObject = obj;
-//            }
-
-
 
 
     public void setNewDestination(Vector3 newDestination) {
@@ -154,13 +112,8 @@ public class Bunny extends GameObject{
                 break;
             case MOVING:
                 this.idle = 0f;
-//                System.out.println("moving!!!!!!!");
                 setNewPosition();
-                getAndUpdateBounds();
-                if(collidesWith(world)!=null){
-                    System.out.println("juhydfjhsfgl");
-                }
-                // todo check for dest reached
+
                 break;
             case ATTACKING:
                 this.idle = 0f;
@@ -170,7 +123,17 @@ public class Bunny extends GameObject{
                 break;
             default:
         }
+        this.bounds.x = this.position.x;
+        this.bounds.y = this.position.y;
 
+        for (int i = 0; i < world.entities.size; i++) {
+
+            if (world.entities.get(i).bounds.overlaps(this.bounds))
+            {
+                System.out.println("Collides like a pro");
+
+            }
+        }
     }
 
     @Override

@@ -93,6 +93,8 @@ public class World implements OnMapClickedListener {
 
                 Bunny bunny = new Bunny(object.get("x", Float.class), object.get("y", Float.class));
                 bunny.position.scl(1f / TILE_SIZE);
+                bunny.bounds.y /= TILE_SIZE;
+                bunny.bounds.x /= TILE_SIZE;
                 entities.add(bunny);
                 bunnies.add(bunny);
             } else if (type.equals("house")) {
