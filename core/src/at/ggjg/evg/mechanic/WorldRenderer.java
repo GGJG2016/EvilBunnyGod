@@ -72,31 +72,33 @@ public class WorldRenderer {
 //        }
 //    }
 //
-//    public void dispose() {
-//        batch.dispose();
-//        tileMapRenderer.dispose();
-//        vignetteShader.dispose();
-//        world.map.dispose();
-//        disposeAnim(mainIdle);
-//        disposeAnim(mainAxeIdle);
-//        disposeAnim(mainAttack);
-//        mainDead.dispose();
-//        disposeAnim(patient1Idle[0]);
-//        disposeAnim(patient1Idle[1]);
-//        disposeAnim(patient2Idle[0]);
-//        disposeAnim(patient2Idle[1]);
-//        doorClosed.dispose();
-//        doorOpen.dispose();
-//        doorVertical.dispose();
-//        pill.dispose();
-//        axe.dispose();
-//        blood.dispose();
-//        switchOn.dispose();
-//        switchOff.dispose();
-//        patient1RedEyes.dispose();
-//        patient2RedEyes.dispose();
-//        sr.dispose();
-//    }
+//   public void dispose() {
+//
+//
+////        batch.dispose();
+////        tileMapRenderer.dispose();
+////        vignetteShader.dispose();
+////        world.map.dispose();
+////        disposeAnim(mainIdle);
+////        disposeAnim(mainAxeIdle);
+////        disposeAnim(mainAttack);
+////        mainDead.dispose();
+////        disposeAnim(patient1Idle[0]);
+////        disposeAnim(patient1Idle[1]);
+////        disposeAnim(patient2Idle[0]);
+////        disposeAnim(patient2Idle[1]);
+////        doorClosed.dispose();
+////        doorOpen.dispose();
+////        doorVertical.dispose();
+////        pill.dispose();
+////        axe.dispose();
+////        blood.dispose();
+////        switchOn.dispose();
+////        switchOff.dispose();
+////        patient1RedEyes.dispose();
+////        patient2RedEyes.dispose();
+//            sr.dispose();
+//        }
 //
 //    private void disposeAnim (Animation mainIdle2) {
 //        for(TextureRegion region: mainIdle.getKeyFrames()) {
@@ -144,7 +146,8 @@ public class WorldRenderer {
 //        return new Animation(frameDuration, regions);
 //    }
 //
-//    public void render(float deltaTime) {
+    }
+    public void render (float deltaTime) {
 //        // set vignette based on
 //        vignetteShader.begin();
 //        vignetteShader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -335,7 +338,7 @@ public class WorldRenderer {
 ////			sr.rect(entity.bounds.x, entity.bounds.y, entity.bounds.width, entity.bounds.height);
 ////		}
 ////		sr.end();
-//    }
+    }
 //
 //    private void renderEnemy (Enemy entity, boolean upper) {
 //        Animation[] anims = entity instanceof Enemy2?patient2Idle: patient1Idle;
@@ -476,4 +479,3 @@ public class WorldRenderer {
 //        Vector2 dist = new Vector2(world.player.position).sub(camera.position.x, camera.position.y);
 //        camera.position.add(dist.x * deltaTime * CAM_DAMP, dist.y * deltaTime * CAM_DAMP, 0);
     }
-}
