@@ -35,6 +35,7 @@ public class Assets implements Disposable {
         bunnyAnim = new Animation(3, bunny_1, bunny_2, bunny_3);
         allAnimations.add(bunnyAnim);
         houseAnim = new Animation(3, house_idle, house_attacking, house_destroyed);
+        allAnimations.add(houseAnim);
         /**
          * End Loading Animations
          */

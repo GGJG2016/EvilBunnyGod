@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class World implements OnMapClickedListener {
@@ -87,6 +88,7 @@ public class World implements OnMapClickedListener {
             String type = object.get("type", String.class);
             System.out.println(type);
             if (type.equals("bunny")) {
+
                 Bunny bunny = new Bunny(object.get("x", Float.class), object.get("y", Float.class));
                 bunny.position.scl(1f / TILE_SIZE);
                 entities.add(bunny);
@@ -112,6 +114,7 @@ public class World implements OnMapClickedListener {
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
+
         for (Bunny b : bunnies) {
             b.update(deltaTime);
         }
@@ -230,7 +233,7 @@ public class World implements OnMapClickedListener {
 
         for (Bunny bunny : bunnies) {
 
-            bunny.setNewDestination(new Vector2(x, y));
+            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x ,y, 0)));
 
         }
     }
