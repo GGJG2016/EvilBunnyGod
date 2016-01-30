@@ -18,11 +18,11 @@ public class AudioManager {
 
 
     public AudioManager() {
-        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/backgroundmusic.mp3"));
+        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/backgroundMusic.mp3"));
         backgroundmusic.setLooping(true);
 
-        sampleSound = Gdx.audio.newSound(Gdx.files.internal("audio/effects/sampleSound.mp3"));
-        allSounds.add(sampleSound);
+//        sampleSound = Gdx.audio.newSound(Gdx.files.internal("audio/effects/sampleSound.mp3"));
+//        allSounds.add(sampleSound);
     }
 
     public void update(float deltaTime) {

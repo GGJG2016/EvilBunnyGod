@@ -22,7 +22,7 @@ public class EvilBunnyGodGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		manager = new ScreenManager();
-		Screen screen = new GameplayScreen(manager,1);
+		Screen screen = new GameplayScreen(manager,0);
 		manager.setScreen(screen);
 //		ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
 //		//define sequences .. item which first matches wins
