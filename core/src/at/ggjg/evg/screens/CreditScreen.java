@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.Align;
 public class CreditScreen extends Screen {
 
     private static final String credits = "TEAM\n" +
-            "Pius Pfister [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Gallé [Artwork|Programming]\n\n" +
+            "Pius Pfister [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Gallé [Programming]\nChristian Zellot [Programming]\n\n" +
             "IDEA and GAMEDESIGN\nall of them :)\n\n" +
             "SPECIAL THANKS TO\nMathias Lux [Sound]\n\n" +
             "EvilBunnyGod was developed during the\n" +
@@ -62,11 +62,9 @@ public class CreditScreen extends Screen {
         Table table = new Table();
         table.setFillParent(true);
 
-        Texture texture = new Texture("mainmenu/mainscreen.jpg");
+        Texture texture = new Texture("backgroundImages/menu-ph.jpg");
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
-
-        Image image = new Image(region);
 
         table.setBackground(new TextureRegionDrawable(region));
 

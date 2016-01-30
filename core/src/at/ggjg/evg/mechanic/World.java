@@ -227,7 +227,7 @@ public class World implements OnMapClickedListener {
         }
 
         for (Bunny bunny : bunnies) {
-            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x, y, 0)));
+            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x, y, 0f)));
         }
     }
 }
