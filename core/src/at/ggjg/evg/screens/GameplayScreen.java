@@ -19,6 +19,8 @@ public class GameplayScreen extends Screen {
         super(manager);
         this.lvl = lvl;
         switch(lvl){
+            case 0: world = new World("levels/testMap.tmx");
+                break;
             case 1: world = new World("levels/map1_v2.tmx");
                 break;
             case 2: world = new World("levels/map2_v1.tmx");

@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.entities.Bunny;
 import at.ggjg.evg.entities.GameObject;
 
 public class World {
@@ -23,7 +24,7 @@ public class World {
     public TiledMap map;
     public Rectangle[][] walls;
     public Array<GameObject> entities = new Array<GameObject>();
-// public Array<Enemy> enemies = new Array<Enemy>();
+    public Array<Bunny> bunnies = new Array<Bunny>();
 //    public Array<Entity> delete = new Array<Entity>();
     public WorldRenderer renderer;
     public AudioManager audio;
@@ -57,33 +58,33 @@ public class World {
 //        entities.add(goal);
 
         // load collision map
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("collisionmap");
-        walls = new Rectangle[layer.getWidth()][layer.getHeight()];
-        for(int x = 0; x < layer.getWidth(); x++) {
-            for(int y = 0; y < layer.getHeight(); y++) {
-                if(layer.getCell(x, y) != null) {
-                    walls[x][y] = new Rectangle(x, y, 1, 1);
-                }
-            }
-        }
-        layer = (TiledMapTileLayer) map.getLayers().get("interieur");
-        for(int x = 0; x < layer.getWidth(); x++) {
-            for(int y = 0; y < layer.getHeight(); y++) {
-                if(layer.getCell(x, y) != null) {
-                    walls[x][y] = new Rectangle(x, y, 1, 1);
-                }
-            }
-        }
+//        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("collisionmap");
+//        walls = new Rectangle[layer.getWidth()][layer.getHeight()];
+//        for(int x = 0; x < layer.getWidth(); x++) {
+//            for(int y = 0; y < layer.getHeight(); y++) {
+//                if(layer.getCell(x, y) != null) {
+//                    walls[x][y] = new Rectangle(x, y, 1, 1);
+//                }
+//            }
+//        }
+//        layer = (TiledMapTileLayer) map.getLayers().get("interieur");
+//        for(int x = 0; x < layer.getWidth(); x++) {
+//            for(int y = 0; y < layer.getHeight(); y++) {
+//                if(layer.getCell(x, y) != null) {
+//                    walls[x][y] = new Rectangle(x, y, 1, 1);
+//                }
+//            }
+//        }
 
         // create objects
         for(int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
             String type = object.get("type", String.class);
             if(type.equals("bunny")) {
-//                Enemy enemy = new Enemy(object.get("x", Float.class), object.get("y", Float.class));
-//                enemy.position.scl(1f / TILE_SIZE);
-//                entities.add(enemy);
-//                enemies.add(enemy);
+                Bunny bunny = new Bunny(object.get("x", Float.class), object.get("y", Float.class));
+                bunny.position.scl(1f / TILE_SIZE);
+                entities.add(bunny);
+                bunnies.add(bunny);
             }
             else if(type.equals("house")) {
 //                Enemy enemy = new Enemy2(object.get("x", Float.class), object.get("y", Float.class));
