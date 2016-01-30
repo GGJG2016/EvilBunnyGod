@@ -3,8 +3,10 @@ package at.ggjg.evg.mechanic;
 /**
  * Created by Veit on 29.01.2016.
  */
+
 import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
+import at.ggjg.evg.helpers.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,37 +20,30 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.Comparator;
 
 public class WorldRenderer {
     private static final float MODE_TRANSITION_TIME = 1.0f;
 
     private static final float CAM_DAMP = 4;
     private static final int CULL_RADIUS = 10;
-    private int LAYER_FLOOR = 0;
-    private int LAYER_INTERIEUR = 3;
-
-    World world;
-    SpriteBatch batch;
     public OrthographicCamera camera;
-    OrthogonalTiledMapRenderer tileMapRenderer;
-    ShaderProgram vignetteShader;
-    ShapeRenderer sr = new ShapeRenderer();
-
     public Animation mainIdle;
     public Animation mainAxeIdle;
     public Animation mainAttack;
     public Animation[] lethalObstacleAnim = new Animation[2];
     public Animation[] obstacleAnim = new Animation[2];
     public Animation poof;
-
     public Texture houseAttacking;
     public Texture houseIdle;
     public Texture mainDead;
-    public Texture bunny;
     public Texture fence;
+    World world;
+    SpriteBatch batch;
+    OrthogonalTiledMapRenderer tileMapRenderer;
+    ShaderProgram vignetteShader;
+    ShapeRenderer sr = new ShapeRenderer();
+    private int LAYER_FLOOR = 0;
+    private int LAYER_INTERIEUR = 3;
 //    public Texture pill;
 //    public Texture axe;
 //    public Texture blood;
@@ -57,22 +52,21 @@ public class WorldRenderer {
 //    public Texture patient1RedEyes;
 //    public Texture patient2RedEyes;
 
-    private Array<GameObject> sortedEntities;
-
     public WorldRenderer(World world) {
         this.world = world;
-        loadAssets();
+        //loadAssets();
+        Assets.init();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / (float) World.TILE_SIZE, Gdx.graphics.getHeight() / (float) World.TILE_SIZE);
         tileMapRenderer = new OrthogonalTiledMapRenderer(world.map, 1f / World.TILE_SIZE, batch);
 
         // vignette shader
-        ShaderProgram.pedantic = false;
-        vignetteShader = new ShaderProgram(Gdx.files.internal("graphics/vignette.vsh"), Gdx.files.internal("graphics/vignette.fsh"));
-        if (!vignetteShader.isCompiled())
-            System.out.println(vignetteShader.getLog());
-        batch.setShader(vignetteShader);
+//        ShaderProgram.pedantic = false;
+//        vignetteShader = new ShaderProgram(Gdx.files.internal("graphics/vignette.vsh"), Gdx.files.internal("graphics/vignette.fsh"));
+//        if (!vignetteShader.isCompiled())
+//            System.out.println(vignetteShader.getLog());
+//        batch.setShader(vignetteShader);
 
         // figure out which layer has which id, idiotic
         for (int i = 0; i < world.map.getLayers().getCount(); i++) {
@@ -123,12 +117,12 @@ public class WorldRenderer {
 
         // patient1
         lethalObstacleAnim[0] = loadAnimation("graphics/animations/patient1-real-idle", 2, 0.5f);
-       // patient1RedEyes = new Texture(Gdx.files.internal("graphics/animations/patient1-redEyes.png"));
+        // patient1RedEyes = new Texture(Gdx.files.internal("graphics/animations/patient1-redEyes.png"));
 
         // patient2
         obstacleAnim[0] = loadAnimation("graphics/animations/patient2-ghost-idle", 2, 0.5f);
-     //   obstacleAnim[World.modeToInt(World.Mode.REAL)] = loadAnimation("graphics/animations/patient2-real-idle", 2, 0.5f);
-      //  patient2RedEyes = new Texture(Gdx.files.internal("graphics/animations/patient2-redEyes.png"));
+        //   obstacleAnim[World.modeToInt(World.Mode.REAL)] = loadAnimation("graphics/animations/patient2-real-idle", 2, 0.5f);
+        //  patient2RedEyes = new Texture(Gdx.files.internal("graphics/animations/patient2-redEyes.png"));
 
         // poof
         poof = loadAnimation("graphics/animations/poof-", 2, 0.3f);
@@ -142,7 +136,7 @@ public class WorldRenderer {
 //        blood = new Texture(Gdx.files.internal("graphics/blood.png"));
 //        switchOn = new Texture(Gdx.files.internal("graphics/switch-on.png"));
 //        switchOff = new Texture(Gdx.files.internal("graphics/switch-off.png"));
-     }
+    }
 
     private Animation loadAnimation(String path, int frames, float frameDuration) {
         TextureRegion[] regions = new TextureRegion[frames];
@@ -154,19 +148,6 @@ public class WorldRenderer {
     }
 
     public void render(float deltaTime) {
-        // set vignette based on
-        vignetteShader.begin();
-        vignetteShader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        float transition = 0.0f;
-
-        vignetteShader.setUniformf("tint", 1, 0.7f + transition * 0.3f, 0.7f + transition * 0.3f, 1);
-        vignetteShader.setUniformf("innerRadius", 0.02f);
-        vignetteShader.setUniformf("outerRadius", 0.4f + transition * 0.5f);
-        vignetteShader.setUniformf("intensity", 0.99f);
-        vignetteShader.setUniformf("noise", 1 - transition);
-        vignetteShader.end();
-
         cameraFollow(deltaTime);
         camera.update();
 
@@ -191,39 +172,19 @@ public class WorldRenderer {
         }
 
         // render interieur
-        tileMapRenderer.render(new int[]{LAYER_INTERIEUR});
+//        tileMapRenderer.render(new int[]{LAYER_INTERIEUR});
 
         // render objects
-        sortedEntities.clear();
-        sortedEntities.addAll(world.entities);
-        sortedEntities.sort(new Comparator<GameObject>() {
-            @Override
-            public int compare(GameObject o1, GameObject o2) {
-                return (int) Math.signum(o2.position.y - o1.position.y);
-            }
-        });
-
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         // blood at the bottom...
-        for (GameObject entity : sortedEntities) {
+        for (GameObject entity : world.entities) {
             if (entity.position.dst(camera.position.x, camera.position.y) > CULL_RADIUS) continue;
             //if (!entity.isVisible) continue;
-            if (entity instanceof LethalObstacle && (entity).state == State.DESTROYED) {
-                renderLethalObstacle((LethalObstacle) entity);
-            }
-        }
-
-        for (GameObject entity : sortedEntities) {
-            if (entity.position.dst(camera.position.x, camera.position.y) > CULL_RADIUS) continue;
-         //   if (!entity.isVisible) continue;
-            if (entity instanceof Bunny) {
-                renderBunny((Bunny) entity);
-            } else if (entity instanceof LethalObstacle) {
-                if ((entity).state == State.DESTROYED) continue;
+            if (entity instanceof LethalObstacle) {
                 renderLethalObstacle((LethalObstacle) entity);
             } else if (entity instanceof NonLethalObstacle) {
-                // TODO: DO magic
+                renderNonLethalObstacle((NonLethalObstacle) entity);
             } else if (entity instanceof House) {
                 House house = (House) entity;
                 if (house.state == State.ATTACKING) {
@@ -237,14 +198,22 @@ public class WorldRenderer {
                 }
             }
         }
+
+        for (GameObject entity : world.bunnies) {
+            if (entity.position.dst(camera.position.x, camera.position.y) > CULL_RADIUS) continue;
+            //   if (!entity.isVisible) continue;
+            if (entity instanceof Bunny) {
+                renderBunny((Bunny) entity);
+            }
+        }
         batch.end();
         // draw entity bounds
-        sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.setColor(0, 1, 0, 1);
-        for (GameObject gameObject : world.entities) {
-            sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
-        }
-        sr.end();
+//        sr.begin(ShapeRenderer.ShapeType.Line);
+//        sr.setColor(0, 1, 0, 1);
+//        for (GameObject gameObject : world.entities) {
+//            sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
+//        }
+//        sr.end();
     }
 
     private void renderLethalObstacle(LethalObstacle entity) {
@@ -315,54 +284,6 @@ public class WorldRenderer {
         Animation anim = null;
 
         float offset = 0;
-        switch (bunny.state) {
-            case IDLE:
-//                if (bunny.heading == Heading.Left) {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x, entity.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                }
-                break;
-            case MOVING:
-//                if (bunny.heading == Heading.Left) {
-//                    frame = anim.getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anim.getKeyFrame(bunny.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x, bunny.position.y + offset, 1, 1);
-//                }
-                break;
-            case ATTACKING:
-//                if (bunny.heading == Heading.Left) {
-//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-//                } else {
-//                    frame = mainAttack.getKeyFrame(bunny.stateTime, false);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-//                }
-                break;
-            case DESTROYED:
-                batch.draw(mainDead, bunny.position.x - 0.5f, bunny.position.y + offset, 2, 1);
-                break;
-            default:
-        }
     }
 
     private void cameraFollow(float deltaTime) {
