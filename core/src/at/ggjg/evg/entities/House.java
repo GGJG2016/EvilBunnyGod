@@ -7,7 +7,6 @@ import at.ggjg.evg.mechanic.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 
 /**
@@ -59,8 +58,6 @@ public class House extends GameObject {
         return damageDealt;
     }
 
-    ;
-
     @Override
     public void render(SpriteBatch batch) {
         switch (this.state) {
@@ -72,7 +69,7 @@ public class House extends GameObject {
                 break;
             case ATTACKING:
                 frame = house_attacking_anim.getKeyFrame(stateTime, true);
-                batch.draw(frame, position.x, position.y);
+                batch.draw(frame, position.x, position.y, scale.x, scale.y);
                 //batch.draw(frame, position.x, position.y,1,1);
                 break;
         }

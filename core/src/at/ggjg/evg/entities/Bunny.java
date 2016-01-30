@@ -51,7 +51,7 @@ public class Bunny extends GameObject {
         dimension.set(1f, 1f);
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
-        scale.set(1.3f, 1.3f);
+        scale.set(1f, 1f);
         this.state = State.IDLE;
         this.bunny_anim = Assets.bunnyAnim;
         lastPosition = position;
@@ -72,18 +72,18 @@ public class Bunny extends GameObject {
     public void render(SpriteBatch batch) {
         switch (this.state) {
             case IDLE:
-                batch.draw(bunny, position.x, position.y, 1, 1);
+                batch.draw(bunny, position.x, position.y, scale.x, scale.y);
                 break;
             case MOVING:
                 frame = bunny_anim.getKeyFrame(stateTime, true);
-                batch.draw(frame, position.x, position.y);
+                batch.draw(frame, position.x, position.y, scale.x, scale.y);
                 break;
             case ATTACKING:
                 frame = bunny_anim.getKeyFrame(stateTime, true);
                 batch.draw(frame, position.x, position.y, scale.x, scale.y);
                 break;
             case DESTROYED:
-                batch.draw(bunny_dead, position.x, position.y, 1, 1);
+                batch.draw(bunny_dead, position.x, position.y, scale.x, scale.y);
                 break;
             default:
         }
@@ -106,7 +106,7 @@ public class Bunny extends GameObject {
         this.deltatime = deltaTime;
         if (this.state != State.ATTACKING && lastPosition.equals(this.position)) {
             timeSinceMoved += deltaTime;
-            if (timeSinceMoved > 1) {
+            if (timeSinceMoved > 2) {
                 this.state = State.IDLE;
                 timeSinceMoved = 0;
             }
