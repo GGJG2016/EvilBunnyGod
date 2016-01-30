@@ -38,18 +38,7 @@ public class MainMenuScreen extends Screen {
         table.row();
 
 
-        TextButton button = new TextButton("Editor", skin);
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-
-            button.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    //manager.setScreen(new EditorScreen(manager));
-                }
-            });
-
-            table.add(button).size(150, 60).pad(10);
-        }
+        TextButton button;
 
         button = new TextButton("Play", skin);
         button.setColor(Color.GREEN);
@@ -59,11 +48,11 @@ public class MainMenuScreen extends Screen {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-                //manager.setScreen(new LevelsScreen(manager));
+                manager.setScreen(new GameplayScreen(manager, 1));
             }
         });
         table.add(button).size(150, 60).pad(10);
-
+        table.row();
         button = new TextButton("Credits", skin);
         button.addListener(new ClickListener() {
             @Override
@@ -74,7 +63,7 @@ public class MainMenuScreen extends Screen {
         table.add(button).size(150, 60).pad(10);
 
         table.row();
-        table.add(new Actor()).size(150, 60).pad(10);
+       // table.add(new Actor()).size(150, 60).pad(10);
         button = new TextButton("Exit", skin);
         button.addListener(new ClickListener() {
             @Override
@@ -87,7 +76,7 @@ public class MainMenuScreen extends Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        Texture texture = new Texture("mainscreen.png");
+        Texture texture = new Texture("mainmenu/mainscreen.png");
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         table.setBackground(new TextureRegionDrawable(region));
