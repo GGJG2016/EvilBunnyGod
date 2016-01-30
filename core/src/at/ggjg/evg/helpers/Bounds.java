@@ -7,9 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Bounds extends Rectangle{
 
-    public float x, y;
-    public float width, height;
-
     public Bounds(float x, float y, float dimX, float dimnY) {
         this.x = x;
         this.y = y;

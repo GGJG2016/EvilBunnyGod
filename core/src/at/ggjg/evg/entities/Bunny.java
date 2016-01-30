@@ -136,9 +136,5 @@ public class Bunny extends GameObject{
         }
     }
 
-    @Override
-    public void update(float deltaTime) {
-
-    }
 
 }
