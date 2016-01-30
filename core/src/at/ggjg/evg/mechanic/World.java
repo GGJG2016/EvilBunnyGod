@@ -16,6 +16,12 @@ import com.badlogic.gdx.utils.Array;
 
 import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.entities.Bunny;
+import at.ggjg.evg.entities.Cornfield;
+import at.ggjg.evg.entities.House;
+import at.ggjg.evg.entities.Fence;
+
+
+
 import at.ggjg.evg.entities.GameObject;
 
 public class World {
