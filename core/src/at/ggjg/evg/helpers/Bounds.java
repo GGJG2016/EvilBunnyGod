@@ -1,9 +1,11 @@
 package at.ggjg.evg.helpers;
 
+import com.badlogic.gdx.math.Rectangle;
+
 /**
  * Created by jarhoax on 1/30/16.
  */
-public class Bounds {
+public class Bounds extends Rectangle{
 
     public float x, y;
     public float width, height;

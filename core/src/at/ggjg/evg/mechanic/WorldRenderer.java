@@ -201,12 +201,12 @@ public class WorldRenderer {
         }
         batch.end();
         // draw entity bounds
-//        sr.begin(ShapeRenderer.ShapeType.Line);
-//        sr.setColor(0, 1, 0, 1);
-//        for (GameObject gameObject : world.entities) {
-//            sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
-//        }
-//        sr.end();
+        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.setColor(0, 1, 0, 1);
+        for (GameObject gameObject : world.entities) {
+            sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
+        }
+        sr.end();
     }
 
     public void resize(int width, int height) {
