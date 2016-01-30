@@ -8,6 +8,7 @@ import at.ggjg.evg.mechanic.World;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -94,29 +95,40 @@ public class Bunny extends GameObject{
         setNewDestination(new Vector3(r.nextFloat(),r.nextFloat(),0));
     }
 
-    public GameObject collidesWith(World world)
-    {
+    public GameObject collidesWith(World world) {
         GameObject collidingObject = null;
-        Rectangle objRect;
-        for(int i =0 ; i < world.entities.size; i++){
-      //  for (Iterator<GameObject> iterator = world.entities.iterator(); iterator.hasNext(); ) {
+        for (int i = 0; i < world.entities.size; i++) {
+            //  for (Iterator<GameObject> iterator = world.entities.iterator(); iterator.hasNext(); ) {
             GameObject obj = world.entities.get(i);
-            if (obj instanceof Bunny)
-                continue;
-            if (obj instanceof Cornfield) {
-                // TODO: define bunny in confield
-                continue;
+//            if (obj instanceof Bunny)
+//                continue;
+//            if (obj instanceof Cornfield) {
+//                // TODO: define bunny in confield
+//                continue;
+//            }
+//            System.out.println(bounds.x + ", " + bounds.y);
+//            System.out.println(obj.bounds.x + ", " + obj.bounds.y);
+            // objRect = ;
+            Rectangle inter = new Rectangle();
+            if (Intersector.intersectRectangles(bounds,obj.bounds,inter))
+            {
+                System.out.println("Collides like a pro");
+
+                return obj;
             }
-            objRect = new Rectangle(obj.posX, obj.posY, obj.dimension.x, obj.dimension.y);
-//            if(newbounds.overlaps(objRect)){
+//            if ((obj.bounds).(bounds)) {
 //                System.out.println("Collides");
+//                return obj;
 //
-//                collidingObject = obj;
 //            }
         }
-
-        return collidingObject;
+        return null;
     }
+//                collidingObject = obj;
+//            }
+
+
+
 
     public void setNewDestination(Vector3 newDestination) {
 //        System.out.println("SetNewDestination: " +  newDestination.x + " " + newDestination.y);
