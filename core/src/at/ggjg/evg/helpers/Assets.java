@@ -33,9 +33,9 @@ public class Assets implements Disposable {
         /**
          * Begin Loading Animations
          */
-        bunnyAnim = loadAnimation("entityassets/rabbit-animation-", 3, 0.3f);
+        bunnyAnim = loadAnimation("entityassets/rabbit-animation-", 3, 0.25f);
         allAnimations.add(bunnyAnim);
-        houseAnim = loadAnimation("entityassets/house-", 2, 0.5f);
+        houseAnim = loadAnimation("entityassets/house-", 2, 0.2f);
         allAnimations.add(houseAnim);
         /**
          * End Loading Animations

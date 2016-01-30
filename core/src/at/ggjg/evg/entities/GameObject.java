@@ -13,7 +13,7 @@ public abstract class GameObject {
     public Vector2 scale;
     public float rotation;
     public State state;
-    public int stateTime;
+    public float stateTime;
     public float posX;
     public float posY;
     public Bounds bounds;

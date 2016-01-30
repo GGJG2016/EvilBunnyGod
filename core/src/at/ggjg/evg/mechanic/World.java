@@ -88,7 +88,6 @@ public class World implements OnMapClickedListener {
         for (int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
             String type = object.get("type", String.class);
-            System.out.println(type);
             if (type.equals("bunny")) {
 
                 Bunny bunny = new Bunny(object.get("x", Float.class), object.get("y", Float.class));
@@ -115,8 +114,7 @@ public class World implements OnMapClickedListener {
     }
 
     public void update(float deltaTime) {
-        for (Iterator<GameObject> iterator = entities.iterator(); iterator.hasNext(); ) {
-            GameObject entity = iterator.next();
+        for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
     }

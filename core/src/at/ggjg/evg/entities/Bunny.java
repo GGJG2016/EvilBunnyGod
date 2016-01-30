@@ -23,13 +23,11 @@ public class Bunny extends GameObject {
     public float damage = 1;
     public TextureRegion bunny;
     public TextureRegion bunny_dead;
-    public float stateTime = 0;
     public float timeSinceMoved;
     Random r;
     private boolean inCornfield;
     //    private float speed;
     private Vector2 destination;
-    private float deltatime;
     private Vector2 lastPosition;
 
     public Bunny(Float posX, Float posY) {
@@ -90,7 +88,6 @@ public class Bunny extends GameObject {
     }
 
     public void setNewDestination(Vector3 newDestination) {
-//        System.out.println("SetNewDestination: " +  newDestination.x + " " + newDestination.y);
         this.destination = new Vector2(newDestination.x, newDestination.y);
         state = State.MOVING;
         stateTime = 0;
@@ -116,10 +113,7 @@ public class Bunny extends GameObject {
 
         switch (this.state) {
             case IDLE:
-
-                System.out.println("IDLE " + stateTime);
                 if (stateTime >= 2.5) {
-                    System.out.println("Drinnen");
                     if (r.nextBoolean()) {
                         destination.x += r.nextInt(6 - 1 + 1) + 1;
                     } else {
@@ -151,7 +145,7 @@ public class Bunny extends GameObject {
                 if (obj instanceof House) {
                     if (this.state == State.ATTACKING) {
                         if (stateTime >= 0.5f) {
-                            this.health = ((House) obj).getAttacked(this.damage);
+                            this.health -= ((House) obj).getAttacked(this.damage);
                             stateTime = 0;
                         }
                     }

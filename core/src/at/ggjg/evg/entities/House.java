@@ -29,7 +29,12 @@ public class House extends GameObject {
 
     @Override
     public void update(World world, float deltaTime) {
-
+        this.stateTime += deltaTime;
+        System.out.println(stateTime);
+        if (this.state == State.ATTACKING && this.stateTime >= 3) {
+            this.state = State.IDLE;
+            this.stateTime = 0;
+        }
     }
 
     @Override
@@ -44,10 +49,10 @@ public class House extends GameObject {
         bounds = new Bounds(position.x, position.y, scale.x, scale.y);
         this.health = 30;
         this.damageDealt = 1;
+
     }
 
     public float getAttacked(float damageGained) {
-        System.out.println("House was attacked: " + this.health);
 
         if (this.state == State.DESTROYED)
             return 0;
@@ -76,11 +81,4 @@ public class House extends GameObject {
         }
     }
 
-    public void update(World world, Float deltaTime) {
-        this.stateTime += deltaTime;
-        if (this.state == State.ATTACKING && this.stateTime >= 3) {
-            this.state = State.IDLE;
-            this.stateTime = 0;
-        }
-    }
 }
