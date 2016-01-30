@@ -1,7 +1,8 @@
 package at.ggjg.evg.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.World;
+
+import at.ggjg.evg.mechanic.World;
 
 /**
  * Created by jarhoax on 1/29/16.

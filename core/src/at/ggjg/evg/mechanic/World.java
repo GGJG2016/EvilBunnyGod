@@ -86,6 +86,7 @@ public class World {
                 bunny.position.scl(1f / TILE_SIZE);
                 entities.add(bunny);
                 bunnies.add(bunny);
+                bunny.init(this);
             }
             else if(type.equals("house")) {
 //                Enemy enemy = new Enemy2(object.get("x", Float.class), object.get("y", Float.class));

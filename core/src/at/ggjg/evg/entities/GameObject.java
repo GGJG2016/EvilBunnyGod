@@ -36,7 +36,7 @@ public abstract class GameObject {
     public void update(World world, float deltaTime) {
     }
 
-    public abstract void init(com.badlogic.gdx.physics.box2d.World world);
+    public abstract void init(World world);
 
     public void update(float deltaTime) {
     }
