@@ -39,6 +39,10 @@ public class Sequence {
                    hightestMatch = match;
                }
            }
+//          comment in if exact match is needed
+//           if(draggedSequence.size() >= (j+1)){
+//               return 0;
+//           }
        }
        if(hightestMatch < match){
            hightestMatch = match;
