@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import at.ggjg.evg.helpers.Assets;
+import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
 /**
@@ -20,6 +21,7 @@ public class Cornfield extends GameObject {
     @Override
     public void init(World world) {
         tr = Assets.cornfield;
+        bounds = new Bounds(position.x , position.y, 1,1);
     }
 
     @Override

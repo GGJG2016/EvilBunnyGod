@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import at.ggjg.evg.State;
 import at.ggjg.evg.helpers.Assets;
+import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
 /**
@@ -25,6 +26,7 @@ public class House extends GameObject {
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking = Assets.house_attacking;
         this.house_idle = Assets.house_idle;
+        bounds = new Bounds(position.x , position.y, 1,1);
 
     }
 
