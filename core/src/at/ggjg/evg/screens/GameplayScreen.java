@@ -34,6 +34,9 @@ public class GameplayScreen extends Screen {
             case 2:
                 world = new World("levels/map2_v1.tmx");
                 break;
+            case 3:
+                world = new World("levels/level_1.tmx");
+                break;
         }
         renderer = new WorldRenderer(world);
         audio = new AudioManager();
