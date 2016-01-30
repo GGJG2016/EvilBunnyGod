@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="128" tileheight="128" nextobjectid="41">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="128" tileheight="128" nextobjectid="44">
  <tileset firstgid="1" name="tiles-gras-busch-acker" tilewidth="128" tileheight="128">
   <image source="tiles-gras-busch-acker.png" width="512" height="128"/>
  </tileset>
@@ -45,5 +45,8 @@
   <object id="38" name="fence" type="fence" gid="15" x="2194" y="2438"/>
   <object id="39" name="fence" type="fence" gid="15" x="1948" y="2494"/>
   <object id="40" name="fence" type="fence" gid="15" x="1228" y="2508"/>
+  <object id="41" name="cornfield" type="cornfield" gid="15" x="1418" y="1032"/>
+  <object id="42" name="cornfield" type="cornfield" gid="15" x="1856" y="1346"/>
+  <object id="43" name="cornfield" type="cornfield" gid="15" x="1202" y="1312"/>
  </objectgroup>
 </map>

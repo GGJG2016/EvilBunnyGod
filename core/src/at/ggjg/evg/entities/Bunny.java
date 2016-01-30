@@ -29,6 +29,7 @@ public class Bunny extends GameObject {
     //    private float speed;
     private Vector2 destination;
     private Vector2 lastPosition;
+    private int schnackselcooldown;
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
@@ -83,6 +84,9 @@ public class Bunny extends GameObject {
             case DESTROYED:
                 batch.draw(bunny_dead, position.x, position.y, scale.x, scale.y);
                 break;
+            case SCHNACKSELN:
+                batch.draw(bunny_dead, position.x, position.y, scale.x, scale.y); //TODO SCHNACKSEL
+                break;
             default:
         }
     }
@@ -102,7 +106,9 @@ public class Bunny extends GameObject {
         if (this.state == State.DESTROYED) {
             return;
         }
-        if (this.state != State.ATTACKING && lastPosition.equals(this.position)) {
+
+        schnackselcooldown-=deltaTime;
+        if (this.state != State.ATTACKING && lastPosition.equals(this.position) && this.state != State.SCHNACKSELN) {
             timeSinceMoved += deltaTime;
             if (timeSinceMoved > 2) {
                 this.state = State.IDLE;
@@ -134,6 +140,20 @@ public class Bunny extends GameObject {
                 break;
             case DESTROYED:
                 break;
+            case SCHNACKSELN:
+                System.out.println(stateTime);
+                if (stateTime >= r.nextInt(10) + 5) {
+                    Bunny haeschjen = new Bunny(this.position.x, this.position.y);
+                    haeschjen.init(world);
+                    this.state = State.IDLE;
+                    this.schnackselcooldown = 22;
+                    haeschjen.schnackselcooldown = 25;
+                    haeschjen.state = State.IDLE;
+                    world.bunnies.add(haeschjen);
+                    world.entities.add(haeschjen);
+
+                }
+                break; //TODO SCHNACKSELN
             default:
         }
         this.bounds.x = this.position.x;
@@ -154,7 +174,10 @@ public class Bunny extends GameObject {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
-
+                   if(this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
+                       this.state = State.SCHNACKSELN;
+                       this.stateTime = 0;
+                   }
                 } else if (obj instanceof Bunny) {
 
                 }

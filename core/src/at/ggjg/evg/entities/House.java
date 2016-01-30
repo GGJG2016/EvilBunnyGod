@@ -30,7 +30,6 @@ public class House extends GameObject {
     @Override
     public void update(World world, float deltaTime) {
         this.stateTime += deltaTime;
-        System.out.println(stateTime);
         if (this.state == State.ATTACKING && this.stateTime >= 3) {
             this.state = State.IDLE;
             this.stateTime = 0;

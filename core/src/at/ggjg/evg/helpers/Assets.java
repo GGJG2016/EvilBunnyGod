@@ -24,7 +24,7 @@ public class Assets implements Disposable {
     public static TextureRegion house_idle;
     public static TextureRegion house_attacking;
     public static TextureRegion house_destroyed;
-
+    public static TextureRegion farm;
     static Array<Animation> allAnimations = new Array<Animation>();
     static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
 
@@ -49,10 +49,12 @@ public class Assets implements Disposable {
         bunny_2 = new TextureRegion(new Texture("entityassets/rabbit-animation-2.png"));
         bunny_3 = new TextureRegion(new Texture("entityassets/rabbit-animation-3.png"));
         bunny_dead = new TextureRegion(new Texture("entityassets/bunny_dead.png"));
+        farm = new TextureRegion(new Texture("entityassets/heuballen.png"));
         allTextureRegions.add(bunny_dead);
         allTextureRegions.add(bunny_1);
         allTextureRegions.add(bunny_2);
         allTextureRegions.add(bunny_3);
+        allTextureRegions.add(farm);
         cornfield = new TextureRegion(new Texture("entityassets/trap.png"));
         allTextureRegions.add(cornfield);
         fence = new TextureRegion(new Texture("entityassets/fence.png"));
