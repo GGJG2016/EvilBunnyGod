@@ -53,20 +53,20 @@ public class AudioManager {
         backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/backgroundMusic.mp3"));
         backgroundmusic.setLooping(true);
 
-        loops_game_high_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_high_01.ogg"));
-        loops_game_high_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_high_02.ogg"));
-        loops_game_high_03  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_high_03.ogg"));
-        loops_game_high_04  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_high_04.ogg"));
-        loops_game_low_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_low_01.ogg"));
-        loops_game_low_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_low_02.ogg"));
-        loops_game_mid_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_mid_01.ogg"));
-        loops_game_mid_02 = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/game/loops_game_mid_02.ogg"));
+        loops_game_high_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-01.ogg"));
+        loops_game_high_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-02.ogg"));
+        loops_game_high_03  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-03.ogg"));
+        loops_game_high_04  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-04.ogg"));
+        loops_game_low_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/low-01.ogg"));
+        loops_game_low_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/low-02.ogg"));
+        loops_game_mid_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/mid-01.ogg"));
+        loops_game_mid_02 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/mid-02.ogg"));
 
-        loops_menu_01  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/menu/loops_menu_01.ogg"));
-        loops_menu_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/menu/loops_menu_02.ogg"));
-        loops_menu_03  = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/menu/loops_menu_03.ogg"));
-        loops_menu_04 = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/menu/loops_menu_04.ogg"));
-        loops_menu_all = Gdx.audio.newMusic(Gdx.files.internal("audio/loops/menu/loops_menu_all.ogg"));
+        loops_menu_01  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/loop-01.ogg"));
+        loops_menu_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/loop-02.ogg"));
+        loops_menu_03  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/loop-03.ogg"));
+        loops_menu_04 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/loop-04.ogg"));
+        loops_menu_all = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/menu_loop_all.ogg"));
 
         menu_loop_all = Gdx.audio.newMusic(Gdx.files.internal("audio/menu_loop_all.ogg"));
         menu_loop_all.setLooping(true);
@@ -80,8 +80,8 @@ public class AudioManager {
         Go = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Go.ogg"));
         ILoveBunnies = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/ILoveBunnies.ogg"));
         Kill = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Kill.ogg"));
-        Move_1 = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Move_1.ogg"));
-        Move_2 = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Move_2.ogg"));
+        Move_1 = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Move-1.ogg"));
+        Move_2 = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Move-2.ogg"));
         Obey = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Obey.ogg"));
         Pray = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Pray.ogg"));
         Rest = Gdx.audio.newSound(Gdx.files.internal("audio/Sfx/Rest.ogg"));
