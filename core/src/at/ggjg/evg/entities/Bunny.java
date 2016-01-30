@@ -98,8 +98,10 @@ public class Bunny extends GameObject {
 
     public void update(World world, float deltaTime) {
         stateTime += deltaTime;
-        if (this.health <= 0)
+        if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
+            world.audio.Kill.play();
+        }
         if (this.state == State.DESTROYED) {
             return;
         }
@@ -157,10 +159,12 @@ public class Bunny extends GameObject {
 
                     this.state = State.ATTACKING;
                 } else if (obj instanceof Fence) {
+                    this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
 
                 } else if (obj instanceof Bunny) {
+
 
                 }
             }
