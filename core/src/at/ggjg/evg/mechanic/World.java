@@ -20,7 +20,7 @@ import at.ggjg.evg.entities.GameObject;
 
 public class World {
 
-    public static int TILE_SIZE = 64;
+    public static int TILE_SIZE = 128;
     public TiledMap map;
     public Rectangle[][] walls;
     public Array<GameObject> entities = new Array<GameObject>();
