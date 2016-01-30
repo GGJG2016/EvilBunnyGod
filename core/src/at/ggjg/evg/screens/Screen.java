@@ -7,9 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 
+import at.ggjg.evg.AudioManager;
+
 public abstract class Screen {
     protected final ScreenManager manager;
-
+    public AudioManager audioManager;
     protected InputAdapter adapter;
 
     public boolean keyPressed = false;
@@ -30,6 +32,11 @@ public abstract class Screen {
         };
 
         ScreenManager.multiplexer.addProcessor(adapter);
+    }
+
+    public Screen(ScreenManager manager, AudioManager audioManager) {
+        this(manager);
+        this.audioManager = audioManager;
     }
 
     public abstract void render();
