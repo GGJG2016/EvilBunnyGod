@@ -127,7 +127,6 @@ public class WorldRenderer {
 
         //cameraFollow(deltaTime);
         handleInput();
-
         camera.update();
 
         // render tiles
@@ -206,23 +205,36 @@ public class WorldRenderer {
             camera.zoom -= 0.02;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            camera.translate(-0.2f, 0, 0);
+            camera.translate(-0.3f, 0, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            camera.translate(0.2f, 0, 0);
+            camera.translate(0.3f, 0, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            camera.translate(0, -0.2f, 0);
+            camera.translate(0, -0.3f, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            camera.translate(0, 0.2f, 0);
+            camera.translate(0, 0.3f, 0);
         }
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 100 / camera.viewportWidth);
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.2f, camera.viewportWidth);
 
         float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
         float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+        float camViewportHalfX = effectiveViewportWidth / 2;
+        float camViewportHalfY = effectiveViewportHeight / 2;
+        int mapWidth = world.mapWidth;
+        int mapHeight = world.mapHeight;
 
-        camera.position.x = MathUtils.clamp(camera.position.x, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f);
-        camera.position.y = MathUtils.clamp(camera.position.y, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f);
+        if (camera.position.x < camViewportHalfX) {
+            camera.position.x = camViewportHalfX;
+        } else if (camera.position.x > mapWidth - camViewportHalfX) {
+            camera.position.x = mapWidth - camViewportHalfX;
+        }
+        if (camera.position.y < camViewportHalfY) {
+            camera.position.y = camViewportHalfY;
+        } else if (camera.position.y > mapHeight - camViewportHalfY) {
+            camera.position.y = mapHeight - camViewportHalfY;
+        }
     }
+
 }
