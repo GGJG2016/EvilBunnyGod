@@ -47,11 +47,11 @@ public class House extends GameObject {
     }
 
     public float getAttacked(float damageGained) {
-        System.out.println(this.health);
+        System.out.println("House was attacked: " + this.health);
         if (this.state == State.DESTROYED)
             return 0;
         this.state = State.ATTACKING;
-        this.health -= damageDealt;
+        this.health -= damageGained;
         if (this.health <= 0) {
             this.state = State.DESTROYED;
         }
@@ -77,11 +77,9 @@ public class House extends GameObject {
 
     public void update(World world, Float deltaTime) {
         this.stateTime += deltaTime;
-        if (this.state == State.ATTACKING && this.stateTime >= 1) {
+        if (this.state == State.ATTACKING && this.stateTime >= 3) {
             this.state = State.IDLE;
             this.stateTime = 0;
         }
     }
-
-
 }

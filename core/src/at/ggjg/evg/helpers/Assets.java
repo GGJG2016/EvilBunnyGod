@@ -33,9 +33,9 @@ public class Assets implements Disposable {
         /**
          * Begin Loading Animations
          */
-        bunnyAnim = loadAnimation("entityassets/rabbit-animation-",3,0.3f);
+        bunnyAnim = loadAnimation("entityassets/rabbit-animation-", 3, 0.3f);
         allAnimations.add(bunnyAnim);
-        houseAnim = loadAnimation("entityassets/house-",3,0.3f);
+        houseAnim = loadAnimation("entityassets/house-", 2, 0.5f);
         allAnimations.add(houseAnim);
         /**
          * End Loading Animations
@@ -77,7 +77,7 @@ public class Assets implements Disposable {
         TextureRegion[] regions = new TextureRegion[frames];
 
         for (int i = 0; i < frames; i++) {
-            Texture tex = new Texture(Gdx.files.internal(path + (i+1) + ".png"));
+            Texture tex = new Texture(Gdx.files.internal(path + (i + 1) + ".png"));
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             regions[i] = new TextureRegion(tex);
         }

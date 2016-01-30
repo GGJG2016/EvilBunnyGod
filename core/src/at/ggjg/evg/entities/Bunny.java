@@ -58,7 +58,7 @@ public class Bunny extends GameObject {
         timeSinceMoved = 0;
     }
 
-    private void setNewPosition() {
+    private void setNewPosition(float deltatime) {
         this.position.x = this.position.x + (destination.x - this.position.x) * deltatime;
         this.position.y = this.position.y + (destination.y - this.position.y) * deltatime;
         if (position.equals(destination)) //TODO APPROX
@@ -105,7 +105,6 @@ public class Bunny extends GameObject {
         if (this.state == State.DESTROYED) {
             return;
         }
-        this.deltatime = deltaTime;
         if (this.state != State.ATTACKING && lastPosition.equals(this.position)) {
             timeSinceMoved += deltaTime;
             if (timeSinceMoved > 2) {
@@ -118,7 +117,7 @@ public class Bunny extends GameObject {
         switch (this.state) {
             case IDLE:
 
-                System.out.println("IDLE" + stateTime);
+                System.out.println("IDLE " + stateTime);
                 if (stateTime >= 2.5) {
                     System.out.println("Drinnen");
                     if (r.nextBoolean()) {
@@ -135,7 +134,7 @@ public class Bunny extends GameObject {
                 }
                 break;
             case MOVING:
-                setNewPosition();
+                setNewPosition(deltaTime);
                 break;
             case ATTACKING:
                 break;
@@ -151,20 +150,18 @@ public class Bunny extends GameObject {
             if (obj.bounds.overlaps(this.bounds)) {
                 if (obj instanceof House) {
                     if (this.state == State.ATTACKING) {
-                        if (stateTime >= 2) {
+                        if (stateTime >= 0.5f) {
                             this.health = ((House) obj).getAttacked(this.damage);
                             stateTime = 0;
                         }
                     }
-
-                    this.state = State.ATTACKING;
+                    else this.state = State.ATTACKING;
                 } else if (obj instanceof Fence) {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
 
                 } else if (obj instanceof Bunny) {
-
 
                 }
             }
