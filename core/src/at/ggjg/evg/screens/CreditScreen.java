@@ -17,14 +17,14 @@ import com.badlogic.gdx.utils.Align;
 public class CreditScreen extends Screen {
 
     private static final String credits = "TEAM\n" +
-            "Lukas Knoch [Programming]\nThomas Grafenauer [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristian Zellot [Artwork|Programming]\n\n" +
+            "Pius Pfister [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Gallé [Artwork|Programming]\n\n" +
             "IDEA and GAMEDESIGN\nall of them :)\n\n" +
-            "SPECIAL THANKS TO\nMario Zechner [Technical Consultant]\nMathias Lux [Sound]\nChristina Lukasser [Logo-Design]\n\n" +
-            "Dream Snatcher was developed during the\n" +
-            "2nd Klagenfurt Gamejam 2015, Klagenfurt, AT\n\n" +
+            "SPECIAL THANKS TO\nMathias Lux [Sound]\n\n" +
+            "EvilBunnyGod was developed during the\n" +
+            "GlobalGamejam 2016, Graz, AT\n\n" +
             "A big THANK YOU to all who have contributed to the game - in whatever way,\n" +
-            "to AAU Klagenfurt for organizing stuff, food, beer and COFFEE\n\n" +
-            "#klujam";
+            "to Johanna for organizing stuff, food, beer and COFFEE\n\n" +
+            "#ggjg #ggj16";
     private Stage stage;
 
     public CreditScreen(ScreenManager manager) {
@@ -35,7 +35,7 @@ public class CreditScreen extends Screen {
     private void initUI() {
         this.stage = new Stage();
         ScreenManager.multiplexer.addProcessor(this.stage);
-        final Skin skin = new Skin(Gdx.files.internal("editor/uiskin.json"));
+        final Skin skin = new Skin(Gdx.files.internal("mainmenu/uiskin.json"));
 
         Table scrollTable = new Table();
 
@@ -58,11 +58,10 @@ public class CreditScreen extends Screen {
             }
         });
         ScrollPane scrollPane = new ScrollPane(scrollTable);
-
         Table table = new Table();
         table.setFillParent(true);
 
-        Texture texture = new Texture("name.png");
+        Texture texture = new Texture("mainmenu/mainscreen.png");
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
 
