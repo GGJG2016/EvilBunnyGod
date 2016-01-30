@@ -16,6 +16,7 @@ public class Assets implements Disposable {
     public static TextureRegion bunny_1;
     public static TextureRegion bunny_2;
     public static TextureRegion bunny_3;
+    public static TextureRegion bunny_dead;
     public static TextureRegion cornfield;
     public static TextureRegion fence;
     public static TextureRegion trap;
@@ -32,9 +33,9 @@ public class Assets implements Disposable {
         /**
          * Begin Loading Animations
          */
-        bunnyAnim = new Animation(3, bunny_1, bunny_2, bunny_3);
+        bunnyAnim = loadAnimation("entityassets/rabbit-animation-",3,0.3f);
         allAnimations.add(bunnyAnim);
-        houseAnim = new Animation(3, house_idle, house_attacking, house_destroyed);
+        houseAnim = loadAnimation("entityassets/house-",3,0.3f);
         allAnimations.add(houseAnim);
         /**
          * End Loading Animations
@@ -47,6 +48,8 @@ public class Assets implements Disposable {
         bunny_1 = new TextureRegion(new Texture("entityassets/rabbit-animation-1.png"));
         bunny_2 = new TextureRegion(new Texture("entityassets/rabbit-animation-2.png"));
         bunny_3 = new TextureRegion(new Texture("entityassets/rabbit-animation-3.png"));
+        bunny_dead = new TextureRegion(new Texture("entityassets/bunny_dead.png"));
+        allTextureRegions.add(bunny_dead);
         allTextureRegions.add(bunny_1);
         allTextureRegions.add(bunny_2);
         allTextureRegions.add(bunny_3);
@@ -74,7 +77,7 @@ public class Assets implements Disposable {
         TextureRegion[] regions = new TextureRegion[frames];
 
         for (int i = 0; i < frames; i++) {
-            Texture tex = new Texture(Gdx.files.internal(path + i + ".png"));
+            Texture tex = new Texture(Gdx.files.internal(path + (i+1) + ".png"));
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             regions[i] = new TextureRegion(tex);
         }

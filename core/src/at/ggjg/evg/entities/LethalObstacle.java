@@ -18,7 +18,6 @@ public class LethalObstacle  extends GameObject{
 
     }
 
-
     @Override
     public void init(World world) {
 
