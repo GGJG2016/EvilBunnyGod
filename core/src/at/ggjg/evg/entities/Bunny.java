@@ -21,9 +21,11 @@ public class Bunny extends GameObject{
     public TextureRegion bunny;
     private boolean inCornfield;
     private Vector2 movement;
-    private float speed;
+//    private float speed;
     private Vector2 destination;
-    private int idle;
+    private float idle;
+    private float deltatime;
+
     public boolean isInCornfield() {
         return inCornfield;
     }
@@ -33,12 +35,13 @@ public class Bunny extends GameObject{
         inCornfield = false;
         bunny = Assets.bunny_1;
         movement = new Vector2(0f,0f);
-        speed =1f;
         idle = 0;
+        state = State.IDLE;
+
     }
 
     public void updateIdleTime(){
-        idle++;
+        idle += deltatime;
     }
     @Override
     public void init(World world) {
@@ -52,7 +55,7 @@ public class Bunny extends GameObject{
     }
     private void setNewPosition()
     {
-        Vector2 newPosition = new Vector2(position.x + movement.x * speed, position.y + movement.y * speed);
+        Vector2 newPosition = new Vector2(position.x + movement.x * deltatime, position.y + movement.y * deltatime);
         // fixxxme auf die states achten
         position = newPosition;
     }
@@ -95,6 +98,7 @@ public class Bunny extends GameObject{
                 break;
             case MOVING:
                 this.idle = 0;
+               //System.out.println("moving");
                 setNewPosition();
                 getAndUpdateBounds();
                 batch.draw(bunny, position.x, position.y, 1,1);
@@ -188,7 +192,10 @@ public class Bunny extends GameObject{
         newX = position.x - destination.x;
         newY = position.y - destination.y;
         movement = new Vector2(newX,newY);
-
         state = State.MOVING;
     }
+    public void update(float deltaTime) {
+        this.deltatime = deltaTime;
+    }
+
 }
