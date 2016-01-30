@@ -4,8 +4,8 @@ package at.ggjg.evg.mechanic;
  * Created by Veit on 29.01.2016.
  */
 
-import at.ggjg.evg.State;
-import at.ggjg.evg.entities.*;
+import at.ggjg.evg.entities.Bunny;
+import at.ggjg.evg.entities.GameObject;
 import at.ggjg.evg.helpers.Assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -139,11 +139,8 @@ public class WorldRenderer {
             shapeDebugger.end();
         }
 
-        if (world.bunnies.get(0).state == State.ATTACKING) {
-            cameraFollow(deltaTime);
-        } else {
-            handleInput();
-        }
+        //cameraFollow(deltaTime);
+        handleInput();
 
         camera.update();
 
@@ -175,30 +172,9 @@ public class WorldRenderer {
         batch.begin();
         // blood at the bottom...
         for (GameObject entity : world.entities) {
-            if (entity.position.dst(camera.position.x, camera.position.y) > CULL_RADIUS) continue;
-            //if (!entity.isVisible) continue;
-            if (entity instanceof LethalObstacle) {
-                renderLethalObstacle((LethalObstacle) entity);
-            } else if (entity instanceof NonLethalObstacle) {
-                renderNonLethalObstacle((NonLethalObstacle) entity);
-            } else if (entity instanceof House) {
-                House house = (House) entity;
-                if (house.state == State.ATTACKING) {
-                    TextureRegion frame = new TextureRegion(houseAttacking);
-                    frame = clip(frame, false);
-                    batch.draw(frame, entity.position.x, entity.position.y, 1, 1);
-                } else {
-                    TextureRegion frame = new TextureRegion(houseIdle);
-                    frame = clip(frame, false);
-                    batch.draw(frame, entity.position.x, entity.position.y, 1, 1);
-                }
-            }
-        }
-
-        for (Bunny entity : world.bunnies) {
-            if (entity.position.dst(camera.position.x, camera.position.y) > CULL_RADIUS) continue;
             entity.render(batch);
         }
+
         batch.end();
         // draw entity bounds
         sr.begin(ShapeRenderer.ShapeType.Line);
@@ -213,57 +189,6 @@ public class WorldRenderer {
         camera.viewportWidth = 30f;
         camera.viewportHeight = 30f * height / width;
         camera.update();
-    }
-
-    private void renderLethalObstacle(LethalObstacle entity) {
-        Animation[] anims = entity instanceof Fence ? obstacleAnim : lethalObstacleAnim;
-        TextureRegion frame;
-        float offset = 0;
-
-        switch (entity.state) {
-            case IDLE:
-//                if (entity.heading == Enemy.Heading.Left) {
-//                    frame = anims[mode].getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, entity.position.x, entity.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anims[mode].getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, entity.position.x, entity.position.y + offset, 1, 1);
-//                }
-                break;
-            case ATTACKING:
-//                if (entity.heading == Enemy.Heading.Left) {
-//                    frame = anims[mode].getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    frame.flip(true, false);
-//                    batch.draw(frame, entity.position.x, entity.position.y + offset, 1, 1);
-//                } else {
-//                    frame = anims[mode].getKeyFrame(entity.stateTime, true);
-//                    offset = clipOffset(frame, upper);
-//                    frame = clip(frame, upper);
-//                    batch.draw(frame, entity.position.x, entity.position.y + offset, 1, 1);
-//                }
-                break;
-            case DESTROYED:
-//                if (world.mode == World.Mode.REAL) {
-//                    batch.draw(blood, entity.position.x, entity.position.y, 1, 1);
-//                } else {
-//                    if (!poof.isAnimationFinished(entity.stateTime)) {
-//                        frame = poof.getKeyFrame(entity.stateTime, false);
-//                        batch.draw(frame, entity.position.x, entity.position.y, 1, 2);
-//                    }
-//                }
-            default:
-        }
-    }
-
-    private void renderNonLethalObstacle(NonLethalObstacle obstacle) {
-
     }
 
     private TextureRegion clip(TextureRegion region, boolean upper) {
