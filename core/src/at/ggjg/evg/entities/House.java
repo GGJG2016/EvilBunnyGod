@@ -31,11 +31,6 @@ public class House extends GameObject {
     }
 
     @Override
-    public void update(float deltaTime) {
-
-    }
-
-    @Override
     public void init(World world) {
         this.state = State.IDLE;
         this.house_destroyed = Assets.house_destroyed;
@@ -47,6 +42,7 @@ public class House extends GameObject {
     }
 
     public float getAttacked(float damageGained){
+        System.out.println(this.health);
         if(this.state == State.DESTROYED)
             return 0;
         this.state = State.ATTACKING;
