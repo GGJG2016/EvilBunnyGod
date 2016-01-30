@@ -43,25 +43,25 @@ public class Assets implements Disposable {
         /**
          * Begin Loading TextureRegions
          */
-        bunny_1 = new TextureRegion(new Texture("rabbit-animation-1.png"));
-        bunny_2 = new TextureRegion(new Texture("rabbit-animation-2.png"));
-        bunny_3 = new TextureRegion(new Texture("rabbit-animation-3.png"));
+        bunny_1 = new TextureRegion(new Texture("entityassets/rabbit-animation-1.png"));
+        bunny_2 = new TextureRegion(new Texture("entityassets/rabbit-animation-2.png"));
+        bunny_3 = new TextureRegion(new Texture("entityassets/rabbit-animation-3.png"));
         allTextureRegions.add(bunny_1);
         allTextureRegions.add(bunny_2);
         allTextureRegions.add(bunny_3);
-        cornfield = new TextureRegion(new Texture("trap.png"));
+        cornfield = new TextureRegion(new Texture("entityassets/trap.png"));
         allTextureRegions.add(cornfield);
-        fence = new TextureRegion(new Texture("fence.png"));
+        fence = new TextureRegion(new Texture("entityassets/fence.png"));
         allTextureRegions.add(fence);
-        house_idle = new TextureRegion(new Texture("house-1.png"));
-        house_attacking = new TextureRegion(new Texture("house-2.png"));
-        house_destroyed = new TextureRegion(new Texture("house-3.png"));
+        house_idle = new TextureRegion(new Texture("entityassets/house-1.png"));
+        house_attacking = new TextureRegion(new Texture("entityassets/house-2.png"));
+        house_destroyed = new TextureRegion(new Texture("entityassets/house-3.png"));
         allTextureRegions.add(house_idle);
         allTextureRegions.add(house_attacking);
         allTextureRegions.add(house_destroyed);
-        trap = new TextureRegion(new Texture("trap.png"));
+        trap = new TextureRegion(new Texture("entityassets/trap.png"));
         allTextureRegions.add(trap);
-        sacrifice = new TextureRegion(new Texture("opfer.png"));
+        sacrifice = new TextureRegion(new Texture("entityassets/opfer.png"));
         allTextureRegions.add(sacrifice);
         /**
          * End Loading TextureRegions

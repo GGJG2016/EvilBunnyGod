@@ -23,7 +23,7 @@ public class Bunny extends GameObject{
 
     @Override
     public void init(World world) {
-        bunny = Assets.bunny;
+        bunny = Assets.bunny_1;
         dimension.set(1f, 1f);
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
