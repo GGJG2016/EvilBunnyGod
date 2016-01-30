@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.gestures.SequenceHolder;
 import at.ggjg.evg.screens.GameplayScreen;
+import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.Screen;
 import at.ggjg.evg.screens.ScreenManager;
 
@@ -22,7 +23,7 @@ public class EvilBunnyGodGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		manager = new ScreenManager();
-		Screen screen = new GameplayScreen(manager,0);
+		Screen screen = new MainMenuScreen(manager);
 		manager.setScreen(screen);
 //		ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
 //		//define sequences .. item which first matches wins
