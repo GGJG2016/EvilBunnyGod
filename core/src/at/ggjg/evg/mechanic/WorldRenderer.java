@@ -8,6 +8,7 @@ import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.Assets;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -120,45 +122,6 @@ public class WorldRenderer {
         }
     }
 
-    private void loadAssets() {
-        // main
-        mainIdle = loadAnimation("graphics/animations/main-normal-idle", 2, 0.5f);
-        mainAxeIdle = loadAnimation("graphics/animations/main-axe-idle", 2, 0.5f);
-        mainAttack = loadAnimation("graphics/animations/main-char-axe", 2, 1);
-        mainDead = new Texture("graphics/animations/main-dead.png");
-
-        // patient1
-        lethalObstacleAnim[0] = loadAnimation("graphics/animations/patient1-real-idle", 2, 0.5f);
-        // patient1RedEyes = new Texture(Gdx.files.internal("graphics/animations/patient1-redEyes.png"));
-
-        // patient2
-        obstacleAnim[0] = loadAnimation("graphics/animations/patient2-ghost-idle", 2, 0.5f);
-        //   obstacleAnim[World.modeToInt(World.Mode.REAL)] = loadAnimation("graphics/animations/patient2-real-idle", 2, 0.5f);
-        //  patient2RedEyes = new Texture(Gdx.files.internal("graphics/animations/patient2-redEyes.png"));
-
-        // poof
-        poof = loadAnimation("graphics/animations/poof-", 2, 0.3f);
-
-        // statics
-//        doorOpen = new Texture(Gdx.files.internal("graphics/door-open.png"));
-//        doorClosed = new Texture(Gdx.files.internal("graphics/door-closed.png"));
-//        doorVertical = new Texture(Gdx.files.internal("graphics/door-vertical.png"));
-//        pill = new Texture(Gdx.files.internal("graphics/tablette.png"));
-//        axe = new Texture(Gdx.files.internal("graphics/axe.png"));
-//        blood = new Texture(Gdx.files.internal("graphics/blood.png"));
-//        switchOn = new Texture(Gdx.files.internal("graphics/switch-on.png"));
-//        switchOff = new Texture(Gdx.files.internal("graphics/switch-off.png"));
-    }
-
-    private Animation loadAnimation(String path, int frames, float frameDuration) {
-        TextureRegion[] regions = new TextureRegion[frames];
-        for (int i = 1; i <= frames; i++) {
-            Texture tex = new Texture(Gdx.files.internal(path + i + ".png"));
-            regions[i - 1] = new TextureRegion(tex);
-        }
-        return new Animation(frameDuration, regions);
-    }
-
     public void render(float deltaTime) {
         //debuglines
         int height = Gdx.graphics.getHeight() / 4;
@@ -175,20 +138,13 @@ public class WorldRenderer {
             shapeDebugger.line(i * width, 0, i * width, Gdx.graphics.getHeight());
             shapeDebugger.end();
         }
-        //debuglines end
-        // set vignette based on
-//        vignetteShader.begin();
-//        vignetteShader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//
-//        float transition = 0.0f;
-//
-//        vignetteShader.setUniformf("tint", 1, 0.7f + transition * 0.3f, 0.7f + transition * 0.3f, 1);
-//        vignetteShader.setUniformf("innerRadius", 0.02f);
-//        vignetteShader.setUniformf("outerRadius", 0.4f + transition * 0.5f);
-//        vignetteShader.setUniformf("intensity", 0.99f);
-//        vignetteShader.setUniformf("noise", 1 - transition);
-//        vignetteShader.end();
-        cameraFollow(deltaTime);
+
+        if (world.bunnies.get(0).state == State.ATTACKING) {
+            cameraFollow(deltaTime);
+        } else {
+            handleInput();
+        }
+
         camera.update();
 
         // render tiles
@@ -239,12 +195,9 @@ public class WorldRenderer {
             }
         }
 
-        for (GameObject entity : world.bunnies) {
+        for (Bunny entity : world.bunnies) {
             if (entity.position.dst(camera.position.x, camera.position.y) > CULL_RADIUS) continue;
-            //   if (!entity.isVisible) continue;
-            if (entity instanceof Bunny) {
-                renderBunny((Bunny) entity);
-            }
+            entity.render(batch);
         }
         batch.end();
         // draw entity bounds
@@ -254,6 +207,12 @@ public class WorldRenderer {
 //            sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
 //        }
 //        sr.end();
+    }
+
+    public void resize(int width, int height) {
+        camera.viewportWidth = 30f;
+        camera.viewportHeight = 30f * height / width;
+        camera.update();
     }
 
     private void renderLethalObstacle(LethalObstacle entity) {
@@ -319,16 +278,40 @@ public class WorldRenderer {
         else return 0;
     }
 
-    private void renderBunny(Bunny bunny) {
-        TextureRegion frame;
-        Animation anim = null;
-        bunny.render(batch);
-        float offset = 0;
-    }
-
     private void cameraFollow(float deltaTime) {
         // TODO: enaable for bunny swarm
         Vector2 dist = new Vector2(world.bunnies.get(0).position).sub(camera.position.x, camera.position.y);
         camera.position.add(dist.x * deltaTime * CAM_DAMP, dist.y * deltaTime * CAM_DAMP, 0);
+    }
+
+    /**
+     * fetch keyboard input
+     */
+    private void handleInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            camera.zoom += 0.02;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            camera.zoom -= 0.02;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+            camera.translate(-0.2f, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+            camera.translate(0.2f, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+            camera.translate(0, -0.2f, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+            camera.translate(0, 0.2f, 0);
+        }
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 100 / camera.viewportWidth);
+
+        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+
+        camera.position.x = MathUtils.clamp(camera.position.x, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f);
+        camera.position.y = MathUtils.clamp(camera.position.y, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f);
     }
 }

@@ -2,13 +2,11 @@ package at.ggjg.evg.entities;
 
 import at.ggjg.evg.State;
 import at.ggjg.evg.helpers.Assets;
-import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -60,12 +58,14 @@ public class Bunny extends GameObject{
     public void render(SpriteBatch batch) {
         switch (this.state) {
             case IDLE:
-                batch.draw(bunny,
-                        position.x - dimension.x / 2, position.y - dimension.y / 2,
-                        origin.x, origin.y,
-                        dimension.x, dimension.y,
-                        scale.x, scale.y,
-                        rotation);
+                batch.draw(bunny, position.x, position.y, 1,1);
+//
+//
+//                        position.x - dimension.x / 2, position.y - dimension.y / 2,
+//                        origin.x, origin.y,
+//                        dimension.x, dimension.y,
+//                        scale.x, scale.y,
+//                        rotation);
 
 //                if (bunny.heading == Heading.Left) {
 //                    frame = anim.getKeyFrame(bunny.stateTime, true);

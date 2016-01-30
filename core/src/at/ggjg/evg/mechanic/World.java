@@ -3,12 +3,12 @@ package at.ggjg.evg.mechanic;
 /**
  * Created by Veit on 29.01.2016.
  */
+import at.ggjg.evg.helpers.OnMapClickedListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -24,7 +24,7 @@ import at.ggjg.evg.entities.Fence;
 
 import at.ggjg.evg.entities.GameObject;
 
-public class World {
+public class World implements OnMapClickedListener {
 
     public static int TILE_SIZE = 128;
     public TiledMap map;
@@ -233,5 +233,10 @@ public class World {
 
     public void dispose() {
 //        player.dispose();
+    }
+
+    @Override
+    public void onMapClicked(float x, float y, boolean isRightClick) {
+
     }
 }

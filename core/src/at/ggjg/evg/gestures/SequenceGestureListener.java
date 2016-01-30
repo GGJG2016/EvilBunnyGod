@@ -1,5 +1,7 @@
 package at.ggjg.evg.gestures;
 
+import at.ggjg.evg.helpers.OnMapClickedListener;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,8 +16,10 @@ public class SequenceGestureListener implements GestureDetector.GestureListener 
     private SequenceHolder sequenceHolder;
     private int height;
     private int width;
+    private OnMapClickedListener listener;
 
-    public SequenceGestureListener(SequenceHolder sequenceHolder, int height, int width) {
+    public SequenceGestureListener(OnMapClickedListener listener, SequenceHolder sequenceHolder, int height, int width) {
+        this.listener = listener;
         this.sequenceHolder = sequenceHolder;
         this.height = height;
         this.width = width;
@@ -28,7 +32,11 @@ public class SequenceGestureListener implements GestureDetector.GestureListener 
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        return false;
+        System.out.println("Tapped");
+        if (listener != null) {
+            listener.onMapClicked(x, y, button == Input.Buttons.RIGHT);
+        }
+        return true;
     }
 
     @Override
