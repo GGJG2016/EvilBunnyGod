@@ -93,6 +93,6 @@ public class GameplayScreen extends Screen {
     public void dispose() {
         renderer.dispose();
         audio.dispose();
-        //   world.dispose();
+        world.dispose();
     }
 }
