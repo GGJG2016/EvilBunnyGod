@@ -18,14 +18,18 @@ import com.badlogic.gdx.utils.Align;
  */
 public class CreditScreen extends Screen {
 
-    private static final String credits = "TEAM\n" +
-            "Pius Pfister [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Gallé [Programming]\nChristian Zellot [Programming]\n\n" +
-            "IDEA and GAMEDESIGN\nall of them :)\n\n" +
-            "SPECIAL THANKS TO\nMathias Lux [Sound]\n\n" +
-            "EvilBunnyGod was developed during the\n" +
-            "GlobalGamejam 2016, Graz, AT\n\n" +
-            "A big THANK YOU to all who have contributed to the game - in whatever way\n" +
-            "#ggjg #ggj16";
+    private static final String credits = "Pius Pfister [Artwork & Visual Design]\n" +
+            "Lorenz Schmoliner [Programming]\n" +
+            "Veit Frick [Programming & Production]\n" +
+            "Christopher Gallé [Programming]\n" +
+            "Christian Zellot [Programming]\n" +
+            "Mario Zechner [Programming]\n" +
+            "Mathias Lux [Sound, lil‘ bit of Programming]\n" +
+            "Gabe Napetschnig [Intro comic]\n\n" +
+            "IDEA and GAMEDESIGN all of them!\n\n" +
+            "SPECIAL THANKS to the Graz GGJ 2016 team!\n\n" +
+            "EvilBunnyGod was developed during the GlobalGamejam 2016, Graz, AT\n\n" +
+            "A big THANK YOU to all who have contributed to the game - in whatever way #ggjg #ggj16\n";
     private Stage stage;
 
     public CreditScreen(ScreenManager manager) {
@@ -71,7 +75,7 @@ public class CreditScreen extends Screen {
         table.row();
         table.add(scrollPane).fill().expand().row();
         table.add(button).size(150, 60).pad(10);
-
+        Gdx.input.setInputProcessor(stage);
         this.stage.addActor(table);
     }
 

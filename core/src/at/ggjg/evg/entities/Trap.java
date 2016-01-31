@@ -27,7 +27,7 @@ public class Trap extends LethalObstacle {
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
-        bounds = new Bounds(position.x, position.y, scale.x, scale.y);
+        bounds = new Bounds(position.x +0.2f, position.y+0.2f, 0.6f, 0.6f);
     }
 
     @Override

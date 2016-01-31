@@ -72,6 +72,7 @@ public class IntroScreen extends Screen {
         assMan.load("intro/p3_back.png", Texture.class);
 
         assMan.load("entityassets/bunny_dead.png", Texture.class);
+        assMan.load("game_over.png", Texture.class);
 
         audioManager.setNewState(State.INTRO);
 

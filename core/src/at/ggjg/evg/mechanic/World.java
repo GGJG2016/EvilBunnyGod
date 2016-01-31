@@ -117,22 +117,27 @@ public class World implements OnMapClickedListener {
         return count;
     }
 
+
     public void update(float deltaTime) {
-        boolean housecheck = true;
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
+
         if (getLifeBunnies() <= 0) {
             manager.setScreen(new GameOverScreen(manager));
         }
 
         if (getLifeHouses() <= 0) {
 
-            if (level == 1) {
-                manager.setScreen(new GameplayScreen(manager, 2));
-            } else if (level == 2) {
-                manager.setScreen(new MainMenuScreen(manager));
+            if (level == 1){
+            manager.setScreen(new GameplayScreen(manager, 2));
             }
+            else if (level == 2){
+             manager.setScreen(new MainMenuScreen(manager));
+                audio.playEvilBunnieGod();
+            audio.playMenuTheme();
+            }
+           
         }
     }
 

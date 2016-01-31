@@ -92,7 +92,7 @@ public class MainMenuScreen extends Screen {
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         table.setBackground(new TextureRegionDrawable(region));
-
+        Gdx.input.setInputProcessor(stage);
         ScreenManager.multiplexer.addProcessor(stage);
     }
 

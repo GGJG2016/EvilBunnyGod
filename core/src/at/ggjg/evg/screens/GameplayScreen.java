@@ -34,12 +34,15 @@ public class GameplayScreen extends Screen {
         switch (lvl) {
             case 0:
                 world = new World("levels/testMap.tmx");
+                audio.playRandomGameLowLoop();
                 break;
             case 1:
                 world = new World("levels/level_1.tmx");
+                audio.playRandomGameLowLoop();
                 break;
             case 2:
                 world = new World("levels/level_2.tmx");
+                audio.playRandomGameLowLoop();
                 break;
             case 100:
                 world = new World("levels/oneBunnyLevel.tmx");

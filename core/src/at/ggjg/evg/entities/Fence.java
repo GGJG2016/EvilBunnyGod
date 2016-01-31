@@ -26,7 +26,7 @@ public class Fence extends LethalObstacle {
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
-        bounds = new Bounds(position.x, position.y, scale.x, scale.y);
+        bounds = new Bounds(position.x, position.y+0.35f, scale.x, 0.85f);
     }
 
     @Override
