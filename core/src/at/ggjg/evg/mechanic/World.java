@@ -8,7 +8,6 @@ import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.OnMapClickedListener;
-import at.ggjg.evg.screens.GameOverScreen;
 import at.ggjg.evg.screens.GameplayScreen;
 import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.ScreenManager;
@@ -120,10 +119,11 @@ public class World implements OnMapClickedListener {
         }
         if (housecheck) {
 
-            if (level == 1){
-            manager.setScreen(new GameplayScreen(manager, 2));}
-            else if (level == 2){
-             manager.setScreen(new MainMenuScreen(manager));}
+            if (level == 1) {
+                manager.setScreen(new GameplayScreen(manager, 2));
+            } else if (level == 2) {
+                manager.setScreen(new MainMenuScreen(manager));
+            }
         }
 
 
@@ -223,13 +223,13 @@ public class World implements OnMapClickedListener {
         }
         for (GameObject entity : entities) {
             if (entity.wasClicked(clicked.x, clicked.y)) {
-                if (currentClickedObj != null )currentClickedObj.gestureSuccessful = false;
-                currentClickedObj = entity;
+                if (currentClickedObj != null) currentClickedObj.gestureSuccessful = false;
+                    currentClickedObj = entity;
             }
         }
         audio.playMoveSound();
     }
-    
+
 
     public void setManager(ScreenManager manager) {
         this.manager = manager;
