@@ -36,21 +36,82 @@ public class AudioManager {
     Array<Sound> allSounds = new Array<Sound>();
 
     public Sound Attack;
-    public Sound Bugger;
-    public Sound Bunnies;
-    public Sound Come;
-    public Sound DieForMe;
-    public Sound EvilBunnieGod;
-    public Sound Go;
-    public Sound ILoveBunnies;
-    public Sound Kill;
-    public Sound Move_1;
-    public Sound Move_2;
-    public Sound Obey;
-    public Sound Pray;
-    public Sound Rest;
-    public Sound Ritual;
-    public Sound Sacrifice;
+
+    public void playBugger() {
+         Bugger.play();
+    }
+
+    public void playBunnies() {
+         Bunnies.play(1);
+    }
+
+    public void playCome() {
+         Come.play(1);
+    }
+
+    public void playDieForMe() {
+         DieForMe.play(1);
+    }
+
+    public void playEvilBunnieGod() {
+         EvilBunnieGod.play(1);
+    }
+
+    public void playGo() {
+         Go.play(1);
+    }
+
+    public void playILoveBunnies() {
+         ILoveBunnies.play(1);
+    }
+
+    public void playKill() {
+         Kill.play(1);
+    }
+
+    public void playMove_1() {
+         Move_1.play(1);
+    }
+
+    public void playMove_2() {
+         Move_2.play(1);
+    }
+
+    public void playObey() {
+         Obey.play();
+    }
+
+    public void playPray() {
+         Pray.play();
+    }
+
+    public void playRest() {
+         Rest.play();
+    }
+
+    public void playRitual() {
+         Ritual.play();
+    }
+
+    public void playSacrifice() {
+         Sacrifice.play();
+    }
+    private float vol;
+    private Sound Bugger;
+    private Sound Bunnies;
+    private Sound Come;
+    private Sound DieForMe;
+    private Sound EvilBunnieGod;
+    private Sound Go;
+    private Sound ILoveBunnies;
+    private Sound Kill;
+    private Sound Move_1;
+    private Sound Move_2;
+    private Sound Obey;
+    private Sound Pray;
+    private Sound Rest;
+    private Sound Ritual;
+    private Sound Sacrifice;
     private float playingTime;
     private boolean stateChanged;
     private  Music currentMusic;
@@ -59,8 +120,9 @@ public class AudioManager {
 
     private AudioManager() {
         random = new Random();
-        newMusic = true;
 
+        newMusic = true;
+        vol = 0.2f;
         loops_game_high_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-01.ogg"));
         loops_game_high_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-02.ogg"));
         loops_game_high_03  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-03.ogg"));
@@ -118,43 +180,52 @@ public class AudioManager {
         playingTime = 0;
         currentMusic = menu_loop_all;
         nextMusic = menu_loop_all;
-
+    currentMusic.setVolume(vol);
     }
 
     public void playRandomGameHighLoop()
     {
         switch(random.nextInt(4)) {
-            case 1:
+            case 0:
                 nextMusic = loops_game_high_01;
                 break;
-            case 2:
+            case 1:
                 nextMusic = loops_game_high_02;
                 break;
-            case 3:
+            case 2:
                 nextMusic = loops_game_high_03;
                 break;
-            case 4:
+            case 3:
                 nextMusic = loops_game_high_04;
             default:
         }
     }
     public void playMenuTheme()
     {
+        currentMusic.stop();
         currentMusic = menu_loop_all;
+        currentMusic.setVolume(vol);
         currentMusic.play();
+        currentMusic.setVolume(vol);
         nextMusic = currentMusic;
     }
     public void playIntroTheme()
     {
+        if(currentMusic!=null)
+            currentMusic.stop();
         currentMusic = intro_loop_intro;
         intro_loop_intro.setOnCompletionListener(new Music.OnCompletionListener() {
             @Override
             public void onCompletion(Music music) {
                 currentMusic = intro_loop_main;
+                currentMusic.setVolume(vol);
                 currentMusic.play();
+                currentMusic.setVolume(vol);
             }
         });
+        currentMusic.setVolume(vol);
         currentMusic.play();
+        currentMusic.setVolume(vol);
         nextMusic = currentMusic;
     }
     public void playRandomGameMidLoop()
@@ -198,11 +269,9 @@ public class AudioManager {
 
             switch (s) {
                 case MENU:
-                    System.out.println("MENU State");
                     playMenuTheme();
                     break;
                 case INTRO:
-                    System.out.println("MENU State");
                     playIntroTheme();
                     break;
                 case IDLE:
@@ -283,7 +352,10 @@ public class AudioManager {
             return;
 
         currentMusic=nextMusic;
+        currentMusic.setVolume(vol);
         currentMusic.play();
+        currentMusic.setVolume(vol);
+
         old.stop();
         old = null;
 
@@ -308,4 +380,39 @@ public class AudioManager {
 
     public void playAttackSounds() {
     }
+
+    public void playMoveSound() {
+        System.out.println("MOVE sound!!!!!");
+        switch(random.nextInt(4)) {
+            case 0:
+                playMove_1();
+                break;
+            case 1:
+                playMove_2();
+                break;
+            case 2:
+                playObey();
+                break;
+            case 4:
+                playCome();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void playSchnackselnSound() {
+        switch(random.nextInt(2)) {
+            case 0:
+                playILoveBunnies();
+                break;
+            case 1:
+                playBunnies();
+                break;
+
+            default:
+                break;
+        }
+    }
 }
+
