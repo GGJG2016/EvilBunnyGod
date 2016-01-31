@@ -124,7 +124,8 @@ public class Bunny extends GameObject {
             }
         }
         lastPosition = this.position;
-        world.audio.setNewState(this.state);
+        if(stateTime == deltaTime)
+            world.audio.setNewState(this.state);
 
         switch (this.state) {
             case IDLE:

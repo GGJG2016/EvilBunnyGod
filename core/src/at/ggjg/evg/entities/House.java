@@ -26,6 +26,7 @@ public class House extends GameObject {
 
     public House(Float posX, Float posY) {
         super(posX, posY);
+        attackCounter = 0;
 
     }
 
@@ -35,7 +36,7 @@ public class House extends GameObject {
         if(state == State.ATTACKING)
         {
             attackCounter += deltaTime;
-            if(attackCounter > 2) {
+            if(attackCounter > 25) {
                 world.audio.playKillSounds();
                 attackCounter = 0;
             }

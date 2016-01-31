@@ -165,58 +165,104 @@ public class AudioManager {
 
 
     public void setNewState(State s){
-
+//        float delay = 0;
         if(state == s)
             stateChanged = false;
         else
             stateChanged = true;
+
+//        if(state == State.MENU&& stateChanged){
+//            System.out.println("menu to game");
+////            delay =8.1f;
+//        }
+
         state = s;
-        if(stateChanged)
-            update(0);
+
+
+        if(stateChanged) {
+
+            switch (s) {
+                case MENU:
+                    System.out.println("MENU State");
+                    playMenuTheme();
+                    break;
+                case IDLE:
+                    playRandomGameLowLoop();
+                    break;
+                case MOVING:
+                    playRandomGameMidLoop();
+                    break;
+                case ATTACKING:
+
+                    playRandomGameHighLoop();
+                    break;
+                case DESTROYED:
+                    break;
+                default:
+                    // playNext();
+            }
+            stateChanged = false;
+            if (playingTime > 1 || this.state == State.ATTACKING) {
+                playNext();
+                playingTime = 0;
+            }
+        }
+
+
+
+//        if(stateChanged)
+//            update(delay);
 //        if(state == State.MENU)
 //            update(888888f);
     }
 
 
     public void update(float deltaTime) {
-        playingTime += deltaTime;
-        Random r = new Random();
-        //System.out.println( " playing time = " + playingTime);
-        if(playingTime > 8 || this.state == State.ATTACKING)
-        {
-            playNext();
-            playingTime = 0;
-        }
-    if(stateChanged) {
 
-        stateChanged = false;
-        switch (this.state) {
-            case MENU:
-                playMenuTheme();
-                break;
-            case IDLE:
-                playRandomGameLowLoop();
-                break;
-            case MOVING:
-                playRandomGameMidLoop();
-                break;
-            case ATTACKING:
-                playRandomGameHighLoop();
-                break;
-            case DESTROYED:
-                break;
-            default:
-                playNext();
-        }
+        playingTime += deltaTime;
+  //      Random r = new Random();
+        //System.out.println( " playing time = " + playingTime);
+  //  if(stateChanged) {
+
+  //      stateChanged = false;
+//        switch (this.state) {
+//            case MENU:
+//               System.out.println("MENU State");
+//                playMenuTheme();
+//                break;
+//            case IDLE:
+//                playRandomGameLowLoop();
+//                break;
+//            case MOVING:
+//                playRandomGameMidLoop();
+//                break;
+//            case ATTACKING:
+//                playRandomGameHighLoop();
+//                break;
+//            case DESTROYED:
+//                break;
+//            default:
+//               // playNext();
+//        }
+//        if(playingTime > 1 || this.state == State.ATTACKING)
+//        {
+//            playNext();
+//            playingTime = 0;
+//        }
+
     }
-    }
+
     public void playNext(){
+        System.out.println("next sound");
+
         Music old = currentMusic;
+
         if(nextMusic == null){
             nextMusic = currentMusic;
         }
         if(nextMusic == currentMusic)
             return;
+
         currentMusic=nextMusic;
         currentMusic.play();
         old.stop();
@@ -233,6 +279,7 @@ public class AudioManager {
     }
 
     public void playKillSounds() {
+        System.out.println("kill!!!!!");
         Attack.play();
     }
 }

@@ -58,6 +58,7 @@ public class MainMenuScreen extends Screen {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
+                audioManager.setNewState(State.IDLE);
                 manager.setScreen(new GameplayScreen(manager, 1));
             }
         });
@@ -82,7 +83,7 @@ public class MainMenuScreen extends Screen {
                 // or System.exit(0);
             }
         });
-        table.add(button).size(100, 50).pad(10);
+        table.add(button).size(100, 60).pad(10);
         table.setFillParent(true);
         stage.addActor(table);
 
