@@ -124,7 +124,7 @@ public class World implements OnMapClickedListener {
             entity.update(this, deltaTime);
         }
         if (getLifeBunnies()<=0) {
-            manager.setScreen(new GameOverScreen(manager));
+            //manager.setScreen(new GameOverScreen(manager));
         }
 
         if (getLifeHouses()<=0) {
