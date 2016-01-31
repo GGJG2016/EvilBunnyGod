@@ -225,10 +225,11 @@ public class World implements OnMapClickedListener {
         }
         for (GameObject entity : entities) {
             if (entity.wasClicked(clicked.x, clicked.y)) {
+                if (currentClickedObj != null )currentClickedObj.gestureSuccessful = false;
                 currentClickedObj = entity;
-                return;
             }
         }
+        audio.playMoveSound();
     }
     
 

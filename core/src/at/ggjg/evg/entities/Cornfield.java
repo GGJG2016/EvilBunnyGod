@@ -21,6 +21,7 @@ public class Cornfield extends GameObject {
     public Array<Bunny> bunnies = new Array<Bunny>();
     public float cooldown = 0;
     Random r = new Random();
+    private World world;
 
     public Cornfield(Float posX, Float posY) {
         super(posX, posY);
@@ -51,6 +52,7 @@ public class Cornfield extends GameObject {
 
     @Override
     public void init(World world) {
+        this.world = world;
         tr = Assets.farm;
         bunniesmakingloooove = Assets.nastyBunnies;
         acceptedGesture = Sequence.SequenceName.SQUARE;
@@ -75,11 +77,12 @@ public class Cornfield extends GameObject {
     }
 
     public void addBunny(Bunny bunny) {
-        if (!gestureSuccessful || bunnies.size > 2 || cooldown > 0)
+        if (!gestureSuccessful || bunnies.size > 2 || cooldown > 0 || bunnies.contains(bunny, false))
             return;
         bunnies.add(bunny);
         bunny.state = State.SCHNACKSELN;
         bunny.stateTime = 0;
         this.stateTime = 0;
+        world.audio.playSchnackselnSound();
     }
 }

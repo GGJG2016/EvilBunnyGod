@@ -1,5 +1,6 @@
 package at.ggjg.evg.entities;
 
+import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.State;
 import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.helpers.Assets;
@@ -33,9 +34,9 @@ public class House extends GameObject {
         if (gesture_done_time > 0) this.gesture_done_time -= deltaTime;
         if (gesture_required_time > 0) this.gesture_required_time -= deltaTime;
 
-        if (state == State.ATTACKING) {
-            world.audio.playAttackSounds();
-        }
+//        if (state == State.ATTACKING) {
+//            world.audio.playAttackSounds();
+//        }
         if (this.state == State.ATTACKING && this.stateTime >= 3) {
             this.state = State.IDLE;
             this.stateTime = 0;
@@ -44,7 +45,7 @@ public class House extends GameObject {
 
     @Override
     public void init(World world) {
-		this.state = State.IDLE;
+        this.state = State.IDLE;
         this.acceptedGesture = Sequence.SequenceName.VERTICAL_LINE;
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
@@ -93,7 +94,8 @@ public class House extends GameObject {
 
     @Override
     public void onGestureAction() {
-
+        System.out.println("ATTACK HOUSE");
+        AudioManager.getInstance().playAttackSounds();
     }
 
 }
