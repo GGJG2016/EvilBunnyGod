@@ -2,6 +2,7 @@ package at.ggjg.evg.gestures;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by zelle on 30.01.2016.
@@ -11,13 +12,13 @@ public class SequenceHolder {
     private int maxItems;
     private LinkedList<Integer> tmpLastArea;
     private LinkedList<Integer> lastArea;
-    private ArrayList<Sequence> sequenceList;
+    private List<Sequence> sequenceList;
 
-    public SequenceHolder(ArrayList<Sequence> sequenceList) {
+    public SequenceHolder(List<Sequence> sequenceList) {
         this(24, sequenceList);
     }
 
-    public SequenceHolder(int maxItems, ArrayList<Sequence> sequenceList) {
+    public SequenceHolder(int maxItems, List<Sequence> sequenceList) {
         tmpLastArea = new LinkedList<Integer>();
         lastArea = new LinkedList<Integer>();
         this.maxItems = maxItems;
@@ -55,7 +56,7 @@ public class SequenceHolder {
         this.lastArea.addAll(tmpLastArea);
     }
 
-    public ArrayList<Sequence> getSequenceList() {
+    public List<Sequence> getSequenceList() {
         return sequenceList;
     }
 

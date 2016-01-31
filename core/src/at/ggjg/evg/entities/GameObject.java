@@ -1,6 +1,7 @@
 package at.ggjg.evg.entities;
 
 import at.ggjg.evg.State;
+import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +16,8 @@ public abstract class GameObject {
     public State state;
     public float stateTime;
     public Bounds bounds;
-    public boolean isClicked = false;
+    public Sequence.SequenceName acceptedGesture;
+    public boolean gestureSuccessful;
 
     public GameObject() {
         position = new Vector2();
@@ -38,10 +40,20 @@ public abstract class GameObject {
 
     public abstract void render(SpriteBatch batch);
 
+    public abstract void onGestureAction();
+
     public boolean wasClicked(float screenX, float screenY) {
         boolean retVal = this.bounds.contains(screenX, screenY);
         if (retVal)
             System.out.println("Clicked on " + this.getClass().getSimpleName());
         return retVal;
+    }
+
+    public void onGestureDrawn(Sequence.SequenceName sequenceName) {
+        if (sequenceName == acceptedGesture) {
+            System.out.println("Gesture of object " + this.getClass().getSimpleName() + " successfully mapped");
+            gestureSuccessful = true;
+            onGestureAction();
+        }
     }
 }

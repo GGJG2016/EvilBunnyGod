@@ -52,10 +52,10 @@ public class GameplayScreen extends Screen {
         //define sequences .. item which first matches wins
         sequenceList.add(SequenceFactory.createSquare(6, 7, 8, 13, 18, 17, 16, 11, 6));
         //sequenceList.add(SequenceFactory.createHeart(7, 1, 0, 5, 10, 16, 22, 18, 14, 9, 3, 7));
-        sequenceList.add(SequenceFactory.createLine(0, 1, 2, 3, 4));
+        sequenceList.add(SequenceFactory.createHorizontalLine(0, 1, 2, 3, 4));
+        sequenceList.add(SequenceFactory.createVerticalLine(2, 7, 12, 17, 22));
         sequenceHolder = new SequenceHolder(24, sequenceList);
     }
-
 
 
     @Override
@@ -65,12 +65,14 @@ public class GameplayScreen extends Screen {
         Sequence match = sequenceHolder.getMatch();
         if (match != null) {
             System.out.println("sequence was a " + match.getSequenceName());
+            if (world.currentClickedObj != null) {
+                world.currentClickedObj.onGestureDrawn(match.getSequenceName());
+            }
             sequenceHolder.clearLastArea();
         }
         renderer.render(delta);
         audio.update(delta);
         world.update(delta);
-
     }
 
     @Override
@@ -83,6 +85,6 @@ public class GameplayScreen extends Screen {
     public void dispose() {
         renderer.dispose();
         audio.dispose();
-     //   world.dispose();
+        //   world.dispose();
     }
 }

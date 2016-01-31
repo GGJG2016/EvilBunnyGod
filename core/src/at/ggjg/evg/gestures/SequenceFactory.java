@@ -9,8 +9,12 @@ public class SequenceFactory {
         return new Sequence(Sequence.SequenceName.SQUARE, areas);
     }
 
-    public static Sequence createLine(int... areas) {
-        return new Sequence(Sequence.SequenceName.LINE, areas);
+    public static Sequence createHorizontalLine(int... areas) {
+        return new Sequence(Sequence.SequenceName.HORIZONTAL_LINE, areas);
+    }
+
+    public static Sequence createVerticalLine(int... areas) {
+        return new Sequence(Sequence.SequenceName.VERTICAL_LINE, areas);
     }
 
     public static Sequence createCircle(int... areas) {

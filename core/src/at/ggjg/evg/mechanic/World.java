@@ -196,7 +196,6 @@ public class World implements OnMapClickedListener {
         if (isRightClick) {
             return;
         }
-        currentClickedObj = null;
         Vector3 clicked = renderer.camera.unproject(new Vector3(x, y, 0f));
         for (Bunny bunny : bunnies) {
             bunny.setNewDestination(clicked);
