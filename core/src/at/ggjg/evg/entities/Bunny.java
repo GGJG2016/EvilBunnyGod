@@ -94,8 +94,10 @@ public class Bunny extends GameObject {
 
     public void setNewDestination(Vector3 newDestination) {
         this.destination = new Vector2(newDestination.x, newDestination.y);
-        state = State.MOVING;
-        stateTime = 0;
+        if(this.state!=State.SCHNACKSELN) {
+            state = State.MOVING;
+            stateTime = 0;
+        }
     }
 
     public void update(World world, float deltaTime) {
@@ -146,21 +148,6 @@ public class Bunny extends GameObject {
             case DESTROYED:
                 break;
             case SCHNACKSELN:
-
-                if (!firstAtCornfield) {
-                    if (stateTime >= r.nextInt(10) + 5) {
-                        Bunny haeschjen = new Bunny(this.position.x, this.position.y);
-                        haeschjen.init(world);
-                        cornfield.slots++;
-                        this.state = State.IDLE;
-                        this.schnackselcooldown = 22;
-                        haeschjen.schnackselcooldown = 25;
-                        haeschjen.state = State.IDLE;
-                        world.bunnies.add(haeschjen);
-                        world.entities.add(haeschjen);
-
-                    }
-                }
                 break;
             default:
         }
@@ -185,12 +172,10 @@ public class Bunny extends GameObject {
 
                 } else if (obj instanceof Cornfield) {
                     if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
-                        if ((((Cornfield) obj).slots >= 2 && obj.gestureSuccessful) || ((Cornfield) obj).slots < 2) {
-                            cornfield = ((Cornfield) obj);
-                            this.state = State.SCHNACKSELN;
-                            firstAtCornfield = cornfield.slots > 0;
-                            cornfield.slots--;
-                            this.stateTime = 0;
+                        cornfield = ((Cornfield) obj);
+                        if(cornfield.bunnies.size<2){
+                            cornfield.addBunny(this);
+                        }
                         }
                     }
                 } else if (obj instanceof Bunny) {
@@ -201,4 +186,4 @@ public class Bunny extends GameObject {
     }
 
 
-}
+
