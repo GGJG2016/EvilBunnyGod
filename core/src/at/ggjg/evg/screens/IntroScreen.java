@@ -71,6 +71,8 @@ public class IntroScreen extends Screen {
         assMan.load("intro/p3_middle.png", Texture.class);
         assMan.load("intro/p3_back.png", Texture.class);
 
+        assMan.load("entityassets/bunny_dead.png", Texture.class);
+
         audioManager.setNewState(State.INTRO);
 
     }
@@ -100,6 +102,7 @@ public class IntroScreen extends Screen {
 
         if (state == IntroState.Finished) {
             manager.setScreen(new MainMenuScreen(manager));
+            // manager.setScreen(new GameOverScreen(manager));
         }
 
         Gdx.gl.glClearColor(0.8313725490196078f, 0.8392156862745098f, 0.8666666666667f, 1);

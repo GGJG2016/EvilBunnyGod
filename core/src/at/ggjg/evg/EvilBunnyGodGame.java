@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
+import at.ggjg.evg.screens.GameOverScreen;
 import at.ggjg.evg.screens.IntroScreen;
 import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.ScreenManager;
