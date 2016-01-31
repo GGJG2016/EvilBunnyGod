@@ -24,7 +24,7 @@ public class Cornfield extends GameObject {
 
     @Override
     public void update(World world, float deltaTime) {
-
+        if (gesture_visible > 0)this.gesture_visible -= deltaTime;
     }
 
     @Override
@@ -32,6 +32,7 @@ public class Cornfield extends GameObject {
         tr = Assets.farm;
         bunniesmakingloooove = Assets.nastyBunnies;
         acceptedGesture = Sequence.SequenceName.SQUARE;
+        gestureDoneAsset = Assets.schnackselnGesture;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);

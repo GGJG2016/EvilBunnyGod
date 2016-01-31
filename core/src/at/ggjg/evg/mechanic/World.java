@@ -36,8 +36,8 @@ public class World implements OnMapClickedListener {
     public int mapWidth, tileWidth;
     public int mapHeight, tileHeight;
     public GameObject currentClickedObj;
-    private ScreenManager manager;
     public int level;
+    private ScreenManager manager;
 
     public World(String level) {
         loadLevel(level);
@@ -103,8 +103,8 @@ public class World implements OnMapClickedListener {
                 bunnycheck = false;
             }
         }
-        if (bunnycheck){
-                manager.setScreen(new GameplayScreen(manager, level));
+        if (bunnycheck) {
+            manager.setScreen(new GameplayScreen(manager, level));
         }
 
 
@@ -122,6 +122,14 @@ public class World implements OnMapClickedListener {
         }
 
 
+    }
+
+    public int getNotDestroyedHouses() {
+        int count = 0;
+        for (House house : houses) {
+            if (house.state != State.DESTROYED) count += 1;
+        }
+        return count;
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {

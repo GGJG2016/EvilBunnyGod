@@ -31,6 +31,7 @@ public class House extends GameObject {
     @Override
     public void update(World world, float deltaTime) {
         this.stateTime += deltaTime;
+        if (gesture_visible > 0) this.gesture_visible -= deltaTime;
         if (this.state == State.ATTACKING && this.stateTime >= 3) {
             this.state = State.IDLE;
             this.stateTime = 0;
@@ -44,6 +45,7 @@ public class House extends GameObject {
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
         this.house_idle = Assets.house_idle;
+        this.gestureDoneAsset = Assets.attack_gesture;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);

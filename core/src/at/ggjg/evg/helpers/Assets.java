@@ -28,6 +28,8 @@ public class Assets implements Disposable {
     static Array<Animation> allAnimations = new Array<Animation>();
     static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
     public static TextureRegion nastyBunnies;
+    public static TextureRegion attack_gesture;
+    public static TextureRegion schnackselnGesture;
 
     public static void init() {
 
@@ -71,6 +73,10 @@ public class Assets implements Disposable {
         allTextureRegions.add(trap);
         sacrifice = new TextureRegion(new Texture("entityassets/opfer.png"));
         allTextureRegions.add(sacrifice);
+        attack_gesture = new TextureRegion(new Texture("symbols/attack.png"));
+        allTextureRegions.add(attack_gesture);
+        schnackselnGesture = new TextureRegion(new Texture("symbols/reproduce.png"));
+        allTextureRegions.add(schnackselnGesture);
         /**
          * End Loading TextureRegions
          */

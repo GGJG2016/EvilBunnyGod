@@ -100,6 +100,8 @@ public class Bunny extends GameObject {
 
     public void update(World world, float deltaTime) {
         stateTime += deltaTime;
+        if (gesture_visible > 0)this.gesture_visible -= deltaTime;
+
         if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
             this.stateTime = 0;
@@ -186,6 +188,7 @@ public class Bunny extends GameObject {
                 } else if (obj instanceof Cornfield) {
                     if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
                         if ((((Cornfield) obj).slots >= 2 && obj.gestureSuccessful) || ((Cornfield) obj).slots < 2) {
+                            obj.gestureSuccessful = false;
                             cornfield = ((Cornfield) obj);
                             this.state = State.SCHNACKSELN;
                             firstAtCornfield = cornfield.slots > 0;
