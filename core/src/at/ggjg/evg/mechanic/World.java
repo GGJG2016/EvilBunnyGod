@@ -119,8 +119,8 @@ public class World implements OnMapClickedListener {
         return count;
     }
 
+
     public void update(float deltaTime) {
-        boolean housecheck = true;
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
