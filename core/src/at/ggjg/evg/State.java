@@ -8,6 +8,7 @@ public enum State {
     MOVING,
     ATTACKING,
     PRAYING,
-    DESTROYED
+    DESTROYED,
+    SCHNACKSELN
 
 }

@@ -24,18 +24,19 @@ public class Assets implements Disposable {
     public static TextureRegion house_idle;
     public static TextureRegion house_attacking;
     public static TextureRegion house_destroyed;
-
+    public static TextureRegion farm;
     static Array<Animation> allAnimations = new Array<Animation>();
     static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
+    public static TextureRegion nastyBunnies;
 
     public static void init() {
 
         /**
          * Begin Loading Animations
          */
-        bunnyAnim = loadAnimation("entityassets/rabbit-animation-",3,0.3f);
+        bunnyAnim = loadAnimation("entityassets/rabbit-animation-", 3, 0.25f);
         allAnimations.add(bunnyAnim);
-        houseAnim = loadAnimation("entityassets/house-",3,0.3f);
+        houseAnim = loadAnimation("entityassets/house-", 2, 0.2f);
         allAnimations.add(houseAnim);
         /**
          * End Loading Animations
@@ -45,14 +46,17 @@ public class Assets implements Disposable {
         /**
          * Begin Loading TextureRegions
          */
+        nastyBunnies = new TextureRegion(new Texture("entityassets/reproduce.png"));
         bunny_1 = new TextureRegion(new Texture("entityassets/rabbit-animation-1.png"));
         bunny_2 = new TextureRegion(new Texture("entityassets/rabbit-animation-2.png"));
         bunny_3 = new TextureRegion(new Texture("entityassets/rabbit-animation-3.png"));
         bunny_dead = new TextureRegion(new Texture("entityassets/bunny_dead.png"));
+        farm = new TextureRegion(new Texture("entityassets/heuballen.png"));
         allTextureRegions.add(bunny_dead);
         allTextureRegions.add(bunny_1);
         allTextureRegions.add(bunny_2);
         allTextureRegions.add(bunny_3);
+        allTextureRegions.add(farm);
         cornfield = new TextureRegion(new Texture("entityassets/trap.png"));
         allTextureRegions.add(cornfield);
         fence = new TextureRegion(new Texture("entityassets/fence.png"));
@@ -77,7 +81,7 @@ public class Assets implements Disposable {
         TextureRegion[] regions = new TextureRegion[frames];
 
         for (int i = 0; i < frames; i++) {
-            Texture tex = new Texture(Gdx.files.internal(path + (i+1) + ".png"));
+            Texture tex = new Texture(Gdx.files.internal(path + (i + 1) + ".png"));
             tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             regions[i] = new TextureRegion(tex);
         }

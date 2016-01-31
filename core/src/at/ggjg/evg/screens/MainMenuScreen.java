@@ -84,7 +84,7 @@ public class MainMenuScreen extends Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        Texture texture = new Texture("mainmenu/mainscreen.jpg");
+        Texture texture = new Texture("backgroundImages/menu-screen.jpg");
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
         table.setBackground(new TextureRegionDrawable(region));
