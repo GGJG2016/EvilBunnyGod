@@ -227,6 +227,7 @@ public class World implements OnMapClickedListener {
                 return;
             }
         }
+        audio.playMoveSound();
     }
     
 
