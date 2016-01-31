@@ -37,6 +37,7 @@ public class World implements OnMapClickedListener {
     public int mapHeight, tileHeight;
     public GameObject currentClickedObj;
     private ScreenManager manager;
+    public int level;
 
     public World(String level) {
         loadLevel(level);
@@ -102,16 +103,23 @@ public class World implements OnMapClickedListener {
                 bunnycheck = false;
             }
         }
-        if (bunnycheck)
-            manager.setScreen(new GameplayScreen(manager, 3));
+        if (bunnycheck){
+                manager.setScreen(new GameplayScreen(manager, level));
+        }
+
 
         for (House house : houses) {
             if (house.state != State.DESTROYED) {
                 housecheck = false;
             }
         }
-        if (housecheck)
+        if (housecheck) {
+
+            if (level == 1) ;
+            manager.setScreen(new GameplayScreen(manager, 2));
+            if (level == 2) ;
             manager.setScreen(new MainMenuScreen(manager));
+        }
 
 
     }
