@@ -73,17 +73,11 @@ public class Cornfield extends GameObject {
     }
 
     public void addBunny(Bunny bunny) {
-        if(bunnies.size > 2 || cooldown>0){
-            if(bunny.state != State.IDLE) {
-                bunny.state = State.IDLE;
-                bunny.stateTime = 0;
-            }
-        }
-        else{
+        if(bunnies.size > 2 || cooldown>0)
+                return;
             bunnies.add(bunny);
             bunny.state = State.SCHNACKSELN;
             bunny.stateTime = 0;
             this.stateTime = 0;
-        }
         }
 }
