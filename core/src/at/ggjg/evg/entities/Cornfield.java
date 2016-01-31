@@ -29,12 +29,14 @@ public class Cornfield extends GameObject {
 
     @Override
     public void update(World world, float deltaTime) {
-        if (gesture_visible > 0) this.gesture_visible -= deltaTime;
+        if (gesture_done_time > 0) this.gesture_done_time -= deltaTime;
+        if (gesture_required_time > 0) this.gesture_required_time -= deltaTime;
         stateTime += deltaTime;
         cooldown -= deltaTime;
         if (bunnies.size >= 2 && stateTime >= r.nextInt(10) + 5) {
             Bunny haeschjen = new Bunny(this.position.x, this.position.y);
             haeschjen.init(world);
+            gestureSuccessful = false;
             world.bunnies.add(haeschjen);
             world.entities.add(haeschjen);
             bunnies.add(haeschjen);
@@ -44,7 +46,6 @@ public class Cornfield extends GameObject {
             }
             cooldown = 25;
             bunnies.removeRange(0, bunnies.size - 1);
-
         }
     }
 
@@ -54,6 +55,7 @@ public class Cornfield extends GameObject {
         bunniesmakingloooove = Assets.nastyBunnies;
         acceptedGesture = Sequence.SequenceName.SQUARE;
         gestureDoneAsset = Assets.schnackselnGesture;
+        gestureRequiredAsset = Assets.schnackselnGesture_required;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
@@ -73,7 +75,7 @@ public class Cornfield extends GameObject {
     }
 
     public void addBunny(Bunny bunny) {
-        if (bunnies.size > 2 || cooldown > 0)
+        if (!gestureSuccessful || bunnies.size > 2 || cooldown > 0)
             return;
         bunnies.add(bunny);
         bunny.state = State.SCHNACKSELN;

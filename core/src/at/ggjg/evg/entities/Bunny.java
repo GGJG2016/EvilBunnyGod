@@ -102,7 +102,8 @@ public class Bunny extends GameObject {
 
     public void update(World world, float deltaTime) {
         stateTime += deltaTime;
-        if (gesture_visible > 0) this.gesture_visible -= deltaTime;
+        if (gesture_done_time > 0) this.gesture_done_time -= deltaTime;
+        if (gesture_required_time > 0) this.gesture_required_time -= deltaTime;
 
         if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
@@ -170,7 +171,6 @@ public class Bunny extends GameObject {
                         }
                     } else if (state != State.DESTROYED && obj.gestureSuccessful) {
                         this.state = State.ATTACKING;
-                        obj.gestureSuccessful = false;
                     }
                 } else if (obj instanceof LethalObstacle) {
                     this.health = -932873;

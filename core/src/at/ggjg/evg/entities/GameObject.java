@@ -19,9 +19,11 @@ public abstract class GameObject {
     public Bounds bounds;
     public Sequence.SequenceName acceptedGesture;
     public boolean gestureSuccessful;
-    public float gesture_visible;
+    public float gesture_done_time;
     public TextureRegion gestureDoneAsset;
+    public TextureRegion gestureRequiredAsset;
     public boolean boundsVisible;
+    public float gesture_required_time;
 
     public GameObject() {
         position = new Vector2();
@@ -51,6 +53,7 @@ public abstract class GameObject {
         if (retVal) {
             System.out.println("Clicked on " + this.getClass().getSimpleName());
             boundsVisible = true;
+            gesture_required_time = 2;
         } else boundsVisible = false;
         return retVal;
     }
@@ -59,7 +62,7 @@ public abstract class GameObject {
         if (sequenceName == acceptedGesture) {
             System.out.println("Gesture of object " + this.getClass().getSimpleName() + " successfully mapped");
             gestureSuccessful = true;
-            gesture_visible = 3;
+            gesture_done_time = 2;
             onGestureAction();
         }
     }

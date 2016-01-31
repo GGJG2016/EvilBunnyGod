@@ -122,6 +122,7 @@ public class WorldRenderer {
         }
 
         batch.end();
+        showGestureHint();
         showGestureFinished();
         renderGUI(batch);
 
@@ -215,10 +216,10 @@ public class WorldRenderer {
     }
 
     public void showGestureFinished() {
-        if (world.currentClickedObj == null || world.currentClickedObj.gestureDoneAsset == null || world.currentClickedObj.gesture_visible <= 0)
+        if (world.currentClickedObj == null || world.currentClickedObj.gestureDoneAsset == null || world.currentClickedObj.gesture_done_time <= 0)
             return;
-        System.out.println("Gesture time = " + world.currentClickedObj.gesture_visible);
-        float alpha = world.currentClickedObj.gesture_visible / 3;
+        System.out.println("Gesture time = " + world.currentClickedObj.gesture_done_time);
+        float alpha = world.currentClickedObj.gesture_done_time / 2;
         gestureBatch.setProjectionMatrix(cameraGUI.combined);
         gestureBatch.begin();
         Color c = gestureBatch.getColor();
@@ -228,14 +229,14 @@ public class WorldRenderer {
     }
 
     public void showGestureHint() {
-        if (world.currentClickedObj == null || world.currentClickedObj.gestureDoneAsset == null || world.currentClickedObj.gesture_visible <= 0)
+        if (world.currentClickedObj == null || world.currentClickedObj.gestureRequiredAsset == null || world.currentClickedObj.gesture_required_time <= 0)
             return;
-        float alpha = world.currentClickedObj.gesture_visible / 3;
+        float alpha = world.currentClickedObj.gesture_required_time / 4;
         gestureBatch.setProjectionMatrix(cameraGUI.combined);
         gestureBatch.begin();
         Color c = gestureBatch.getColor();
         gestureBatch.setColor(c.r, c.g, c.b, alpha);
-        gestureBatch.draw(world.currentClickedObj.gestureDoneAsset, 0, 0, cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2);
+        gestureBatch.draw(world.currentClickedObj.gestureRequiredAsset, 0, 0, cameraGUI.viewportWidth, cameraGUI.viewportHeight);
         gestureBatch.end();
     }
 
