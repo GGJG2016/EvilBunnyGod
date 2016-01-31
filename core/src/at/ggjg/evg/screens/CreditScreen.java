@@ -19,9 +19,9 @@ import com.badlogic.gdx.utils.Align;
 public class CreditScreen extends Screen {
 
     private static final String credits = "TEAM\n" +
-            "Pius Pfister [Artwork]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Gallé [Programming]\nChristian Zellot [Programming]\n\n" +
+            "Pius Pfister [Artwork]\nMathias Lux [Sound]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Galle [Programming]\nChristian Zellot [Programming]\n\n" +
             "IDEA and GAMEDESIGN\nall of them :)\n\n" +
-            "SPECIAL THANKS TO\nMathias Lux [Sound]\n\n" +
+            "SPECIAL THANKS TO\nMario Zechner[Consulting/Programming]\n\n" +
             "EvilBunnyGod was developed during the\n" +
             "GlobalGamejam 2016, Graz, AT\n\n" +
             "A big THANK YOU to all who have contributed to the game - in whatever way\n" +
