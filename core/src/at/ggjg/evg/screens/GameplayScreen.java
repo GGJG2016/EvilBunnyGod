@@ -25,13 +25,10 @@ public class GameplayScreen extends Screen {
     AudioManager audio;
     int lvl;
     SequenceHolder sequenceHolder;
-    OrthographicCamera uiCam;
-    SpriteBatch batch;
-    BitmapFont font;
 
     public GameplayScreen(ScreenManager manager, int lvl) {
         super(manager);
-        audio = new AudioManager();
+        audio = AudioManager.getInstance();
         audio.setNewState(State.IDLE);
         this.lvl = lvl;
         switch (lvl) {
@@ -49,7 +46,7 @@ public class GameplayScreen extends Screen {
         }
         world.level = lvl;
         renderer = new WorldRenderer(world);
-        audio = new AudioManager();
+        audio = AudioManager.getInstance();
         world.setRenderer(renderer);
 
         world.setAudio(audio);
@@ -57,10 +54,6 @@ public class GameplayScreen extends Screen {
         initGestures();
         Gdx.input.setInputProcessor(new GestureDetector(new at.ggjg.evg.gestures.SequenceGestureListener(world, sequenceHolder, Gdx.graphics.getHeight(), Gdx.graphics.getWidth())));
 
-        uiCam = new OrthographicCamera();
-        uiCam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch = new SpriteBatch();
-        font = new BitmapFont();
     }
 
     private void initGestures() {
@@ -95,14 +88,6 @@ public class GameplayScreen extends Screen {
         renderer.render(delta);
         audio.update(delta);
         world.update(delta);
-
-        uiCam.update();
-        batch.setProjectionMatrix(uiCam.combined);
-        batch.begin();
-        Vector3 pos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-        renderer.camera.unproject(pos);
-        font.draw(batch, pos.x + ", " + pos.y, 0, 10);
-        batch.end();
     }
 
     @Override
@@ -115,6 +100,6 @@ public class GameplayScreen extends Screen {
     public void dispose() {
         renderer.dispose();
         audio.dispose();
-        //   world.dispose();
+        world.dispose();
     }
 }

@@ -10,5 +10,6 @@ public enum State {
     PRAYING,
     DESTROYED,
     SCHNACKSELN,
-    MENU
+    MENU,
+    INTRO
 }

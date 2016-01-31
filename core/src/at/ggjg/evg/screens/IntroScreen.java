@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import at.ggjg.evg.State;
 import at.ggjg.evg.helpers.Assets;
 
 /**
@@ -36,6 +37,7 @@ public class IntroScreen extends Screen {
     PanelState panelState = PanelState.p1;
     SpriteBatch batch;
     AssetManager assMan = Assets.assMan;
+    Texture[] anim = new Texture[10];
 
     float tb_x, tb_y, tm_x, tm_y; // position of panels front and back
 
@@ -45,6 +47,19 @@ public class IntroScreen extends Screen {
         super(manager);
         batch = new SpriteBatch();
         // give work to assMan
+        assMan.load("load/loading-screen-1.png", Texture.class);
+        assMan.load("load/loading-screen-2.png", Texture.class);
+        assMan.load("load/loading-screen-3.png", Texture.class);
+        assMan.load("load/loading-screen-4.png", Texture.class);
+        assMan.load("load/loading-screen-5.png", Texture.class);
+        assMan.load("load/loading-screen-6.png", Texture.class);
+        assMan.load("load/loading-screen-7.png", Texture.class);
+        assMan.load("load/loading-screen-8.png", Texture.class);
+        assMan.load("load/loading-screen-9.png", Texture.class);
+        assMan.load("load/loading-screen-10.png", Texture.class);
+
+        // assMan.finishLoadingAsset("load/loading-screen-10.png");
+
         assMan.load("intro/loading.png", Texture.class);
         assMan.load("intro/p1_front.png", Texture.class);
         assMan.load("intro/p1_middle.png", Texture.class);
@@ -55,21 +70,31 @@ public class IntroScreen extends Screen {
         assMan.load("intro/p3_front.png", Texture.class);
         assMan.load("intro/p3_middle.png", Texture.class);
         assMan.load("intro/p3_back.png", Texture.class);
+
+        audioManager.setNewState(State.INTRO);
+
     }
 
     @Override
     public void render() {
         // define states:
-        if (state == IntroState.PreLoading && assMan.isLoaded("intro/loading.png")) {
+        if (state == IntroState.PreLoading && assMan.isLoaded("load/loading-screen-1.png")) {
             state = IntroState.Loading;
         }
 
-        if (assMan.update() && state == IntroState.Loading) {
-            state = IntroState.Showing;
-
+        if (state == IntroState.Loading) {
+            for (int i = 0; i < anim.length; i++) {
+                if (assMan.isLoaded("load/loading-screen-" + (i + 1) + ".png"))
+                    anim[i] = assMan.get("load/loading-screen-" + (i + 1) + ".png");
+            }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && state == IntroState.Showing) {
+        if (assMan.update() && state == IntroState.Loading && panelShow > 3) {
+            state = IntroState.Showing;
+            panelShow = 0f;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) && state == IntroState.Showing) {
             state = IntroState.Finished;
         }
 
@@ -77,7 +102,6 @@ public class IntroScreen extends Screen {
             manager.setScreen(new MainMenuScreen(manager));
         }
 
-        System.out.println(state);
         Gdx.gl.glClearColor(0.8313725490196078f, 0.8392156862745098f, 0.8666666666667f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
@@ -87,9 +111,11 @@ public class IntroScreen extends Screen {
         if (state == IntroState.PreLoading) {
 
         } else {
-
             if (state == IntroState.Loading) {
-                batch.draw((Texture) assMan.get("intro/loading.png"), w / 2, h / 2);
+                int index = ((int) Math.floor(panelShow * 8)) %10;
+                if (anim[index] == null) index = 0;
+                batch.draw(anim[index], w / 2 - anim[index].getWidth()/2, h / 2 - anim[index].getHeight()/2);
+                panelShow += deltaTime;
             } else if (state == IntroState.Showing) {
                 panelShow += deltaTime;
                 if (panelShow > 15 && panelState == PanelState.p3) {
