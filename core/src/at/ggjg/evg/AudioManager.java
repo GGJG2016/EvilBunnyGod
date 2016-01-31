@@ -8,11 +8,13 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Random;
+
 public class AudioManager {
     private static final float MUSIC_VOLUME = 0.7f;
     public Music backgroundmusic;
     public Music menu_loop_all;
-
+    private Random random;
     public Music loops_game_high_01;
     public Music loops_game_high_02;
     public Music loops_game_high_03;
@@ -28,6 +30,7 @@ public class AudioManager {
     public Music loops_menu_04;
     public Music loops_menu_all;
 
+    private State state;
 
     Array<Sound> allSounds = new Array<Sound>();
 
@@ -47,9 +50,15 @@ public class AudioManager {
     public Sound Rest;
     public Sound Ritual;
     public Sound Sacrifice;
-
+    private float playingTime;
+    private boolean stateChanged;
+    private  Music currentMusic;
+    private  Music nextMusic;
+    private boolean newMusic;
 
     public AudioManager() {
+        random = new Random();
+        newMusic = true;
         backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/backgroundMusic.mp3"));
         backgroundmusic.setLooping(true);
 
@@ -104,10 +113,114 @@ public class AudioManager {
         allSounds.add(Rest);
         allSounds.add(Ritual);
         allSounds.add(Sacrifice);
-        
+        playingTime = 0;
+        currentMusic = menu_loop_all;
+        nextMusic = menu_loop_all;
+
     }
 
+    public void playRandomGameHighLoop()
+    {
+        switch(random.nextInt(4)) {
+            case 1:
+                nextMusic = loops_game_high_01;
+                break;
+            case 2:
+                nextMusic = loops_game_high_02;
+                break;
+            case 3:
+                nextMusic = loops_game_high_03;
+                break;
+            case 4:
+                nextMusic = loops_game_high_04;
+            default:
+        }
+    }
+    public void playMenuTheme()
+    {
+        currentMusic = menu_loop_all;
+        currentMusic.play();
+        nextMusic = currentMusic;
+    }
+    public void playRandomGameMidLoop()
+    {
+      if(random.nextBoolean()){
+          nextMusic = loops_game_mid_01;
+      }
+        else{
+          nextMusic = loops_game_mid_02;
+      }
+    }
+
+    public void playRandomGameLowLoop()
+    {
+
+        if(random.nextBoolean()){
+            nextMusic = loops_game_low_01;
+        }
+        else{
+            nextMusic = loops_game_low_02;
+        }
+    }
+
+
+    public void setNewState(State s){
+
+        if(state == s)
+            stateChanged = false;
+        else
+            stateChanged = true;
+        state = s;
+        if(stateChanged)
+            update(0);
+//        if(state == State.MENU)
+//            update(888888f);
+    }
+
+
     public void update(float deltaTime) {
+        playingTime += deltaTime;
+        Random r = new Random();
+        //System.out.println( " playing time = " + playingTime);
+        if(playingTime > 8 || this.state == State.ATTACKING)
+        {
+            playNext();
+            playingTime = 0;
+        }
+    if(stateChanged) {
+
+        stateChanged = false;
+        switch (this.state) {
+            case MENU:
+                playMenuTheme();
+                break;
+            case IDLE:
+                playRandomGameLowLoop();
+                break;
+            case MOVING:
+                playRandomGameMidLoop();
+                break;
+            case ATTACKING:
+                playRandomGameHighLoop();
+                break;
+            case DESTROYED:
+                break;
+            default:
+                playNext();
+        }
+    }
+    }
+    public void playNext(){
+        Music old = currentMusic;
+        if(nextMusic == null){
+            nextMusic = currentMusic;
+        }
+        if(nextMusic == currentMusic)
+            return;
+        currentMusic=nextMusic;
+        currentMusic.play();
+        old.stop();
+        old = null;
 
     }
 
@@ -117,5 +230,9 @@ public class AudioManager {
         for(Sound sound: allSounds) {
             sound.dispose();
         }
+    }
+
+    public void playKillSounds() {
+        Attack.play();
     }
 }

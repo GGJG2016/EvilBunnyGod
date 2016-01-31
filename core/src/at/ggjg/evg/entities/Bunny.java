@@ -104,7 +104,8 @@ public class Bunny extends GameObject {
         if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
             this.stateTime = 0;
-            world.audio.Kill.play();
+
+//            world.audio.playKillSounds();
         }
         if (this.state == State.DESTROYED) {
             if(stateTime >= 10)
@@ -122,6 +123,7 @@ public class Bunny extends GameObject {
             }
         }
         lastPosition = this.position;
+        world.audio.setNewState(this.state);
 
         switch (this.state) {
             case IDLE:

@@ -3,6 +3,7 @@ package at.ggjg.evg.screens;
 /**
  * Created by Veit on 29.01.2016.
  */
+import at.ggjg.evg.State;
 import at.ggjg.evg.helpers.Constants;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -44,7 +45,8 @@ public class MainMenuScreen extends Screen {
         table.row();
         audioManager = new AudioManager();
 
-        audioManager.menu_loop_all.play();
+        audioManager.setNewState(State.MENU);
+        //audioManager.update(1f);
 
         TextButton button;
 

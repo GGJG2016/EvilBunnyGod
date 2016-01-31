@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 public class EvilBunnyGodGame extends ApplicationAdapter {
 	ScreenManager manager;
-	AudioManager audio;
+//	AudioManager audio;
 	
 	@Override
 	public void create () {

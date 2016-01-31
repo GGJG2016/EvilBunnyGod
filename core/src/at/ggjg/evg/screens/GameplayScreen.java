@@ -1,6 +1,7 @@
 package at.ggjg.evg.screens;
 
 import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.State;
 import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.gestures.SequenceFactory;
 import at.ggjg.evg.gestures.SequenceHolder;
@@ -23,6 +24,8 @@ public class GameplayScreen extends Screen {
 
     public GameplayScreen(ScreenManager manager, int lvl) {
         super(manager);
+        audio = new AudioManager();
+        audio.setNewState(State.IDLE);
         this.lvl = lvl;
         switch (lvl) {
             case 0:
@@ -39,6 +42,7 @@ public class GameplayScreen extends Screen {
         renderer = new WorldRenderer(world);
         audio = new AudioManager();
         world.setRenderer(renderer);
+
         world.setAudio(audio);
         world.setManager(manager);
         initGestures();
