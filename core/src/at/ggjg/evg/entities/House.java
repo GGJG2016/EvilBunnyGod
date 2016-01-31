@@ -55,7 +55,7 @@ public class House extends GameObject {
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
-        bounds = new Bounds(position.x, position.y, scale.x, scale.y);
+        bounds = new Bounds(position.x, position.y+0.5f, scale.x, scale.y-1);
         this.health = 30;
         this.damageDealt = 1;
 

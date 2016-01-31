@@ -40,7 +40,7 @@ public class Bunny extends GameObject {
         super(posX, posY);
         destination = new Vector2();
         velocity = new Vector2();
-        bounds = new Bounds(position.x, position.y, 1, 1);
+        bounds = new Bounds(position.x+0.1f, position.y+0.1f, 0.8f, 0.8f);
         r = new Random();
     }
 
@@ -96,8 +96,7 @@ public class Bunny extends GameObject {
             state = State.IDLE;
             stateTime = 0;
         }
-        this.bounds.x = this.position.x;
-        this.bounds.y = this.position.y;
+        this.bounds = new Bounds(position.x+0.1f, position.y+0.1f, 0.8f, 0.8f);
     }
 
     @Override
