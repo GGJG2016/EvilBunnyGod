@@ -12,116 +12,54 @@ import java.util.Random;
 
 public class AudioManager {
     private static final float MUSIC_VOLUME = 0.7f;
-    private Music backgroundmusic;
-    private Music menu_loop_all;
-    private Random random;
-    private Music loops_game_high_01;
-    private Music loops_game_high_02;
-    private Music loops_game_high_03;
-    private Music loops_game_high_04;
-    private Music loops_game_low_01;
-    private Music loops_game_low_02;
-    private Music loops_game_mid_01;
-    private Music loops_game_mid_02;
+    private static AudioManager singletonInstance = null;
 
-    private Music loops_menu_01;
-    private Music loops_menu_02;
-    private Music loops_menu_03;
-    private Music loops_menu_04;
-    private Music loops_menu_all;
+    public Music menu_loop_all, intro_loop_main, intro_loop_intro;
+    private Random random;
+    public Music loops_game_high_01;
+    public Music loops_game_high_02;
+    public Music loops_game_high_03;
+    public Music loops_game_high_04;
+    public Music loops_game_low_01;
+    public Music loops_game_low_02;
+    public Music loops_game_mid_01;
+    public Music loops_game_mid_02;
+
+    public Music loops_menu_01;
+    public Music loops_menu_02;
+    public Music loops_menu_03;
+    public Music loops_menu_04;
+    public Music loops_menu_all;
 
     private State state;
 
     Array<Sound> allSounds = new Array<Sound>();
 
     public Sound Attack;
-
-    public void playBugger() {
-         Bugger.play();
-    }
-
-    public void playBunnies() {
-         Bunnies.play();
-    }
-
-    public void playCome() {
-         Come.play();
-    }
-
-    public void playDieForMe() {
-         DieForMe.play();
-    }
-
-    public void playEvilBunnieGod() {
-         EvilBunnieGod.play();
-    }
-
-    public void playGo() {
-         Go.play();
-    }
-
-    public void playILoveBunnies() {
-         ILoveBunnies.play();
-    }
-
-    public void playKill() {
-         Kill.play();
-    }
-
-    public void getMove_1() {
-         Move_1.play();
-    }
-
-    public void getMove_2() {
-         Move_2.play();
-    }
-
-    public void getObey() {
-         Obey.play();
-    }
-
-    public void getPray() {
-         Pray.play();
-    }
-
-    public void getRest() {
-         Rest.play();
-    }
-
-    public void getRitual() {
-         Ritual.play();
-    }
-
-    public void getSacrifice() {
-         Sacrifice.play();
-    }
-
-    private Sound Bugger;
-    private Sound Bunnies;
-    private Sound Come;
-    private Sound DieForMe;
-    private Sound EvilBunnieGod;
-    private Sound Go;
-    private Sound ILoveBunnies;
-    private Sound Kill;
-    private Sound Move_1;
-    private Sound Move_2;
-    private Sound Obey;
-    private Sound Pray;
-    private Sound Rest;
-    private Sound Ritual;
-    private Sound Sacrifice;
+    public Sound Bugger;
+    public Sound Bunnies;
+    public Sound Come;
+    public Sound DieForMe;
+    public Sound EvilBunnieGod;
+    public Sound Go;
+    public Sound ILoveBunnies;
+    public Sound Kill;
+    public Sound Move_1;
+    public Sound Move_2;
+    public Sound Obey;
+    public Sound Pray;
+    public Sound Rest;
+    public Sound Ritual;
+    public Sound Sacrifice;
     private float playingTime;
     private boolean stateChanged;
     private  Music currentMusic;
     private  Music nextMusic;
     private boolean newMusic;
 
-    public AudioManager() {
+    private AudioManager() {
         random = new Random();
         newMusic = true;
-        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/backgroundMusic.mp3"));
-        backgroundmusic.setLooping(true);
 
         loops_game_high_01 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-01.ogg"));
         loops_game_high_02  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/game/high-02.ogg"));
@@ -137,6 +75,9 @@ public class AudioManager {
         loops_menu_03  = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/loop-03.ogg"));
         loops_menu_04 = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/loop-04.ogg"));
         loops_menu_all = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/menu/menu_loop_all.ogg"));
+
+        intro_loop_main = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/intro/main.ogg"));
+        intro_loop_intro = Gdx.audio.newMusic(Gdx.files.internal("audio/Loops/intro/intro.ogg"));
 
         menu_loop_all = Gdx.audio.newMusic(Gdx.files.internal("audio/menu_loop_all.ogg"));
         menu_loop_all.setLooping(true);
@@ -203,6 +144,19 @@ public class AudioManager {
         currentMusic.play();
         nextMusic = currentMusic;
     }
+    public void playIntroTheme()
+    {
+        currentMusic = intro_loop_intro;
+        intro_loop_intro.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                currentMusic = intro_loop_main;
+                currentMusic.play();
+            }
+        });
+        currentMusic.play();
+        nextMusic = currentMusic;
+    }
     public void playRandomGameMidLoop()
     {
       if(random.nextBoolean()){
@@ -246,6 +200,10 @@ public class AudioManager {
                 case MENU:
                     System.out.println("MENU State");
                     playMenuTheme();
+                    break;
+                case INTRO:
+                    System.out.println("MENU State");
+                    playIntroTheme();
                     break;
                 case IDLE:
                     playRandomGameLowLoop();
@@ -332,15 +290,22 @@ public class AudioManager {
     }
 
     public void dispose() {
-        backgroundmusic.dispose();
         menu_loop_all.dispose();
         for(Sound sound: allSounds) {
             sound.dispose();
         }
     }
 
-    public void playAttackSounds() {
-//        System.out.println("kill!!!!!");
+    public void playKillSounds() {
+        System.out.println("kill!!!!!");
         Attack.play();
+    }
+
+    public static AudioManager getInstance() {
+        if (singletonInstance == null) singletonInstance = new AudioManager();
+        return singletonInstance;
+    }
+
+    public void playAttackSounds() {
     }
 }

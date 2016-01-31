@@ -43,7 +43,7 @@ public class MainMenuScreen extends Screen {
      //   audio = new AudioManager();
         table.setFillParent(true);
         table.row();
-        audioManager = new AudioManager();
+        audioManager = AudioManager.getInstance();
 
         audioManager.setNewState(State.MENU);
         //audioManager.update(1f);

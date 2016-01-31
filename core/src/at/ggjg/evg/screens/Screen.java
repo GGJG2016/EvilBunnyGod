@@ -11,7 +11,7 @@ import com.badlogic.gdx.InputAdapter;
 
 public abstract class Screen {
     protected final ScreenManager manager;
-    public AudioManager audioManager;
+    public AudioManager audioManager = AudioManager.getInstance();
     public boolean keyPressed = false;
     protected InputAdapter adapter;
 

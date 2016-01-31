@@ -28,7 +28,7 @@ public class GameplayScreen extends Screen {
 
     public GameplayScreen(ScreenManager manager, int lvl) {
         super(manager);
-        audio = new AudioManager();
+        audio = AudioManager.getInstance();
         audio.setNewState(State.IDLE);
         this.lvl = lvl;
         switch (lvl) {
@@ -46,7 +46,7 @@ public class GameplayScreen extends Screen {
         }
         world.level = lvl;
         renderer = new WorldRenderer(world);
-        audio = new AudioManager();
+        audio = AudioManager.getInstance();
         world.setRenderer(renderer);
 
         world.setAudio(audio);
