@@ -5,8 +5,12 @@ package at.ggjg.evg.mechanic;
  */
 
 import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.OnMapClickedListener;
+import at.ggjg.evg.screens.GameplayScreen;
+import at.ggjg.evg.screens.MainMenuScreen;
+import at.ggjg.evg.screens.ScreenManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapObjects;
@@ -17,8 +21,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-
-import java.util.Iterator;
 
 public class World implements OnMapClickedListener {
 
@@ -33,6 +35,8 @@ public class World implements OnMapClickedListener {
     public AudioManager audio;
     public int mapWidth, tileWidth;
     public int mapHeight, tileHeight;
+    public GameObject currentClickedObj;
+    private ScreenManager manager;
 
     public World(String level) {
         loadLevel(level);
@@ -58,32 +62,6 @@ public class World implements OnMapClickedListener {
         tileHeight = map.getProperties().get("tileheight", Integer.class);
         // load objects from map
         MapObjects objects = map.getLayers().get("objects").getObjects();
-        MapProperties playerProps = objects.get("bunny").getProperties();
-//        player = new Player(this, new Vector2(playerProps.get("x", Float.class), playerProps.get("y", Float.class)));
-//        player.position.scl(1f / TILE_SIZE);
-//        entities.add(player);
-//        goal = new Goal(new Vector2(goalProps.get("x", Float.class) / TILE_SIZE, goalProps.get("y", Float.class)  / TILE_SIZE));
-//        entities.add(goal);
-
-        // load collision map
-//        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("collisionmap");
-//        walls = new Rectangle[layer.getWidth()][layer.getHeight()];
-//        for(int x = 0; x < layer.getWidth(); x++) {
-//            for(int y = 0; y < layer.getHeight(); y++) {
-//                if(layer.getCell(x, y) != null) {
-//                    walls[x][y] = new Rectangle(x, y, 1, 1);
-//                }
-//            }
-//        }
-//        layer = (TiledMapTileLayer) map.getLayers().get("interieur");
-//        for(int x = 0; x < layer.getWidth(); x++) {
-//            for(int y = 0; y < layer.getHeight(); y++) {
-//                if(layer.getCell(x, y) != null) {
-//                    walls[x][y] = new Rectangle(x, y, 1, 1);
-//                }
-//            }
-//        }
-
         // create objects
         for (int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
@@ -114,9 +92,28 @@ public class World implements OnMapClickedListener {
     }
 
     public void update(float deltaTime) {
+        boolean housecheck = true;
+        boolean bunnycheck = true;
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
+        for (Bunny bunny : bunnies) {
+            if (bunny.state != State.DESTROYED) {
+                bunnycheck = false;
+            }
+        }
+        if (bunnycheck)
+            manager.setScreen(new GameplayScreen(manager, 3));
+
+        for (House house : houses) {
+            if (house.state != State.DESTROYED) {
+                housecheck = false;
+            }
+        }
+        if (housecheck)
+            manager.setScreen(new MainMenuScreen(manager));
+
+
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {
@@ -142,11 +139,6 @@ public class World implements OnMapClickedListener {
         Color c = new Color(0, 0, 1, 1);
         boolean displayDebug = false;
 
-        if (displayDebug) {
-//            renderer.sr.setProjectionMatrix(renderer.camera.combined);
-//            renderer.sr.begin(ShapeType.Line);
-        }
-
         sx = Math.max(Math.min(sx, walls.length - 1), 0);
         sy = Math.max(Math.min(sy, walls[0].length - 1), 0);
         ex = Math.max(Math.min(ex, walls.length), -1);
@@ -158,10 +150,6 @@ public class World implements OnMapClickedListener {
             for (int y = sy; y != ey; y += uy) {
                 Rectangle r = walls[x][y];
                 if (r != null) {
-                    if (displayDebug) {
-//                        renderer.sr.rect(r.x, r.y, r.width, r.height, c, c, c, c);
-                    }
-
                     if (r.overlaps(newbounds)) {
                         float x1, x2, y1, y2;
 
@@ -201,31 +189,27 @@ public class World implements OnMapClickedListener {
             }
         }
 
-        if (displayDebug) {
-//            c = new Color(1, 0, 1, 1);
-//            float rx = Math.min(sx, ex - 1);
-//            float ry = Math.min(sy, ey - 1);
-//            float rwidth = Math.max(sx, ex - 1) - rx + 1;
-//            float rheight = Math.max(sy, ey - 1) - ry + 1;
-//            renderer.sr.rect(rx, ry, rwidth, rheight, c, c, c, c);
-//            renderer.sr.end();
-        }
-    }
-
-    public void dispose() {
-//        player.dispose();
     }
 
     @Override
     public void onMapClicked(float x, float y, boolean isRightClick) {
-        // todo bunnys dorthin schicken
         if (isRightClick) {
-            // todo get gesture and do magic
             return;
         }
-
+        currentClickedObj = null;
+        Vector3 clicked = renderer.camera.unproject(new Vector3(x, y, 0f));
         for (Bunny bunny : bunnies) {
-            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x, y, 0f)));
+            bunny.setNewDestination(clicked);
         }
+        for (GameObject entity : entities) {
+            if (entity.wasClicked(clicked.x, clicked.y)) {
+                currentClickedObj = entity;
+                return;
+            }
+        }
+    }
+
+    public void setManager(ScreenManager manager) {
+        this.manager = manager;
     }
 }

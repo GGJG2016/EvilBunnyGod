@@ -14,9 +14,8 @@ public abstract class GameObject {
     public float rotation;
     public State state;
     public float stateTime;
-    public float posX;
-    public float posY;
     public Bounds bounds;
+    public boolean isClicked = false;
 
     public GameObject() {
         position = new Vector2();
@@ -37,7 +36,12 @@ public abstract class GameObject {
 
     public abstract void init(World world);
 
-
-
     public abstract void render(SpriteBatch batch);
+
+    public boolean wasClicked(float screenX, float screenY) {
+        boolean retVal = this.bounds.contains(screenX, screenY);
+        if (retVal)
+            System.out.println("Clicked on " + this.getClass().getSimpleName());
+        return retVal;
+    }
 }

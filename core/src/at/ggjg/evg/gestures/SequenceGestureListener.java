@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class SequenceGestureListener implements GestureDetector.GestureListener {
 
-    private final int NR_COL = 3;
-    private final int NR_ROWS = 4;
+    private static final int NR_COL = 5;
+    private static final int NR_ROWS = 5;
 
     private SequenceHolder sequenceHolder;
     private int height;

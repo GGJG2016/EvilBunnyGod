@@ -2,6 +2,7 @@ package at.ggjg.evg.screens;
 
 import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.gestures.Sequence;
+import at.ggjg.evg.gestures.SequenceFactory;
 import at.ggjg.evg.gestures.SequenceHolder;
 import at.ggjg.evg.mechanic.World;
 import at.ggjg.evg.mechanic.WorldRenderer;
@@ -41,21 +42,26 @@ public class GameplayScreen extends Screen {
         audio = new AudioManager();
         world.setRenderer(renderer);
         world.setAudio(audio);
-        ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
-        //define sequences .. item which first matches wins
-        sequenceList.add(new Sequence(Sequence.SequenceName.CIRCLE, 0, 3, 6, 9, 10, 11, 8, 5, 2, 1));
-        sequenceList.add(new Sequence(Sequence.SequenceName.LINE, 0, 1, 2));
-        sequenceHolder = new SequenceHolder(24, sequenceList);
+        world.setManager(manager);
+        initGestures();
         Gdx.input.setInputProcessor(new GestureDetector(new at.ggjg.evg.gestures.SequenceGestureListener(world, sequenceHolder, Gdx.graphics.getHeight(), Gdx.graphics.getWidth())));
     }
+
+    private void initGestures() {
+        ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
+        //define sequences .. item which first matches wins
+        sequenceList.add(SequenceFactory.createSquare(6, 7, 8, 13, 18, 17, 16, 11, 6));
+        //sequenceList.add(SequenceFactory.createHeart(7, 1, 0, 5, 10, 16, 22, 18, 14, 9, 3, 7));
+        sequenceList.add(SequenceFactory.createLine(0, 1, 2, 3, 4));
+        sequenceHolder = new SequenceHolder(24, sequenceList);
+    }
+
+
 
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
-//
-//        if(delta > 1.0f)
-//            delta = 0.0f;
-//
+
         Sequence match = sequenceHolder.getMatch();
         if (match != null) {
             System.out.println("sequence was a " + match.getSequenceName());
@@ -64,22 +70,7 @@ public class GameplayScreen extends Screen {
         renderer.render(delta);
         audio.update(delta);
         world.update(delta);
-//
-//        if(world.player.isDead()) {
-//            manager.setScreen(new GameOverScreen(manager));
-//        } else if(world.player.isWin()) {
-//            if(lvl==1)
-//            {
-//                manager.setScreen(new GameplayScreen(manager,2));
-//            }
-//            else{
-//                manager.setScreen(new WinScreen(manager));
-//            }
-//        }
-//
-//        if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-//            Gdx.app.exit();
-//        }
+
     }
 
     @Override
@@ -90,8 +81,8 @@ public class GameplayScreen extends Screen {
 
     @Override
     public void dispose() {
-//        renderer.dispose();
-//        audio.dispose();
-//        world.dispose();
+        renderer.dispose();
+        audio.dispose();
+     //   world.dispose();
     }
 }

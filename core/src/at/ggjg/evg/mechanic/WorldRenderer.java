@@ -30,19 +30,9 @@ public class WorldRenderer {
     private static final int CULL_RADIUS = 10;
     public OrthographicCamera camera;
     public Animation mainIdle;
-    public Animation mainAxeIdle;
-    public Animation mainAttack;
-    public Animation[] lethalObstacleAnim = new Animation[2];
-    public Animation[] obstacleAnim = new Animation[2];
-    public Animation poof;
-    public Texture houseAttacking;
-    public Texture houseIdle;
-    public Texture mainDead;
-    public Texture fence;
     World world;
     SpriteBatch batch;
     OrthogonalTiledMapRenderer tileMapRenderer;
-    ShaderProgram vignetteShader;
     ShapeRenderer sr = new ShapeRenderer();
     ShapeRenderer shapeDebugger;
     private int LAYER_FLOOR = 0;
@@ -79,26 +69,7 @@ public class WorldRenderer {
     public void dispose() {
         batch.dispose();
         tileMapRenderer.dispose();
-        vignetteShader.dispose();
         world.map.dispose();
-        disposeAnim(mainIdle);
-        disposeAnim(mainAxeIdle);
-        disposeAnim(mainAttack);
-        mainDead.dispose();
-        disposeAnim(lethalObstacleAnim[0]);
-        disposeAnim(lethalObstacleAnim[1]);
-        disposeAnim(obstacleAnim[0]);
-        disposeAnim(obstacleAnim[1]);
-//        doorClosed.dispose();
-//        doorOpen.dispose();
-//        doorVertical.dispose();
-//        pill.dispose();
-//        axe.dispose();
-//        blood.dispose();
-//        switchOn.dispose();
-//        switchOff.dispose();
-//        patient1RedEyes.dispose();
-//        patient2RedEyes.dispose();
         sr.dispose();
     }
 
