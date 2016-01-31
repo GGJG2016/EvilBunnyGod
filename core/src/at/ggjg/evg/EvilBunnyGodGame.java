@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
+import at.ggjg.evg.screens.IntroScreen;
 import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.ScreenManager;
 
@@ -14,7 +15,7 @@ public class EvilBunnyGodGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		manager = new ScreenManager();
-		manager.setScreen(new MainMenuScreen(manager));
+		manager.setScreen(new IntroScreen(manager));
 	}
 
 	@Override
