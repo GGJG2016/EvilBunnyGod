@@ -8,6 +8,7 @@ import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.OnMapClickedListener;
+import at.ggjg.evg.screens.GameOverScreen;
 import at.ggjg.evg.screens.GameplayScreen;
 import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.ScreenManager;
@@ -129,11 +130,15 @@ public class World implements OnMapClickedListener {
 
         if (getLifeHouses()<=0) {
 
-            if (level == 1) {
-                manager.setScreen(new GameplayScreen(manager, 2));
-            } else if (level == 2) {
-                manager.setScreen(new MainMenuScreen(manager));
+            if (level == 1){
+            manager.setScreen(new GameplayScreen(manager, 2));
             }
+            else if (level == 2){
+             manager.setScreen(new MainMenuScreen(manager));
+                audio.playEvilBunnieGod();
+            audio.playMenuTheme();
+            }
+           
         }
 
 
