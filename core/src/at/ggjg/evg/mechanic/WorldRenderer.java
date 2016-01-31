@@ -218,7 +218,7 @@ public class WorldRenderer {
     public void showGestureFinished() {
         if (world.currentClickedObj == null || world.currentClickedObj.gestureDoneAsset == null || world.currentClickedObj.gesture_done_time <= 0)
             return;
-        System.out.println("Gesture time = " + world.currentClickedObj.gesture_done_time);
+        //System.out.println("Gesture time = " + world.currentClickedObj.gesture_done_time);
         float alpha = world.currentClickedObj.gesture_done_time / 2;
         gestureBatch.setProjectionMatrix(cameraGUI.combined);
         gestureBatch.begin();

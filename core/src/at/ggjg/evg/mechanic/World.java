@@ -8,6 +8,7 @@ import at.ggjg.evg.AudioManager;
 import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.OnMapClickedListener;
+import at.ggjg.evg.screens.GameOverScreen;
 import at.ggjg.evg.screens.GameplayScreen;
 import at.ggjg.evg.screens.MainMenuScreen;
 import at.ggjg.evg.screens.ScreenManager;
@@ -96,23 +97,21 @@ public class World implements OnMapClickedListener {
         }
     }
 
-    public int getLifeBunnies(){
+    public int getLifeBunnies() {
         int count = 0;
-        for (Bunny bunny: bunnies)
-              {
+        for (Bunny bunny : bunnies) {
 
-            if(bunny.state!=State.DESTROYED)
+            if (bunny.state != State.DESTROYED)
                 count++;
         }
         return count;
     }
 
-    public int getLifeHouses(){
+    public int getLifeHouses() {
         int count = 0;
-        for (House house: houses)
-        {
+        for (House house : houses) {
 
-            if(house.state!=State.DESTROYED)
+            if (house.state != State.DESTROYED)
                 count++;
         }
         return count;
@@ -123,11 +122,11 @@ public class World implements OnMapClickedListener {
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
-        if (getLifeBunnies()<=0) {
-            //manager.setScreen(new GameOverScreen(manager));
+        if (getLifeBunnies() <= 0) {
+            manager.setScreen(new GameOverScreen(manager));
         }
 
-        if (getLifeHouses()<=0) {
+        if (getLifeHouses() <= 0) {
 
             if (level == 1) {
                 manager.setScreen(new GameplayScreen(manager, 2));
@@ -135,8 +134,6 @@ public class World implements OnMapClickedListener {
                 manager.setScreen(new MainMenuScreen(manager));
             }
         }
-
-
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {
@@ -226,7 +223,7 @@ public class World implements OnMapClickedListener {
         for (GameObject entity : entities) {
             if (entity.wasClicked(clicked.x, clicked.y)) {
                 if (currentClickedObj != null) currentClickedObj.gestureSuccessful = false;
-                    currentClickedObj = entity;
+                currentClickedObj = entity;
             }
         }
         audio.playMoveSound();

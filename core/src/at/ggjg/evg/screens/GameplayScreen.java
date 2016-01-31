@@ -69,6 +69,8 @@ public class GameplayScreen extends Screen {
         //sequenceList.add(SequenceFactory.createHorizontalLine(0, 1, 2, 3, 4));
         sequenceList.add(SequenceFactory.createVerticalLine(2, 7, 12, 17, 22));
         sequenceList.add(SequenceFactory.createVerticalLine(22, 17, 12, 7, 2));
+        sequenceList.add(SequenceFactory.createHorizontalLine(10, 11, 12, 13, 14));
+        sequenceList.add(SequenceFactory.createHorizontalLine(14, 13, 12, 11, 10));
         sequenceHolder = new SequenceHolder(24, sequenceList);
     }
 

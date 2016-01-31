@@ -1,6 +1,7 @@
 package at.ggjg.evg.entities;
 
 import at.ggjg.evg.State;
+import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.helpers.Assets;
 import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
@@ -18,8 +19,9 @@ import java.util.Random;
  */
 
 public class Bunny extends GameObject {
-	private static float SPEED = 4;
-	
+    private static final float SCALING_FACTOR = 1f;
+    private static final float SCALING_FACTOR_EMPOWERED = 2f;
+    private static float SPEED = 4;
     public TextureRegion frame;
     public Animation bunny_anim;
     public float health = 10;
@@ -28,10 +30,10 @@ public class Bunny extends GameObject {
     public TextureRegion bunny_dead;
     public float timeSinceMoved;
     public Cornfield cornfield;
-    public boolean firstAtCornfield;    
-    Random r;
-
+    public boolean firstAtCornfield;
+    public float empoweringTime;
     public float flip = 1;
+    Random r;
     private Vector2 destination;
     private Vector2 velocity;
     private int schnackselcooldown;
@@ -48,21 +50,24 @@ public class Bunny extends GameObject {
     public void init(World world) {
         bunny = Assets.bunny_1;
         bunny_dead = Assets.bunny_dead;
+        bunny_anim = Assets.bunnyAnim;
+        acceptedGesture = Sequence.SequenceName.HORIZONTAL_LINE;
+        this.gestureDoneAsset = Assets.sacrifice_gesture;
+        this.gestureRequiredAsset = Assets.sacrifice_gesture_required;
         dimension.set(1f, 1f);
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
-        scale.set(1f, 1f);
+        scale.set(SCALING_FACTOR, SCALING_FACTOR);
         this.state = State.IDLE;
-        this.bunny_anim = Assets.bunnyAnim;
         timeSinceMoved = 0;
         firstAtCornfield = true;
     }
-    
+
     public void setNewDestination(Vector3 newDestination) {
-    	flip = 1;
-    	if(newDestination.x - position.x != 0 && state!=State.DESTROYED) {
-    		flip = Math.signum(newDestination.x - position.x);
-    	}
+        flip = 1;
+        if (newDestination.x - position.x != 0 && state != State.DESTROYED) {
+            flip = Math.signum(newDestination.x - position.x);
+        }
         this.destination = new Vector2(newDestination.x, newDestination.y);
         if (this.state != State.SCHNACKSELN) {
             state = State.MOVING;
@@ -71,25 +76,25 @@ public class Bunny extends GameObject {
     }
 
     private void updatePosition(World world, float deltatime) {
-    	this.velocity = velocity.set(destination).sub(position).nor().scl(SPEED);       
-        
+        this.velocity = velocity.set(destination).sub(position).nor().scl(SPEED);
+
         // separation behaviour
         int hitBunnies = 0;
         Vector2 separation = new Vector2();
-        for(Bunny bunny: world.bunnies) {
-        	if(bunny == this) {
-        		continue;
-        	}
-        	if(bunny.position.dst(this.position) < 0.5f) {
-        		hitBunnies++;
-        		separation.add(this.position.x - bunny.position.x, this.position.y - bunny.position.y);        		
-        	}
+        for (Bunny bunny : world.bunnies) {
+            if (bunny == this) {
+                continue;
+            }
+            if (bunny.position.dst(this.position) < 0.5f) {
+                hitBunnies++;
+                separation.add(this.position.x - bunny.position.x, this.position.y - bunny.position.y);
+            }
         }
-        if(hitBunnies > 0) {
-        	separation.nor().scl(hitBunnies);
-        	velocity.add(separation);
+        if (hitBunnies > 0) {
+            separation.nor().scl(hitBunnies);
+            velocity.add(separation);
         }
-        
+
         this.position.x += velocity.x * deltatime;
         this.position.y += velocity.y * deltatime;
         if (position.dst(destination) < 0.1f || velocity.len() < SPEED * deltatime / 2) {
@@ -101,21 +106,24 @@ public class Bunny extends GameObject {
     }
 
     @Override
-    public void render(SpriteBatch batch) {    	    	
+    public void render(SpriteBatch batch) {
+        float scaleX = empoweringTime > 0 ? scale.x * flip * 2 : scale.x * flip;
+        float scaleY = empoweringTime > 0 ? scale.y * 2 : scale.y;
+        System.out.println("Empowering time:" + empoweringTime);
         switch (this.state) {
             case IDLE:
-                batch.draw(bunny, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
+                batch.draw(bunny, position.x + (flip < 0 ? 1 : 0), position.y, scaleX, scaleY);
                 break;
             case MOVING:
                 frame = bunny_anim.getKeyFrame(stateTime, true);
-                batch.draw(frame, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
+                batch.draw(frame, position.x + (flip < 0 ? 1 : 0), position.y, scaleX, scaleY);
                 break;
             case ATTACKING:
                 frame = bunny_anim.getKeyFrame(stateTime, true);
-                batch.draw(frame, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
+                batch.draw(frame, position.x + (flip < 0 ? 1 : 0), position.y, scaleX, scaleY);
                 break;
             case DESTROYED:
-                batch.draw(bunny_dead, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
+                batch.draw(bunny_dead, position.x + (flip < 0 ? 1 : 0), position.y, scale.x * flip, scale.y);
                 break;
             case SCHNACKSELN:
                 break;
@@ -125,13 +133,16 @@ public class Bunny extends GameObject {
 
     @Override
     public void onGestureAction() {
-
+        this.health = 0;
+        empoweringTime = 5; //5 seconds
+        System.out.println("Empowering Time: " + empoweringTime);
     }
 
     public void update(World world, float deltaTime) {
         stateTime += deltaTime;
         if (gesture_done_time > 0) this.gesture_done_time -= deltaTime;
         if (gesture_required_time > 0) this.gesture_required_time -= deltaTime;
+        if (empoweringTime > 0) this.empoweringTime -= deltaTime;
 
         if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
@@ -140,6 +151,11 @@ public class Bunny extends GameObject {
 //            world.audio.playKillSounds();
         }
         if (this.state == State.DESTROYED) {
+            if (empoweringTime > 0) {
+                for (Bunny bunny1 : world.bunnies) {
+                    bunny1.empoweringTime = this.empoweringTime;
+                }
+            }
             if (stateTime >= 10) {
                 world.entities.removeValue(this, true);
                 world.bunnies.removeValue(this, true);
@@ -151,7 +167,7 @@ public class Bunny extends GameObject {
         if (stateTime == deltaTime)
             world.audio.setNewState(this.state);
 
-        switch (this.state) {        	
+        switch (this.state) {
             case IDLE:
                 if (stateTime >= 2.5) {
                     float radius = MathUtils.random(1, 4);
@@ -164,11 +180,11 @@ public class Bunny extends GameObject {
                 updatePosition(world, deltaTime);
                 break;
             case ATTACKING:
-                break;            
+                break;
             case SCHNACKSELN:
                 break;
             default:
-        }       
+        }
 
         for (int i = 0; i < world.entities.size; i++) {
             GameObject obj = world.entities.get(i);
@@ -176,7 +192,7 @@ public class Bunny extends GameObject {
                 if (obj instanceof House && obj.state != State.DESTROYED) {
                     if (this.state == State.ATTACKING) {
                         if (stateTime >= 0.5f) {
-                            this.health -= ((House) obj).getAttacked(this.damage);
+                            this.health -= ((House) obj).getAttacked(empoweringTime > 0 ? this.damage + 1 : this.damage);
                             stateTime = 0;
                         }
                     } else if (state != State.DESTROYED && obj.gestureSuccessful) {
@@ -194,7 +210,6 @@ public class Bunny extends GameObject {
                     }
                 }
             } else if (obj instanceof Bunny) {
-
             }
         }
     }

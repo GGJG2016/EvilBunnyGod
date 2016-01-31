@@ -26,13 +26,15 @@ public class Assets implements Disposable {
     public static TextureRegion house_attacking;
     public static TextureRegion house_destroyed;
     public static TextureRegion farm;
-    static Array<Animation> allAnimations = new Array<Animation>();
-    static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
     public static TextureRegion nastyBunnies;
     public static TextureRegion attack_gesture;
     public static TextureRegion attack_gesture_required;
     public static TextureRegion schnackselnGesture;
     public static TextureRegion schnackselnGesture_required;
+    public static TextureRegion sacrifice_gesture_required;
+    public static TextureRegion sacrifice_gesture;
+    static Array<Animation> allAnimations = new Array<Animation>();
+    static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
 
     public static void init() {
 
@@ -82,6 +84,10 @@ public class Assets implements Disposable {
         allTextureRegions.add(attack_gesture_required);
         schnackselnGesture_required = new TextureRegion(new Texture("gestures/quadrat-gesture.png"));
         allTextureRegions.add(schnackselnGesture_required);
+        sacrifice_gesture_required = new TextureRegion(new Texture("gestures/horizontale-gesture.png"));
+        allTextureRegions.add(sacrifice_gesture_required);
+        sacrifice_gesture = new TextureRegion(new Texture("symbols/symbol-sacrifice.png"));
+        allTextureRegions.add(sacrifice_gesture);
         /**
          * End Loading TextureRegions
          */
