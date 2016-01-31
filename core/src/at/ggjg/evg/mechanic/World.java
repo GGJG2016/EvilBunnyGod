@@ -84,6 +84,10 @@ public class World implements OnMapClickedListener {
                 Fence fence = new Fence(object.get("x", Float.class), object.get("y", Float.class));
                 fence.position.scl(1f / TILE_SIZE);
                 entities.add(fence);
+            } else if (type.equals("trap")) {
+                Trap trap = new Trap(object.get("x", Float.class), object.get("y", Float.class));
+                trap.position.scl(1f / TILE_SIZE);
+                entities.add(trap);
             } else if (type.equals("cornfield")) {
                 Cornfield cf = new Cornfield(object.get("x", Float.class), object.get("y", Float.class));
                 cf.position.scl(1f / TILE_SIZE);

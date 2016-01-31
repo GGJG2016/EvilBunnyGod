@@ -1,6 +1,7 @@
 package at.ggjg.evg.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 public class Assets implements Disposable {
     //DO THIS WITH ASSETMANAGER LATER TODO
 
+    public static AssetManager assMan = new AssetManager();
     public static Animation bunnyAnim;
     public static Animation houseAnim;
 
@@ -17,7 +19,6 @@ public class Assets implements Disposable {
     public static TextureRegion bunny_2;
     public static TextureRegion bunny_3;
     public static TextureRegion bunny_dead;
-    public static TextureRegion cornfield;
     public static TextureRegion fence;
     public static TextureRegion trap;
     public static TextureRegion sacrifice;
@@ -59,8 +60,6 @@ public class Assets implements Disposable {
         allTextureRegions.add(bunny_2);
         allTextureRegions.add(bunny_3);
         allTextureRegions.add(farm);
-        cornfield = new TextureRegion(new Texture("entityassets/trap.png"));
-        allTextureRegions.add(cornfield);
         fence = new TextureRegion(new Texture("entityassets/fence.png"));
         allTextureRegions.add(fence);
         house_idle = new TextureRegion(new Texture("entityassets/house-1.png"));
