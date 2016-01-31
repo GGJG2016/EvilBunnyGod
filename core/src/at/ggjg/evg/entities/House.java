@@ -1,6 +1,7 @@
 package at.ggjg.evg.entities;
 
 import at.ggjg.evg.State;
+import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.helpers.Assets;
 import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
@@ -49,6 +50,7 @@ public class House extends GameObject {
     @Override
     public void init(World world) {
         this.state = State.IDLE;
+        this.acceptedGesture = Sequence.SequenceName.VERTICAL_LINE;
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
         this.house_idle = Assets.house_idle;
@@ -90,6 +92,11 @@ public class House extends GameObject {
                 //batch.draw(frame, position.x, position.y,1,1);
                 break;
         }
+    }
+
+    @Override
+    public void onGestureAction() {
+
     }
 
 }

@@ -33,4 +33,9 @@ public class Fence extends LethalObstacle {
     public void render(SpriteBatch batch) {
         batch.draw(tr, position.x, position.y, scale.x, scale.y);
     }
+
+    @Override
+    public void onGestureAction() {
+
+    }
 }

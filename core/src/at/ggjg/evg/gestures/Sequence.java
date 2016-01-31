@@ -61,7 +61,8 @@ public class Sequence {
     public enum SequenceName {
         SQUARE,
         CIRCLE,
-        LINE,
+        VERTICAL_LINE,
+        HORIZONTAL_LINE,
         PENTAGON,
         TRIANGLE, HEART
     }

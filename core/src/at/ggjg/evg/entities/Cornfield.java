@@ -42,4 +42,9 @@ public class Cornfield extends GameObject {
         if(slots<=0)
             batch.draw(bunniesmakingloooove, position.x, position.y, scale.x,scale.y);
     }
+
+    @Override
+    public void onGestureAction() {
+
+    }
 }

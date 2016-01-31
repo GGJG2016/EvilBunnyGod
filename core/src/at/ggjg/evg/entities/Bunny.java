@@ -25,13 +25,13 @@ public class Bunny extends GameObject {
     public TextureRegion bunny_dead;
     public float timeSinceMoved;
     public Cornfield cornfield;
+    public boolean firstAtCornfield;
     Random r;
     private boolean inCornfield;
     //    private float speed;
     private Vector2 destination;
     private Vector2 lastPosition;
     private int schnackselcooldown;
-    public boolean firstAtCornfield;
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
@@ -93,6 +93,11 @@ public class Bunny extends GameObject {
         }
     }
 
+    @Override
+    public void onGestureAction() {
+
+    }
+
     public void setNewDestination(Vector3 newDestination) {
         this.destination = new Vector2(newDestination.x, newDestination.y);
         state = State.MOVING;
@@ -108,13 +113,13 @@ public class Bunny extends GameObject {
 //            world.audio.playKillSounds();
         }
         if (this.state == State.DESTROYED) {
-            if(stateTime >= 10)
-                world.entities.removeValue(this,false);
-                world.bunnies.removeValue(this,false);//TODO
+            if (stateTime >= 10)
+                world.entities.removeValue(this, false);
+            world.bunnies.removeValue(this, false);//TODO
             return;
         }
 
-        schnackselcooldown-=deltaTime;
+        schnackselcooldown -= deltaTime;
         if (this.state != State.ATTACKING && lastPosition.equals(this.position) && this.state != State.SCHNACKSELN) {
             timeSinceMoved += deltaTime;
             if (timeSinceMoved > 2) {
@@ -150,7 +155,7 @@ public class Bunny extends GameObject {
                 break;
             case SCHNACKSELN:
 
-                if(!firstAtCornfield) {
+                if (!firstAtCornfield) {
                     if (stateTime >= r.nextInt(10) + 5) {
                         Bunny haeschjen = new Bunny(this.position.x, this.position.y);
                         haeschjen.init(world);
@@ -173,28 +178,30 @@ public class Bunny extends GameObject {
         for (int i = 0; i < world.entities.size; i++) {
             GameObject obj = world.entities.get(i);
             if (obj.bounds.overlaps(this.bounds)) {
-                if (obj instanceof House) {
+                if (obj instanceof House && obj.state != State.DESTROYED) {
                     if (this.state == State.ATTACKING) {
                         if (stateTime >= 0.5f) {
                             this.health -= ((House) obj).getAttacked(this.damage);
                             stateTime = 0;
                         }
+                    } else if (state != State.DESTROYED && obj.gestureSuccessful) {
+                        this.state = State.ATTACKING;
                     }
-                    else this.state = State.ATTACKING;
                 } else if (obj instanceof Fence) {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
-                   if(this.state != State.SCHNACKSELN && schnackselcooldown <= 0 && ((Cornfield)obj).slots > 0) {
-                       this.state = State.SCHNACKSELN;
-                       cornfield = ((Cornfield)obj);
-                       if(cornfield.slots<=0){
-                           firstAtCornfield = false;}
-                       else{
-                            firstAtCornfield = true;}
-                       cornfield.slots--;
-                       this.stateTime = 0;
-                   }
+                    if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0 && ((Cornfield) obj).slots > 0) {
+                        this.state = State.SCHNACKSELN;
+                        cornfield = ((Cornfield) obj);
+                        if (cornfield.slots <= 0) {
+                            firstAtCornfield = false;
+                        } else {
+                            firstAtCornfield = true;
+                        }
+                        cornfield.slots--;
+                        this.stateTime = 0;
+                    }
                 } else if (obj instanceof Bunny) {
 
                 }
