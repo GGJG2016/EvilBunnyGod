@@ -1,5 +1,6 @@
 package at.ggjg.evg.entities;
 
+import at.ggjg.evg.gestures.Sequence;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -30,6 +31,7 @@ public class Cornfield extends GameObject {
     public void init(World world) {
         tr = Assets.farm;
         bunniesmakingloooove = Assets.nastyBunnies;
+        acceptedGesture = Sequence.SequenceName.SQUARE;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);

@@ -184,21 +184,20 @@ public class Bunny extends GameObject {
                         }
                     } else if (state != State.DESTROYED && obj.gestureSuccessful) {
                         this.state = State.ATTACKING;
+                        obj.gestureSuccessful = false;
                     }
                 } else if (obj instanceof Fence) {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
-                    if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0 && ((Cornfield) obj).slots > 0) {
-                        this.state = State.SCHNACKSELN;
-                        cornfield = ((Cornfield) obj);
-                        if (cornfield.slots <= 0) {
-                            firstAtCornfield = false;
-                        } else {
-                            firstAtCornfield = true;
+                    if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
+                        if ((((Cornfield) obj).slots >= 2 && obj.gestureSuccessful) || ((Cornfield) obj).slots < 2) {
+                            cornfield = ((Cornfield) obj);
+                            this.state = State.SCHNACKSELN;
+                            firstAtCornfield = cornfield.slots > 0;
+                            cornfield.slots--;
+                            this.stateTime = 0;
                         }
-                        cornfield.slots--;
-                        this.stateTime = 0;
                     }
                 } else if (obj instanceof Bunny) {
 
