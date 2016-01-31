@@ -27,7 +27,6 @@ public class Bunny extends GameObject {
     public Cornfield cornfield;
     public boolean firstAtCornfield;
     Random r;
-    private boolean inCornfield;
     //    private float speed;
     private Vector2 destination;
     private Vector2 lastPosition;
@@ -35,14 +34,9 @@ public class Bunny extends GameObject {
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
-        inCornfield = false;
         destination = new Vector2();
         bounds = new Bounds(position.x, position.y, 1, 1);
         r = new Random();
-    }
-
-    public boolean isInCornfield() {
-        return inCornfield;
     }
 
     @Override

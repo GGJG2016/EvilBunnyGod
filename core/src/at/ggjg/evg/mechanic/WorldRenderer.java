@@ -106,22 +106,6 @@ public class WorldRenderer {
 
         // render collision layer
         sr.setProjectionMatrix(camera.combined);
-        if (false) {
-            Color c = new Color(1, 0, 0, 1);
-            sr.begin(ShapeRenderer.ShapeType.Filled);
-            for (int x = 0; x < world.walls.length; x++) {
-                for (int y = 0; y < world.walls[x].length; y++) {
-                    Rectangle r = world.walls[x][y];
-                    if (r != null) {
-                        sr.rect(r.x, r.y, r.width, r.height, c, c, c, c);
-                    }
-                }
-            }
-            sr.end();
-        }
-
-        // render interieur
-//        tileMapRenderer.render(new int[]{LAYER_INTERIEUR});
 
         // render objects
         batch.setProjectionMatrix(camera.combined);
