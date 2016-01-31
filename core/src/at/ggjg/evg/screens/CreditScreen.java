@@ -71,7 +71,7 @@ public class CreditScreen extends Screen {
         table.row();
         table.add(scrollPane).fill().expand().row();
         table.add(button).size(150, 60).pad(10);
-
+        Gdx.input.setInputProcessor(stage);
         this.stage.addActor(table);
     }
 
