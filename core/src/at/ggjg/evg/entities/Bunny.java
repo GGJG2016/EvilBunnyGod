@@ -7,6 +7,7 @@ import at.ggjg.evg.mechanic.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -17,6 +18,8 @@ import java.util.Random;
  */
 
 public class Bunny extends GameObject {
+	private static float SPEED = 4;
+	
     public TextureRegion frame;
     public Animation bunny_anim;
     public float health = 10;
@@ -25,16 +28,18 @@ public class Bunny extends GameObject {
     public TextureRegion bunny_dead;
     public float timeSinceMoved;
     public Cornfield cornfield;
-    public boolean firstAtCornfield;
+    public boolean firstAtCornfield;    
     Random r;
-    //    private float speed;
+
+    public float flip = 1;
     private Vector2 destination;
-    private Vector2 lastPosition;
+    private Vector2 velocity;
     private int schnackselcooldown;
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
         destination = new Vector2();
+        velocity = new Vector2();
         bounds = new Bounds(position.x, position.y, 1, 1);
         r = new Random();
     }
@@ -49,37 +54,68 @@ public class Bunny extends GameObject {
         scale.set(1f, 1f);
         this.state = State.IDLE;
         this.bunny_anim = Assets.bunnyAnim;
-        lastPosition = position;
         timeSinceMoved = 0;
         firstAtCornfield = true;
     }
-
-    private void setNewPosition(float deltatime) {
-        this.position.x = this.position.x + (destination.x - this.position.x) * deltatime;
-        this.position.y = this.position.y + (destination.y - this.position.y) * deltatime;
-        if (position.equals(destination)) //TODO APPROX
-        {
-            state = State.IDLE;
+    
+    public void setNewDestination(Vector3 newDestination) {
+    	flip = 1;
+    	if(newDestination.x - position.x != 0) {
+    		flip = Math.signum(newDestination.x - position.x);
+    	}
+        this.destination = new Vector2(newDestination.x, newDestination.y);
+        if (this.state != State.SCHNACKSELN) {
+            state = State.MOVING;
             stateTime = 0;
         }
     }
 
+    private void updatePosition(World world, float deltatime) {
+    	this.velocity = velocity.set(destination).sub(position).nor().scl(SPEED);       
+        
+        // separation behaviour
+        int hitBunnies = 0;
+        Vector2 separation = new Vector2();
+        for(Bunny bunny: world.bunnies) {
+        	if(bunny == this) {
+        		continue;
+        	}
+        	if(bunny.position.dst(this.position) < 0.5f) {
+        		hitBunnies++;
+        		separation.add(this.position.x - bunny.position.x, this.position.y - bunny.position.y);        		
+        	}
+        }
+        if(hitBunnies > 0) {
+        	separation.nor().scl(hitBunnies);
+        	velocity.add(separation);
+        }
+        
+        this.position.x += velocity.x * deltatime;
+        this.position.y += velocity.y * deltatime;
+        if (position.dst(destination) < 0.1f || velocity.len() < SPEED * deltatime / 2) {
+            state = State.IDLE;
+            stateTime = 0;
+        }
+        this.bounds.x = this.position.x;
+        this.bounds.y = this.position.y;
+    }
+
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {    	    	
         switch (this.state) {
             case IDLE:
-                batch.draw(bunny, position.x, position.y, scale.x, scale.y);
+                batch.draw(bunny, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
                 break;
             case MOVING:
                 frame = bunny_anim.getKeyFrame(stateTime, true);
-                batch.draw(frame, position.x, position.y, scale.x, scale.y);
+                batch.draw(frame, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
                 break;
             case ATTACKING:
                 frame = bunny_anim.getKeyFrame(stateTime, true);
-                batch.draw(frame, position.x, position.y, scale.x, scale.y);
+                batch.draw(frame, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
                 break;
             case DESTROYED:
-                batch.draw(bunny_dead, position.x, position.y, scale.x, scale.y);
+                batch.draw(bunny_dead, position.x + (flip < 0? 1: 0), position.y, scale.x * flip, scale.y);
                 break;
             case SCHNACKSELN:
                 break;
@@ -90,14 +126,6 @@ public class Bunny extends GameObject {
     @Override
     public void onGestureAction() {
 
-    }
-
-    public void setNewDestination(Vector3 newDestination) {
-        this.destination = new Vector2(newDestination.x, newDestination.y);
-        if (this.state != State.SCHNACKSELN) {
-            state = State.MOVING;
-            stateTime = 0;
-        }
     }
 
     public void update(World world, float deltaTime) {
@@ -112,53 +140,35 @@ public class Bunny extends GameObject {
 //            world.audio.playKillSounds();
         }
         if (this.state == State.DESTROYED) {
-            if (stateTime >= 10)
-                world.entities.removeValue(this, false);
-            world.bunnies.removeValue(this, false);//TODO
+            if (stateTime >= 10) {
+                world.entities.removeValue(this, true);
+                world.bunnies.removeValue(this, true);
+            }
             return;
         }
 
         schnackselcooldown -= deltaTime;
-        if (this.state != State.ATTACKING && lastPosition.equals(this.position) && this.state != State.SCHNACKSELN) {
-            timeSinceMoved += deltaTime;
-            if (timeSinceMoved > 2) {
-                this.state = State.IDLE;
-                timeSinceMoved = 0;
-            }
-        }
-        lastPosition = this.position;
         if (stateTime == deltaTime)
             world.audio.setNewState(this.state);
 
-        switch (this.state) {
+        switch (this.state) {        	
             case IDLE:
                 if (stateTime >= 2.5) {
-                    if (r.nextBoolean()) {
-                        destination.x += r.nextInt(6 - 1 + 1) + 1;
-                    } else {
-                        destination.x -= r.nextInt(6 - 1 + 1) + 1;
-                    }
-                    if (r.nextBoolean()) {
-                        destination.y += r.nextInt(6 - 1 + 1) + 1;
-                    } else {
-                        destination.y -= r.nextInt(6 - 1 + 1) + 1;
-                    }
-                    this.state = State.MOVING;
+                    float radius = MathUtils.random(1, 4);
+                    float angle = MathUtils.random(360);
+                    this.destination.add(MathUtils.cosDeg(angle) * radius, MathUtils.sinDeg(angle) * radius);
+                    setNewDestination(new Vector3(this.destination.x, this.destination.y, 0));
                 }
                 break;
             case MOVING:
-                setNewPosition(deltaTime);
+                updatePosition(world, deltaTime);
                 break;
             case ATTACKING:
-                break;
-            case DESTROYED:
-                break;
+                break;            
             case SCHNACKSELN:
                 break;
             default:
-        }
-        this.bounds.x = this.position.x;
-        this.bounds.y = this.position.y;
+        }       
 
         for (int i = 0; i < world.entities.size; i++) {
             GameObject obj = world.entities.get(i);
