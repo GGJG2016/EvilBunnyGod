@@ -58,6 +58,7 @@ public class MainMenuScreen extends Screen {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
+                audioManager.playEvilBunnieGod();
                 audioManager.setNewState(State.IDLE);
                 manager.setScreen(new GameplayScreen(manager, 1));
             }
