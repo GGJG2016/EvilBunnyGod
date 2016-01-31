@@ -4,37 +4,34 @@ package at.ggjg.evg.mechanic;
  * Created by Veit on 29.01.2016.
  */
 
-import at.ggjg.evg.entities.Bunny;
 import at.ggjg.evg.entities.GameObject;
 import at.ggjg.evg.helpers.Assets;
+import at.ggjg.evg.helpers.Constants;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class WorldRenderer {
-    private static final float MODE_TRANSITION_TIME = 1.0f;
-
     private static final float CAM_DAMP = 4;
-    private static final int CULL_RADIUS = 10;
-    public OrthographicCamera camera;
+    private static final boolean DEBUG = false;
+    public OrthographicCamera camera, cameraGUI;
     public Animation mainIdle;
     World world;
-    SpriteBatch batch;
+    SpriteBatch batch, gestureBatch;
     OrthogonalTiledMapRenderer tileMapRenderer;
     ShapeRenderer sr = new ShapeRenderer();
     ShapeRenderer shapeDebugger;
+    private BitmapFont font;
     private int LAYER_FLOOR = 0;
 
     public WorldRenderer(World world) {
@@ -47,6 +44,14 @@ public class WorldRenderer {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / (float) World.TILE_SIZE, Gdx.graphics.getHeight() / (float) World.TILE_SIZE);
         camera.zoom += 2;
+
+        //GUI camera
+        gestureBatch = new SpriteBatch();
+        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+        cameraGUI.position.set(0, 0, 0);
+        cameraGUI.setToOrtho(false); //flip y-axis
+        font = new BitmapFont(Gdx.files.internal("mainmenu/default.fnt"),
+                Gdx.files.internal("mainmenu/default.png"), false);
 
         tileMapRenderer = new OrthogonalTiledMapRenderer(world.map, 1f / World.TILE_SIZE, batch);
 
@@ -80,6 +85,7 @@ public class WorldRenderer {
     }
 
     public void render(float deltaTime) {
+
         //debuglines
         int height = Gdx.graphics.getHeight() / 4;
         int width = Gdx.graphics.getWidth() / 3;
@@ -116,13 +122,28 @@ public class WorldRenderer {
         }
 
         batch.end();
+        showGestureFinished();
+        renderGUI(batch);
+
         // draw entity bounds
         sr.begin(ShapeRenderer.ShapeType.Line);
         sr.setColor(0, 1, 0, 1);
         for (GameObject gameObject : world.entities) {
-            sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
+            if (DEBUG || gameObject.boundsVisible)
+                sr.rect(gameObject.bounds.x, gameObject.bounds.y, gameObject.bounds.width, gameObject.bounds.height);
         }
         sr.end();
+    }
+
+    public void renderGUI(SpriteBatch batch) {
+        batch.setProjectionMatrix(cameraGUI.combined);
+        batch.begin();
+        String bunnies = String.format("Rabbits left: %d", world.bunnies.size);
+        String housesLeft = String.format("Houses left: %d", world.getNotDestroyedHouses());
+        font.draw(batch, bunnies, 10, Gdx.graphics.getHeight() - 10);
+        font.draw(batch, housesLeft, 130, Gdx.graphics.getHeight() - 10);
+        //  font.draw(batch, "BACK",  cameraGUI.viewportWidth-80f, 10);
+        batch.end();
     }
 
     public void resize(int width, int height) {
@@ -191,6 +212,31 @@ public class WorldRenderer {
         } else if (camera.position.y > mapHeight - camViewportHalfY) {
             camera.position.y = mapHeight - camViewportHalfY;
         }
+    }
+
+    public void showGestureFinished() {
+        if (world.currentClickedObj == null || world.currentClickedObj.gestureDoneAsset == null || world.currentClickedObj.gesture_visible <= 0)
+            return;
+        System.out.println("Gesture time = " + world.currentClickedObj.gesture_visible);
+        float alpha = world.currentClickedObj.gesture_visible / 3;
+        gestureBatch.setProjectionMatrix(cameraGUI.combined);
+        gestureBatch.begin();
+        Color c = gestureBatch.getColor();
+        gestureBatch.setColor(c.r, c.g, c.b, alpha);
+        gestureBatch.draw(world.currentClickedObj.gestureDoneAsset, 0, 0, cameraGUI.viewportWidth, cameraGUI.viewportHeight);
+        gestureBatch.end();
+    }
+
+    public void showGestureHint() {
+        if (world.currentClickedObj == null || world.currentClickedObj.gestureDoneAsset == null || world.currentClickedObj.gesture_visible <= 0)
+            return;
+        float alpha = world.currentClickedObj.gesture_visible / 3;
+        gestureBatch.setProjectionMatrix(cameraGUI.combined);
+        gestureBatch.begin();
+        Color c = gestureBatch.getColor();
+        gestureBatch.setColor(c.r, c.g, c.b, alpha);
+        gestureBatch.draw(world.currentClickedObj.gestureDoneAsset, 0, 0, cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2);
+        gestureBatch.end();
     }
 
 }

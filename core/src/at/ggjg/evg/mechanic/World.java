@@ -36,8 +36,8 @@ public class World implements OnMapClickedListener {
     public int mapWidth, tileWidth;
     public int mapHeight, tileHeight;
     public GameObject currentClickedObj;
-    private ScreenManager manager;
     public int level;
+    private ScreenManager manager;
 
     public World(String level) {
         loadLevel(level);
@@ -84,6 +84,10 @@ public class World implements OnMapClickedListener {
                 Fence fence = new Fence(object.get("x", Float.class), object.get("y", Float.class));
                 fence.position.scl(1f / TILE_SIZE);
                 entities.add(fence);
+            } else if (type.equals("trap")) {
+                Trap trap = new Trap(object.get("x", Float.class), object.get("y", Float.class));
+                trap.position.scl(1f / TILE_SIZE);
+                entities.add(trap);
             } else if (type.equals("cornfield")) {
                 Cornfield cf = new Cornfield(object.get("x", Float.class), object.get("y", Float.class));
                 cf.position.scl(1f / TILE_SIZE);
@@ -99,17 +103,17 @@ public class World implements OnMapClickedListener {
             entity.update(this, deltaTime);
         }
         for (Bunny bunny : bunnies) {
-            if (bunny.getState() != State.DESTROYED) {
+            if (bunny.state != State.DESTROYED) {
                 bunnycheck = false;
             }
         }
-        if (bunnycheck){
-                manager.setScreen(new GameplayScreen(manager, level));
+        if (bunnycheck) {
+            manager.setScreen(new GameplayScreen(manager, level));
         }
 
 
         for (House house : houses) {
-            if (house.getState() != State.DESTROYED) {
+            if (house.state != State.DESTROYED) {
                 housecheck = false;
             }
         }
@@ -122,6 +126,14 @@ public class World implements OnMapClickedListener {
         }
 
 
+    }
+
+    public int getNotDestroyedHouses() {
+        int count = 0;
+        for (House house : houses) {
+            if (house.state != State.DESTROYED) count += 1;
+        }
+        return count;
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {

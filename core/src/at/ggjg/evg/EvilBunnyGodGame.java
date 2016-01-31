@@ -5,19 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import at.ggjg.evg.screens.MainMenuScreen;
-import at.ggjg.evg.screens.Screen;
 import at.ggjg.evg.screens.ScreenManager;
 
 public class EvilBunnyGodGame extends ApplicationAdapter {
 	ScreenManager manager;
-	AudioManager audio;
+//	AudioManager audio;
 	
 	@Override
 	public void create () {
 		manager = new ScreenManager();
-		Screen screen = new MainMenuScreen(manager);
-//		Screen screen = new GameplayScreen(manager, 1);
-		manager.setScreen(screen);
+		manager.setScreen(new MainMenuScreen(manager));
 	}
 
 	@Override

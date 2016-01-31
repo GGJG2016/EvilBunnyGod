@@ -3,6 +3,7 @@ package at.ggjg.evg.screens;
 /**
  * Created by Veit on 29.01.2016.
  */
+import at.ggjg.evg.State;
 import at.ggjg.evg.helpers.Constants;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -44,7 +45,8 @@ public class MainMenuScreen extends Screen {
         table.row();
         audioManager = new AudioManager();
 
-        audioManager.menu_loop_all.play();
+        audioManager.setNewState(State.MENU);
+        //audioManager.update(1f);
 
         TextButton button;
 
@@ -56,7 +58,8 @@ public class MainMenuScreen extends Screen {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-                manager.setScreen(new GameplayScreen(manager, 100));
+                audioManager.setNewState(State.IDLE);
+                manager.setScreen(new GameplayScreen(manager, 1));
             }
         });
         table.add(button).size(150, 60).pad(10);
@@ -80,7 +83,7 @@ public class MainMenuScreen extends Screen {
                 // or System.exit(0);
             }
         });
-        table.add(button).size(100, 50).pad(10);
+        table.add(button).size(100, 60).pad(10);
         table.setFillParent(true);
         stage.addActor(table);
 

@@ -22,28 +22,41 @@ public class House extends GameObject {
     public Animation house_attacking_anim;
     public int health;
     public int damageDealt;
+    private float attackCounter;
 
     public House(Float posX, Float posY) {
         super(posX, posY);
+        attackCounter = 0;
 
     }
 
     @Override
     public void update(World world, float deltaTime) {
         this.stateTime += deltaTime;
-        if (this.getState() == State.ATTACKING && this.stateTime >= 3) {
-            this.setState(State.IDLE);
+        if (gesture_visible > 0) this.gesture_visible -= deltaTime;
+        if(state == State.ATTACKING)
+        {
+            attackCounter += deltaTime;
+//            if(attackCounter > 2) {
+                world.audio.playAttackSounds();
+//                attackCounter = 0;
+//            }
+        }
+        if (this.state == State.ATTACKING && this.stateTime >= 3) {
+            this.state = State.IDLE;
             this.stateTime = 0;
+
         }
     }
 
     @Override
     public void init(World world) {
-        this.setState(State.IDLE);
+		this.state = State.IDLE;
         this.acceptedGesture = Sequence.SequenceName.VERTICAL_LINE;
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
         this.house_idle = Assets.house_idle;
+        this.gestureDoneAsset = Assets.attack_gesture;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
@@ -55,19 +68,21 @@ public class House extends GameObject {
 
     public float getAttacked(float damageGained) {
 
-        if (this.getState() == State.DESTROYED)
+        if (this.state == State.DESTROYED)
             return 0;
-        this.setState(State.ATTACKING);
+        this.state = State.ATTACKING;
+
+
         this.health -= damageGained;
         if (this.health <= 0) {
-            this.setState(State.DESTROYED);
+            this.state = State.DESTROYED;
         }
         return damageDealt;
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        switch (this.getState()) {
+        switch (this.state) {
             case DESTROYED:
                 batch.draw(house_destroyed, position.x, position.y, scale.x, scale.y);
                 break;
