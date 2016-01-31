@@ -18,14 +18,18 @@ import com.badlogic.gdx.utils.Align;
  */
 public class CreditScreen extends Screen {
 
-    private static final String credits = "TEAM\n" +
-            "Pius Pfister [Artwork]\nMathias Lux [Sound]\nLorenz Schmoliner [Programming]\nVeit Frick [Programming]\nChristopher Galle [Programming]\nChristian Zellot [Programming]\n\n" +
-            "IDEA and GAMEDESIGN\nall of them :)\n\n" +
-            "SPECIAL THANKS TO\nMario Zechner[Consulting/Programming]\n\n" +
-            "EvilBunnyGod was developed during the\n" +
-            "GlobalGamejam 2016, Graz, AT\n\n" +
-            "A big THANK YOU to all who have contributed to the game - in whatever way\n" +
-            "#ggjg #ggj16";
+    private static final String credits = "Pius Pfister [Artwork & Visual Design]\n" +
+            "Lorenz Schmoliner [Programming]\n" +
+            "Veit Frick [Programming & Production]\n" +
+            "Christopher Gallé [Programming]\n" +
+            "Christian Zellot [Programming]\n" +
+            "Mario Zechner [Programming]\n" +
+            "Mathias Lux [Sound, lil‘ bit of Programming]\n" +
+            "Gabe Napetschnig [Intro comic]\n\n" +
+            "IDEA and GAMEDESIGN all of them!\n\n" +
+            "SPECIAL THANKS to the Graz GGJ 2016 team!\n\n" +
+            "EvilBunnyGod was developed during the GlobalGamejam 2016, Graz, AT\n\n" +
+            "A big THANK YOU to all who have contributed to the game - in whatever way #ggjg #ggj16\n";
     private Stage stage;
 
     public CreditScreen(ScreenManager manager) {
