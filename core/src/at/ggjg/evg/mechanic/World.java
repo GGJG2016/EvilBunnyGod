@@ -5,8 +5,12 @@ package at.ggjg.evg.mechanic;
  */
 
 import at.ggjg.evg.AudioManager;
+import at.ggjg.evg.State;
 import at.ggjg.evg.entities.*;
 import at.ggjg.evg.helpers.OnMapClickedListener;
+import at.ggjg.evg.screens.GameplayScreen;
+import at.ggjg.evg.screens.MainMenuScreen;
+import at.ggjg.evg.screens.ScreenManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.maps.MapObjects;
@@ -32,6 +36,7 @@ public class World implements OnMapClickedListener {
     public int mapWidth, tileWidth;
     public int mapHeight, tileHeight;
     public GameObject currentClickedObj;
+    private ScreenManager manager;
 
     public World(String level) {
         loadLevel(level);
@@ -57,7 +62,6 @@ public class World implements OnMapClickedListener {
         tileHeight = map.getProperties().get("tileheight", Integer.class);
         // load objects from map
         MapObjects objects = map.getLayers().get("objects").getObjects();
-
         // create objects
         for (int i = 0; i < objects.getCount(); i++) {
             MapProperties object = objects.get(i).getProperties();
@@ -88,9 +92,28 @@ public class World implements OnMapClickedListener {
     }
 
     public void update(float deltaTime) {
+        boolean housecheck = true;
+        boolean bunnycheck = true;
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
+        for (Bunny bunny : bunnies) {
+            if (bunny.state != State.DESTROYED) {
+                bunnycheck = false;
+            }
+        }
+        if (bunnycheck)
+            manager.setScreen(new GameplayScreen(manager, 3));
+
+        for (House house : houses) {
+            if (house.state != State.DESTROYED) {
+                housecheck = false;
+            }
+        }
+        if (housecheck)
+            manager.setScreen(new MainMenuScreen(manager));
+
+
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {
@@ -116,11 +139,6 @@ public class World implements OnMapClickedListener {
         Color c = new Color(0, 0, 1, 1);
         boolean displayDebug = false;
 
-        if (displayDebug) {
-//            renderer.sr.setProjectionMatrix(renderer.camera.combined);
-//            renderer.sr.begin(ShapeType.Line);
-        }
-
         sx = Math.max(Math.min(sx, walls.length - 1), 0);
         sy = Math.max(Math.min(sy, walls[0].length - 1), 0);
         ex = Math.max(Math.min(ex, walls.length), -1);
@@ -132,10 +150,6 @@ public class World implements OnMapClickedListener {
             for (int y = sy; y != ey; y += uy) {
                 Rectangle r = walls[x][y];
                 if (r != null) {
-                    if (displayDebug) {
-//                        renderer.sr.rect(r.x, r.y, r.width, r.height, c, c, c, c);
-                    }
-
                     if (r.overlaps(newbounds)) {
                         float x1, x2, y1, y2;
 
@@ -175,19 +189,6 @@ public class World implements OnMapClickedListener {
             }
         }
 
-        if (displayDebug) {
-//            c = new Color(1, 0, 1, 1);
-//            float rx = Math.min(sx, ex - 1);
-//            float ry = Math.min(sy, ey - 1);
-//            float rwidth = Math.max(sx, ex - 1) - rx + 1;
-//            float rheight = Math.max(sy, ey - 1) - ry + 1;
-//            renderer.sr.rect(rx, ry, rwidth, rheight, c, c, c, c);
-//            renderer.sr.end();
-        }
-    }
-
-    public void dispose() {
-//        player.dispose();
     }
 
     @Override
@@ -206,5 +207,9 @@ public class World implements OnMapClickedListener {
                 return;
             }
         }
+    }
+
+    public void setManager(ScreenManager manager) {
+        this.manager = manager;
     }
 }

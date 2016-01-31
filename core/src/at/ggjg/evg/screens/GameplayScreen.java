@@ -42,6 +42,7 @@ public class GameplayScreen extends Screen {
         audio = new AudioManager();
         world.setRenderer(renderer);
         world.setAudio(audio);
+        world.setManager(manager);
         initGestures();
         Gdx.input.setInputProcessor(new GestureDetector(new at.ggjg.evg.gestures.SequenceGestureListener(world, sequenceHolder, Gdx.graphics.getHeight(), Gdx.graphics.getWidth())));
     }
@@ -54,6 +55,8 @@ public class GameplayScreen extends Screen {
         sequenceList.add(SequenceFactory.createLine(0, 1, 2, 3, 4));
         sequenceHolder = new SequenceHolder(24, sequenceList);
     }
+
+
 
     @Override
     public void render() {
@@ -80,6 +83,6 @@ public class GameplayScreen extends Screen {
     public void dispose() {
         renderer.dispose();
         audio.dispose();
-        world.dispose();
+     //   world.dispose();
     }
 }
