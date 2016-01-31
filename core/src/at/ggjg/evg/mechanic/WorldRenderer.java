@@ -61,9 +61,9 @@ public class WorldRenderer {
         for (GameObject entity : world.entities) {
             entity.init(world);
         }
-        for (Bunny bunny : world.bunnies) {
-            bunny.init(world);
-        }
+//        for (Bunny bunny : world.bunnies) {
+//            bunny.init(world);
+//        }
     }
 
     public void dispose() {
