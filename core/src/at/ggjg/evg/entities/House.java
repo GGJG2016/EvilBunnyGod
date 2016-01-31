@@ -94,7 +94,7 @@ public class House extends GameObject {
 
     @Override
     public void onGestureAction() {
-        System.out.println("ATTACK HOUSE");
+       // System.out.println("ATTACK HOUSE");
         AudioManager.getInstance().playAttackSounds();
     }
 

@@ -130,11 +130,15 @@ public class World implements OnMapClickedListener {
 
         if (getLifeHouses()<=0) {
 
-            if (level == 1) {
-                manager.setScreen(new GameplayScreen(manager, 2));
-            } else if (level == 2) {
-                manager.setScreen(new MainMenuScreen(manager));
+            if (level == 1){
+            manager.setScreen(new GameplayScreen(manager, 2));
             }
+            else if (level == 2){
+             manager.setScreen(new MainMenuScreen(manager));
+                audio.playEvilBunnieGod();
+            audio.playMenuTheme();
+            }
+           
         }
 
 
