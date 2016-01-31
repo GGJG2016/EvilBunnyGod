@@ -1,11 +1,12 @@
 package at.ggjg.evg;
 
-import at.ggjg.evg.screens.MainMenuScreen;
-import at.ggjg.evg.screens.Screen;
-import at.ggjg.evg.screens.ScreenManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+
+import at.ggjg.evg.screens.MainMenuScreen;
+import at.ggjg.evg.screens.Screen;
+import at.ggjg.evg.screens.ScreenManager;
 
 public class EvilBunnyGodGame extends ApplicationAdapter {
 	ScreenManager manager;
@@ -15,6 +16,7 @@ public class EvilBunnyGodGame extends ApplicationAdapter {
 	public void create () {
 		manager = new ScreenManager();
 		Screen screen = new MainMenuScreen(manager);
+//		Screen screen = new GameplayScreen(manager, 1);
 		manager.setScreen(screen);
 	}
 

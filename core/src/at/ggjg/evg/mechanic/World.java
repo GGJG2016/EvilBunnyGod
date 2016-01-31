@@ -99,7 +99,7 @@ public class World implements OnMapClickedListener {
             entity.update(this, deltaTime);
         }
         for (Bunny bunny : bunnies) {
-            if (bunny.state != State.DESTROYED) {
+            if (bunny.getState() != State.DESTROYED) {
                 bunnycheck = false;
             }
         }
@@ -109,7 +109,7 @@ public class World implements OnMapClickedListener {
 
 
         for (House house : houses) {
-            if (house.state != State.DESTROYED) {
+            if (house.getState() != State.DESTROYED) {
                 housecheck = false;
             }
         }

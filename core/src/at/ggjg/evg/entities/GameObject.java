@@ -13,7 +13,7 @@ public abstract class GameObject {
     public Vector2 origin;
     public Vector2 scale;
     public float rotation;
-    public State state;
+    private State state;
     public float stateTime;
     public Bounds bounds;
     public Sequence.SequenceName acceptedGesture;
@@ -32,6 +32,14 @@ public abstract class GameObject {
         this.position.x = posX;
         this.position.y = posY;
 
+    }
+    
+    public State getState() {
+    	return state;
+    }
+    
+    public void setState(State state) {
+    	this.state = state;
     }
 
     public abstract void update(World world, float deltaTime);

@@ -31,15 +31,15 @@ public class House extends GameObject {
     @Override
     public void update(World world, float deltaTime) {
         this.stateTime += deltaTime;
-        if (this.state == State.ATTACKING && this.stateTime >= 3) {
-            this.state = State.IDLE;
+        if (this.getState() == State.ATTACKING && this.stateTime >= 3) {
+            this.setState(State.IDLE);
             this.stateTime = 0;
         }
     }
 
     @Override
     public void init(World world) {
-        this.state = State.IDLE;
+        this.setState(State.IDLE);
         this.acceptedGesture = Sequence.SequenceName.VERTICAL_LINE;
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
@@ -55,19 +55,19 @@ public class House extends GameObject {
 
     public float getAttacked(float damageGained) {
 
-        if (this.state == State.DESTROYED)
+        if (this.getState() == State.DESTROYED)
             return 0;
-        this.state = State.ATTACKING;
+        this.setState(State.ATTACKING);
         this.health -= damageGained;
         if (this.health <= 0) {
-            this.state = State.DESTROYED;
+            this.setState(State.DESTROYED);
         }
         return damageDealt;
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        switch (this.state) {
+        switch (this.getState()) {
             case DESTROYED:
                 batch.draw(house_destroyed, position.x, position.y, scale.x, scale.y);
                 break;
