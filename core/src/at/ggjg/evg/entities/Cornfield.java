@@ -75,7 +75,7 @@ public class Cornfield extends GameObject {
     }
 
     public void addBunny(Bunny bunny) {
-        if (!gestureSuccessful || bunnies.size > 2 || cooldown > 0)
+        if (!gestureSuccessful || bunnies.size > 2 || cooldown > 0 || bunnies.contains(bunny, false))
             return;
         bunnies.add(bunny);
         bunny.state = State.SCHNACKSELN;

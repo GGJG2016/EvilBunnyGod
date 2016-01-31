@@ -44,8 +44,8 @@ public class GameplayScreen extends Screen {
             case 2:
                 world = new World("levels/level_2.tmx");
                 break;
-            case 100: 
-            	world = new World("levels/oneBunnyLevel.tmx");
+            case 100:
+                world = new World("levels/oneBunnyLevel.tmx");
         }
         world.level = lvl;
         renderer = new WorldRenderer(world);
@@ -56,7 +56,7 @@ public class GameplayScreen extends Screen {
         world.setManager(manager);
         initGestures();
         Gdx.input.setInputProcessor(new GestureDetector(new at.ggjg.evg.gestures.SequenceGestureListener(world, sequenceHolder, Gdx.graphics.getHeight(), Gdx.graphics.getWidth())));
-        
+
         uiCam = new OrthographicCamera();
         uiCam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
@@ -67,9 +67,15 @@ public class GameplayScreen extends Screen {
         ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
         //define sequences .. item which first matches wins
         sequenceList.add(SequenceFactory.createSquare(6, 7, 8, 13, 18, 17, 16, 11, 6));
+        sequenceList.add(SequenceFactory.createSquare(6, 11, 16, 17, 18, 13, 8, 7, 6));
+        sequenceList.add(SequenceFactory.createSquare(8, 7, 6, 11, 16, 17, 18, 13, 8));
+        sequenceList.add(SequenceFactory.createSquare(8, 13, 18, 17, 16, 11, 6, 7, 8));
+        sequenceList.add(SequenceFactory.createSquare(16, 11, 6, 7, 8, 13, 18, 17, 16));
+        sequenceList.add(SequenceFactory.createSquare(16, 17, 18, 13, 8, 7, 6, 11, 16));
         //sequenceList.add(SequenceFactory.createHeart(7, 1, 0, 5, 10, 16, 22, 18, 14, 9, 3, 7));
-        sequenceList.add(SequenceFactory.createHorizontalLine(0, 1, 2, 3, 4));
+        //sequenceList.add(SequenceFactory.createHorizontalLine(0, 1, 2, 3, 4));
         sequenceList.add(SequenceFactory.createVerticalLine(2, 7, 12, 17, 22));
+        sequenceList.add(SequenceFactory.createVerticalLine(22, 17, 12, 7, 2));
         sequenceHolder = new SequenceHolder(24, sequenceList);
     }
 
@@ -89,7 +95,7 @@ public class GameplayScreen extends Screen {
         renderer.render(delta);
         audio.update(delta);
         world.update(delta);
-        
+
         uiCam.update();
         batch.setProjectionMatrix(uiCam.combined);
         batch.begin();

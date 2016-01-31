@@ -44,7 +44,7 @@ public class House extends GameObject {
 
     @Override
     public void init(World world) {
-		this.state = State.IDLE;
+        this.state = State.IDLE;
         this.acceptedGesture = Sequence.SequenceName.VERTICAL_LINE;
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
