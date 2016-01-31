@@ -27,6 +27,7 @@ public class Assets implements Disposable {
     public static TextureRegion farm;
     static Array<Animation> allAnimations = new Array<Animation>();
     static Array<TextureRegion> allTextureRegions = new Array<TextureRegion>();
+    public static TextureRegion nastyBunnies;
 
     public static void init() {
 
@@ -45,6 +46,7 @@ public class Assets implements Disposable {
         /**
          * Begin Loading TextureRegions
          */
+        nastyBunnies = new TextureRegion(new Texture("entityassets/reproduce.png"));
         bunny_1 = new TextureRegion(new Texture("entityassets/rabbit-animation-1.png"));
         bunny_2 = new TextureRegion(new Texture("entityassets/rabbit-animation-2.png"));
         bunny_3 = new TextureRegion(new Texture("entityassets/rabbit-animation-3.png"));

@@ -24,12 +24,14 @@ public class Bunny extends GameObject {
     public TextureRegion bunny;
     public TextureRegion bunny_dead;
     public float timeSinceMoved;
+    public Cornfield cornfield;
     Random r;
     private boolean inCornfield;
     //    private float speed;
     private Vector2 destination;
     private Vector2 lastPosition;
     private int schnackselcooldown;
+    public boolean firstAtCornfield;
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
@@ -55,6 +57,7 @@ public class Bunny extends GameObject {
         this.bunny_anim = Assets.bunnyAnim;
         lastPosition = position;
         timeSinceMoved = 0;
+        firstAtCornfield = true;
     }
 
     private void setNewPosition(float deltatime) {
@@ -85,7 +88,6 @@ public class Bunny extends GameObject {
                 batch.draw(bunny_dead, position.x, position.y, scale.x, scale.y);
                 break;
             case SCHNACKSELN:
-                batch.draw(bunny_dead, position.x, position.y, scale.x, scale.y); //TODO SCHNACKSEL
                 break;
             default:
         }
@@ -101,9 +103,13 @@ public class Bunny extends GameObject {
         stateTime += deltaTime;
         if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
+            this.stateTime = 0;
             world.audio.Kill.play();
         }
         if (this.state == State.DESTROYED) {
+            if(stateTime >= 10)
+                world.entities.removeValue(this,false);
+                world.bunnies.removeValue(this,false);//TODO
             return;
         }
 
@@ -141,19 +147,22 @@ public class Bunny extends GameObject {
             case DESTROYED:
                 break;
             case SCHNACKSELN:
-                System.out.println(stateTime);
-                if (stateTime >= r.nextInt(10) + 5) {
-                    Bunny haeschjen = new Bunny(this.position.x, this.position.y);
-                    haeschjen.init(world);
-                    this.state = State.IDLE;
-                    this.schnackselcooldown = 22;
-                    haeschjen.schnackselcooldown = 25;
-                    haeschjen.state = State.IDLE;
-                    world.bunnies.add(haeschjen);
-                    world.entities.add(haeschjen);
 
+                if(!firstAtCornfield) {
+                    if (stateTime >= r.nextInt(10) + 5) {
+                        Bunny haeschjen = new Bunny(this.position.x, this.position.y);
+                        haeschjen.init(world);
+                        cornfield.slots++;
+                        this.state = State.IDLE;
+                        this.schnackselcooldown = 22;
+                        haeschjen.schnackselcooldown = 25;
+                        haeschjen.state = State.IDLE;
+                        world.bunnies.add(haeschjen);
+                        world.entities.add(haeschjen);
+
+                    }
                 }
-                break; //TODO SCHNACKSELN
+                break;
             default:
         }
         this.bounds.x = this.position.x;
@@ -174,8 +183,14 @@ public class Bunny extends GameObject {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
-                   if(this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
+                   if(this.state != State.SCHNACKSELN && schnackselcooldown <= 0 && ((Cornfield)obj).slots > 0) {
                        this.state = State.SCHNACKSELN;
+                       cornfield = ((Cornfield)obj);
+                       if(cornfield.slots<=0){
+                           firstAtCornfield = false;}
+                       else{
+                            firstAtCornfield = true;}
+                       cornfield.slots--;
                        this.stateTime = 0;
                    }
                 } else if (obj instanceof Bunny) {

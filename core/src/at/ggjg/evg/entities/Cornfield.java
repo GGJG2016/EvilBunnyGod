@@ -13,6 +13,8 @@ import at.ggjg.evg.mechanic.World;
 public class Cornfield extends GameObject {
     private static final float SCALING_FACTOR = 1.2f;
     public TextureRegion tr;
+    public TextureRegion bunniesmakingloooove;
+    public int slots = 2;
 
     public Cornfield(Float posX, Float posY) {
         super(posX, posY);
@@ -27,6 +29,7 @@ public class Cornfield extends GameObject {
     @Override
     public void init(World world) {
         tr = Assets.farm;
+        bunniesmakingloooove = Assets.nastyBunnies;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
@@ -36,6 +39,7 @@ public class Cornfield extends GameObject {
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(tr, position.x, position.y, scale.x,scale.y);
-
+        if(slots<=0)
+            batch.draw(bunniesmakingloooove, position.x, position.y, scale.x,scale.y);
     }
 }
