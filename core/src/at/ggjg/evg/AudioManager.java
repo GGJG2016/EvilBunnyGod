@@ -379,6 +379,7 @@ public class AudioManager {
     }
 
     public void playAttackSounds() {
+        Attack.play();
     }
 
     public void playMoveSound() {
