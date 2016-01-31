@@ -34,6 +34,8 @@ public class GameplayScreen extends Screen {
             case 2:
                 world = new World("levels/level_2.tmx");
                 break;
+            case 100: 
+            	world = new World("levels/oneBunnyLevel.tmx");
         }
         world.level = lvl;
         renderer = new WorldRenderer(world);
