@@ -41,6 +41,7 @@ public class GameplayScreen extends Screen {
         audio = new AudioManager();
         world.setRenderer(renderer);
         world.setAudio(audio);
+        world.setManager(manager);
         ArrayList<Sequence> sequenceList = new ArrayList<Sequence>();
         //define sequences .. item which first matches wins
         sequenceList.add(new Sequence(Sequence.SequenceName.CIRCLE, 0, 3, 6, 9, 10, 11, 8, 5, 2, 1));
@@ -48,6 +49,8 @@ public class GameplayScreen extends Screen {
         sequenceHolder = new SequenceHolder(24, sequenceList);
         Gdx.input.setInputProcessor(new GestureDetector(new at.ggjg.evg.gestures.SequenceGestureListener(world, sequenceHolder, Gdx.graphics.getHeight(), Gdx.graphics.getWidth())));
     }
+
+
 
     @Override
     public void render() {
