@@ -1,6 +1,7 @@
 package at.ggjg.evg.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 public class Assets implements Disposable {
     //DO THIS WITH ASSETMANAGER LATER TODO
 
+    public static AssetManager assMan = new AssetManager();
     public static Animation bunnyAnim;
     public static Animation houseAnim;
 

@@ -36,10 +36,10 @@ public class House extends GameObject {
         if(state == State.ATTACKING)
         {
             attackCounter += deltaTime;
-            if(attackCounter > 25) {
-                world.audio.playKillSounds();
-                attackCounter = 0;
-            }
+//            if(attackCounter > 2) {
+                world.audio.playAttackSounds();
+//                attackCounter = 0;
+//            }
         }
         if (this.state == State.ATTACKING && this.stateTime >= 3) {
             this.state = State.IDLE;

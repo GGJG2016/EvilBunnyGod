@@ -12,44 +12,105 @@ import java.util.Random;
 
 public class AudioManager {
     private static final float MUSIC_VOLUME = 0.7f;
-    public Music backgroundmusic;
-    public Music menu_loop_all;
+    private Music backgroundmusic;
+    private Music menu_loop_all;
     private Random random;
-    public Music loops_game_high_01;
-    public Music loops_game_high_02;
-    public Music loops_game_high_03;
-    public Music loops_game_high_04;
-    public Music loops_game_low_01;
-    public Music loops_game_low_02;
-    public Music loops_game_mid_01;
-    public Music loops_game_mid_02;
+    private Music loops_game_high_01;
+    private Music loops_game_high_02;
+    private Music loops_game_high_03;
+    private Music loops_game_high_04;
+    private Music loops_game_low_01;
+    private Music loops_game_low_02;
+    private Music loops_game_mid_01;
+    private Music loops_game_mid_02;
 
-    public Music loops_menu_01;
-    public Music loops_menu_02;
-    public Music loops_menu_03;
-    public Music loops_menu_04;
-    public Music loops_menu_all;
+    private Music loops_menu_01;
+    private Music loops_menu_02;
+    private Music loops_menu_03;
+    private Music loops_menu_04;
+    private Music loops_menu_all;
 
     private State state;
 
     Array<Sound> allSounds = new Array<Sound>();
 
     public Sound Attack;
-    public Sound Bugger;
-    public Sound Bunnies;
-    public Sound Come;
-    public Sound DieForMe;
-    public Sound EvilBunnieGod;
-    public Sound Go;
-    public Sound ILoveBunnies;
-    public Sound Kill;
-    public Sound Move_1;
-    public Sound Move_2;
-    public Sound Obey;
-    public Sound Pray;
-    public Sound Rest;
-    public Sound Ritual;
-    public Sound Sacrifice;
+
+    public void playBugger() {
+         Bugger.play();
+    }
+
+    public void playBunnies() {
+         Bunnies.play();
+    }
+
+    public void playCome() {
+         Come.play();
+    }
+
+    public void playDieForMe() {
+         DieForMe.play();
+    }
+
+    public void playEvilBunnieGod() {
+         EvilBunnieGod.play();
+    }
+
+    public void playGo() {
+         Go.play();
+    }
+
+    public void playILoveBunnies() {
+         ILoveBunnies.play();
+    }
+
+    public void playKill() {
+         Kill.play();
+    }
+
+    public void getMove_1() {
+         Move_1.play();
+    }
+
+    public void getMove_2() {
+         Move_2.play();
+    }
+
+    public void getObey() {
+         Obey.play();
+    }
+
+    public void getPray() {
+         Pray.play();
+    }
+
+    public void getRest() {
+         Rest.play();
+    }
+
+    public void getRitual() {
+         Ritual.play();
+    }
+
+    public void getSacrifice() {
+         Sacrifice.play();
+    }
+
+    private Sound Bugger;
+    private Sound Bunnies;
+    private Sound Come;
+    private Sound DieForMe;
+    private Sound EvilBunnieGod;
+    private Sound Go;
+    private Sound ILoveBunnies;
+    private Sound Kill;
+    private Sound Move_1;
+    private Sound Move_2;
+    private Sound Obey;
+    private Sound Pray;
+    private Sound Rest;
+    private Sound Ritual;
+    private Sound Sacrifice;
     private float playingTime;
     private boolean stateChanged;
     private  Music currentMusic;
@@ -278,8 +339,8 @@ public class AudioManager {
         }
     }
 
-    public void playKillSounds() {
-        System.out.println("kill!!!!!");
+    public void playAttackSounds() {
+//        System.out.println("kill!!!!!");
         Attack.play();
     }
 }
