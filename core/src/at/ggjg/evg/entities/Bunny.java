@@ -27,7 +27,6 @@ public class Bunny extends GameObject {
     public Cornfield cornfield;
     public boolean firstAtCornfield;
     Random r;
-    private boolean inCornfield;
     //    private float speed;
     private Vector2 destination;
     private Vector2 lastPosition;
@@ -35,14 +34,9 @@ public class Bunny extends GameObject {
 
     public Bunny(Float posX, Float posY) {
         super(posX, posY);
-        inCornfield = false;
         destination = new Vector2();
         bounds = new Bounds(position.x, position.y, 1, 1);
         r = new Random();
-    }
-
-    public boolean isInCornfield() {
-        return inCornfield;
     }
 
     @Override
@@ -186,21 +180,20 @@ public class Bunny extends GameObject {
                         }
                     } else if (state != State.DESTROYED && obj.gestureSuccessful) {
                         this.state = State.ATTACKING;
+                        obj.gestureSuccessful = false;
                     }
                 } else if (obj instanceof Fence) {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
-                    if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0 && ((Cornfield) obj).slots > 0) {
-                        this.state = State.SCHNACKSELN;
-                        cornfield = ((Cornfield) obj);
-                        if (cornfield.slots <= 0) {
-                            firstAtCornfield = false;
-                        } else {
-                            firstAtCornfield = true;
+                    if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
+                        if ((((Cornfield) obj).slots >= 2 && obj.gestureSuccessful) || ((Cornfield) obj).slots < 2) {
+                            cornfield = ((Cornfield) obj);
+                            this.state = State.SCHNACKSELN;
+                            firstAtCornfield = cornfield.slots > 0;
+                            cornfield.slots--;
+                            this.stateTime = 0;
                         }
-                        cornfield.slots--;
-                        this.stateTime = 0;
                     }
                 } else if (obj instanceof Bunny) {
 
