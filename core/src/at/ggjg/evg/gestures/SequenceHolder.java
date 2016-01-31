@@ -30,7 +30,7 @@ public class SequenceHolder {
                 tmpLastArea.removeFirst();
             }
             tmpLastArea.add(area);
-            System.out.println("Area" + area);
+            System.out.println("Area: " + area);
         }
     }
 
@@ -50,7 +50,7 @@ public class SequenceHolder {
         this.lastArea.clear();
     }
 
-    public void stopPanning(){
+    public void stopPanning() {
         this.lastArea.clear();
         this.lastArea.addAll(tmpLastArea);
     }
@@ -63,9 +63,9 @@ public class SequenceHolder {
         this.sequenceList = sequenceList;
     }
 
-    public Sequence getMatch(){
-        for(Sequence sequence : sequenceList){
-            if(sequence.isSequenceMatch(getLastArea())){
+    public Sequence getMatch() {
+        for (Sequence sequence : sequenceList) {
+            if (sequence.isSequenceMatch(getLastArea())) {
                 return sequence;
             }
         }

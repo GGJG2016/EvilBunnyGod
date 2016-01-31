@@ -1,6 +1,5 @@
 package at.ggjg.evg.gestures;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -19,38 +18,38 @@ public class Sequence {
         }
     }
 
-   public int getSequenceMatch(LinkedList<Integer> draggedSequence){
-       if(draggedSequence.size() == 0){
-           return 0;
-       }
-       int hightestMatch = 0;
-       int match = 0;
-       int draggedSequItem = draggedSequence.get(0);
-       for(int i=0, j=0; i < sequence.size() && j < draggedSequence.size(); i++){
-           int sequItem = sequence.get(i);
-           if(sequItem == draggedSequItem){
-               match++;
-               j++;
-               draggedSequItem = j < draggedSequence.size() ? draggedSequence.get(j) : -1;
-           } else {
-               j=0;
-               draggedSequItem = draggedSequence.get(j);
-               if(hightestMatch < match){
-                   hightestMatch = match;
-               }
-           }
+    public int getSequenceMatch(LinkedList<Integer> draggedSequence) {
+        if (draggedSequence.size() == 0 || draggedSequence.size() != sequence.size()) {
+            return 0;
+        }
+        int hightestMatch = 0;
+        int match = 0;
+        int draggedSequItem = draggedSequence.get(0);
+        for (int i = 0, j = 0; i < sequence.size(); i++) {
+            int sequItem = sequence.get(i);
+            if (sequItem == draggedSequItem) {
+                match++;
+                j++;
+                draggedSequItem = j < draggedSequence.size() ? draggedSequence.get(j) : -1;
+            } else {
+                j = 0;
+                draggedSequItem = draggedSequence.get(j);
+                if (hightestMatch < match) {
+                    hightestMatch = match;
+                }
+            }
 //          comment in if exact match is needed
 //           if(draggedSequence.size() >= (j+1)){
 //               return 0;
 //           }
-       }
-       if(hightestMatch < match){
-           hightestMatch = match;
-       }
-       return hightestMatch;
-   }
+        }
+        if (hightestMatch < match) {
+            hightestMatch = match;
+        }
+        return hightestMatch;
+    }
 
-    public boolean isSequenceMatch(LinkedList<Integer> draggedSequence){
+    public boolean isSequenceMatch(LinkedList<Integer> draggedSequence) {
         int match = getSequenceMatch(draggedSequence);
         return match > 0 && match == sequence.size();
     }
@@ -62,6 +61,8 @@ public class Sequence {
     public enum SequenceName {
         SQUARE,
         CIRCLE,
-        LINE, PENTAGON
+        LINE,
+        PENTAGON,
+        TRIANGLE, HEART
     }
 }

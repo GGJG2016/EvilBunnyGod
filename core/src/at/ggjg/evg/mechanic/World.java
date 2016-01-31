@@ -18,8 +18,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.Iterator;
-
 public class World implements OnMapClickedListener {
 
     public static int TILE_SIZE = 128;
@@ -33,6 +31,7 @@ public class World implements OnMapClickedListener {
     public AudioManager audio;
     public int mapWidth, tileWidth;
     public int mapHeight, tileHeight;
+    public GameObject currentClickedObj;
 
     public World(String level) {
         loadLevel(level);
@@ -58,31 +57,6 @@ public class World implements OnMapClickedListener {
         tileHeight = map.getProperties().get("tileheight", Integer.class);
         // load objects from map
         MapObjects objects = map.getLayers().get("objects").getObjects();
-        MapProperties playerProps = objects.get("bunny").getProperties();
-//        player = new Player(this, new Vector2(playerProps.get("x", Float.class), playerProps.get("y", Float.class)));
-//        player.position.scl(1f / TILE_SIZE);
-//        entities.add(player);
-//        goal = new Goal(new Vector2(goalProps.get("x", Float.class) / TILE_SIZE, goalProps.get("y", Float.class)  / TILE_SIZE));
-//        entities.add(goal);
-
-        // load collision map
-//        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("collisionmap");
-//        walls = new Rectangle[layer.getWidth()][layer.getHeight()];
-//        for(int x = 0; x < layer.getWidth(); x++) {
-//            for(int y = 0; y < layer.getHeight(); y++) {
-//                if(layer.getCell(x, y) != null) {
-//                    walls[x][y] = new Rectangle(x, y, 1, 1);
-//                }
-//            }
-//        }
-//        layer = (TiledMapTileLayer) map.getLayers().get("interieur");
-//        for(int x = 0; x < layer.getWidth(); x++) {
-//            for(int y = 0; y < layer.getHeight(); y++) {
-//                if(layer.getCell(x, y) != null) {
-//                    walls[x][y] = new Rectangle(x, y, 1, 1);
-//                }
-//            }
-//        }
 
         // create objects
         for (int i = 0; i < objects.getCount(); i++) {
@@ -218,14 +192,19 @@ public class World implements OnMapClickedListener {
 
     @Override
     public void onMapClicked(float x, float y, boolean isRightClick) {
-        // todo bunnys dorthin schicken
         if (isRightClick) {
-            // todo get gesture and do magic
             return;
         }
-
+        currentClickedObj = null;
+        Vector3 clicked = renderer.camera.unproject(new Vector3(x, y, 0f));
         for (Bunny bunny : bunnies) {
-            bunny.setNewDestination(renderer.camera.unproject(new Vector3(x, y, 0f)));
+            bunny.setNewDestination(clicked);
+        }
+        for (GameObject entity : entities) {
+            if (entity.wasClicked(clicked.x, clicked.y)) {
+                currentClickedObj = entity;
+                return;
+            }
         }
     }
 }
