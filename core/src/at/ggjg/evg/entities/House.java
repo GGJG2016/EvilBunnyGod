@@ -22,18 +22,30 @@ public class House extends GameObject {
     public Animation house_attacking_anim;
     public int health;
     public int damageDealt;
+    private float attackCounter;
 
     public House(Float posX, Float posY) {
         super(posX, posY);
+        attackCounter = 0;
 
     }
 
     @Override
     public void update(World world, float deltaTime) {
         this.stateTime += deltaTime;
+        if (gesture_visible > 0) this.gesture_visible -= deltaTime;
+        if(state == State.ATTACKING)
+        {
+            attackCounter += deltaTime;
+//            if(attackCounter > 2) {
+                world.audio.playAttackSounds();
+//                attackCounter = 0;
+//            }
+        }
         if (this.state == State.ATTACKING && this.stateTime >= 3) {
             this.state = State.IDLE;
             this.stateTime = 0;
+
         }
     }
 
@@ -44,6 +56,7 @@ public class House extends GameObject {
         this.house_destroyed = Assets.house_destroyed;
         this.house_attacking_anim = Assets.houseAnim;
         this.house_idle = Assets.house_idle;
+        this.gestureDoneAsset = Assets.attack_gesture;
         origin.x = dimension.x / 2;
         origin.y = dimension.y / 2;
         scale.set(SCALING_FACTOR, SCALING_FACTOR);
@@ -58,6 +71,8 @@ public class House extends GameObject {
         if (this.state == State.DESTROYED)
             return 0;
         this.state = State.ATTACKING;
+
+
         this.health -= damageGained;
         if (this.health <= 0) {
             this.state = State.DESTROYED;

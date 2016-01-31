@@ -94,16 +94,21 @@ public class Bunny extends GameObject {
 
     public void setNewDestination(Vector3 newDestination) {
         this.destination = new Vector2(newDestination.x, newDestination.y);
-        state = State.MOVING;
-        stateTime = 0;
+        if (this.state != State.SCHNACKSELN) {
+            state = State.MOVING;
+            stateTime = 0;
+        }
     }
 
     public void update(World world, float deltaTime) {
         stateTime += deltaTime;
+        if (gesture_visible > 0) this.gesture_visible -= deltaTime;
+
         if (this.health <= 0 && this.state != State.DESTROYED) {
             this.state = State.DESTROYED;
             this.stateTime = 0;
-            world.audio.Kill.play();
+
+//            world.audio.playKillSounds();
         }
         if (this.state == State.DESTROYED) {
             if (stateTime >= 10)
@@ -121,6 +126,8 @@ public class Bunny extends GameObject {
             }
         }
         lastPosition = this.position;
+        if (stateTime == deltaTime)
+            world.audio.setNewState(this.state);
 
         switch (this.state) {
             case IDLE:
@@ -146,21 +153,6 @@ public class Bunny extends GameObject {
             case DESTROYED:
                 break;
             case SCHNACKSELN:
-
-                if (!firstAtCornfield) {
-                    if (stateTime >= r.nextInt(10) + 5) {
-                        Bunny haeschjen = new Bunny(this.position.x, this.position.y);
-                        haeschjen.init(world);
-                        cornfield.slots++;
-                        this.state = State.IDLE;
-                        this.schnackselcooldown = 22;
-                        haeschjen.schnackselcooldown = 25;
-                        haeschjen.state = State.IDLE;
-                        world.bunnies.add(haeschjen);
-                        world.entities.add(haeschjen);
-
-                    }
-                }
                 break;
             default:
         }
@@ -180,25 +172,23 @@ public class Bunny extends GameObject {
                         this.state = State.ATTACKING;
                         obj.gestureSuccessful = false;
                     }
-                } else if (obj instanceof Fence) {
+                } else if (obj instanceof LethalObstacle) {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
                     if (this.state != State.SCHNACKSELN && schnackselcooldown <= 0) {
-                        if ((((Cornfield) obj).slots >= 2 && obj.gestureSuccessful) || ((Cornfield) obj).slots < 2) {
-                            cornfield = ((Cornfield) obj);
-                            this.state = State.SCHNACKSELN;
-                            firstAtCornfield = cornfield.slots > 0;
-                            cornfield.slots--;
-                            this.stateTime = 0;
+                        cornfield = ((Cornfield) obj);
+                        if (cornfield.bunnies.size < 2) {
+                            cornfield.addBunny(this);
                         }
                     }
-                } else if (obj instanceof Bunny) {
-
                 }
+            } else if (obj instanceof Bunny) {
+
             }
         }
     }
-
-
 }
+
+
+

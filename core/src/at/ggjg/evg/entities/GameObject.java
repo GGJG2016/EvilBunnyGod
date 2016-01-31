@@ -5,6 +5,7 @@ import at.ggjg.evg.gestures.Sequence;
 import at.ggjg.evg.helpers.Bounds;
 import at.ggjg.evg.mechanic.World;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GameObject {
@@ -18,6 +19,9 @@ public abstract class GameObject {
     public Bounds bounds;
     public Sequence.SequenceName acceptedGesture;
     public boolean gestureSuccessful;
+    public float gesture_visible;
+    public TextureRegion gestureDoneAsset;
+    public boolean boundsVisible;
 
     public GameObject() {
         position = new Vector2();
@@ -44,8 +48,10 @@ public abstract class GameObject {
 
     public boolean wasClicked(float screenX, float screenY) {
         boolean retVal = this.bounds.contains(screenX, screenY);
-        if (retVal)
+        if (retVal) {
             System.out.println("Clicked on " + this.getClass().getSimpleName());
+            boundsVisible = true;
+        } else boundsVisible = false;
         return retVal;
     }
 
@@ -53,6 +59,7 @@ public abstract class GameObject {
         if (sequenceName == acceptedGesture) {
             System.out.println("Gesture of object " + this.getClass().getSimpleName() + " successfully mapped");
             gestureSuccessful = true;
+            gesture_visible = 3;
             onGestureAction();
         }
     }

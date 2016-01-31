@@ -9,6 +9,6 @@ public enum State {
     ATTACKING,
     PRAYING,
     DESTROYED,
-    SCHNACKSELN
-
+    SCHNACKSELN,
+    MENU
 }

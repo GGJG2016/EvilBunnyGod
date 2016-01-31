@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="128" tileheight="128" nextobjectid="93">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="128" tileheight="128" nextobjectid="101">
  <tileset firstgid="1" name="tiles-gras-busch-acker" tilewidth="128" tileheight="128">
   <image source="tiles-gras-busch-acker.png" width="512" height="128"/>
  </tileset>
@@ -78,5 +78,13 @@
   <object id="90" name="fence" type="fence" gid="1" x="4496" y="4704"/>
   <object id="91" name="fence" type="fence" gid="1" x="3420" y="3948"/>
   <object id="92" name="fence" type="fence" gid="1" x="4432" y="220"/>
+  <object id="93" name="trap" type="trap" gid="1" x="2536" y="1888"/>
+  <object id="94" name="trap" type="trap" gid="1" x="1396" y="3740"/>
+  <object id="95" name="trap" type="trap" gid="1" x="2452" y="4564"/>
+  <object id="96" name="trap" type="trap" gid="1" x="4252" y="3944"/>
+  <object id="97" name="trap" type="trap" gid="1" x="4664" y="2292"/>
+  <object id="98" name="trap" type="trap" gid="1" x="3924" y="1428"/>
+  <object id="99" name="trap" type="trap" gid="1" x="1476" y="172"/>
+  <object id="100" name="trap" type="trap" gid="1" x="1388" y="2252"/>
  </objectgroup>
 </map>
