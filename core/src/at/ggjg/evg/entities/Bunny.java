@@ -170,7 +170,7 @@ public class Bunny extends GameObject {
                         this.state = State.ATTACKING;
                         obj.gestureSuccessful = false;
                     }
-                } else if (obj instanceof Fence) {
+                } else if (obj instanceof LethalObstacle) {
                     this.health = -932873;
 
                 } else if (obj instanceof Cornfield) {
