@@ -97,28 +97,38 @@ public class World implements OnMapClickedListener {
         }
     }
 
+    public int getLifeBunnies(){
+        int count = 0;
+        for (Bunny bunny: bunnies)
+              {
+
+            if(bunny.state!=State.DESTROYED)
+                count++;
+        }
+        return count;
+    }
+
+    public int getLifeHouses(){
+        int count = 0;
+        for (House house: houses)
+        {
+
+            if(house.state!=State.DESTROYED)
+                count++;
+        }
+        return count;
+    }
+
     public void update(float deltaTime) {
         boolean housecheck = true;
-        boolean bunnycheck = true;
         for (GameObject entity : entities) {
             entity.update(this, deltaTime);
         }
-        for (Bunny bunny : bunnies) {
-            if (bunny.state != State.DESTROYED) {
-                bunnycheck = false;
-            }
-        }
-        if (bunnycheck) {
-            //manager.setScreen(new GameOverScreen(manager));
+        if (getLifeBunnies()<=0) {
+            manager.setScreen(new GameOverScreen(manager));
         }
 
-
-        for (House house : houses) {
-            if (house.state != State.DESTROYED) {
-                housecheck = false;
-            }
-        }
-        if (housecheck) {
+        if (getLifeHouses()<=0) {
 
             if (level == 1){
             manager.setScreen(new GameplayScreen(manager, 2));}
@@ -127,14 +137,6 @@ public class World implements OnMapClickedListener {
         }
 
 
-    }
-
-    public int getNotDestroyedHouses() {
-        int count = 0;
-        for (House house : houses) {
-            if (house.state != State.DESTROYED) count += 1;
-        }
-        return count;
     }
 
     public void clipCollision(Rectangle bounds, Vector2 movement) {

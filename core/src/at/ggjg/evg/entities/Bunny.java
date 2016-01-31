@@ -60,7 +60,7 @@ public class Bunny extends GameObject {
     
     public void setNewDestination(Vector3 newDestination) {
     	flip = 1;
-    	if(newDestination.x - position.x != 0) {
+    	if(newDestination.x - position.x != 0 && state!=State.DESTROYED) {
     		flip = Math.signum(newDestination.x - position.x);
     	}
         this.destination = new Vector2(newDestination.x, newDestination.y);

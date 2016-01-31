@@ -139,8 +139,8 @@ public class WorldRenderer {
     public void renderGUI(SpriteBatch batch) {
         batch.setProjectionMatrix(cameraGUI.combined);
         batch.begin();
-        String bunnies = String.format("Rabbits left: %d", world.bunnies.size);
-        String housesLeft = String.format("Houses left: %d", world.getNotDestroyedHouses());
+        String bunnies = String.format("Rabbits left: %d", world.getLifeBunnies());
+        String housesLeft = String.format("Houses left: %d", world.getLifeHouses());
         font.draw(batch, bunnies, 10, Gdx.graphics.getHeight() - 10);
         font.draw(batch, housesLeft, 130, Gdx.graphics.getHeight() - 10);
         //  font.draw(batch, "BACK",  cameraGUI.viewportWidth-80f, 10);
