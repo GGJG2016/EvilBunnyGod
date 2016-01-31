@@ -49,7 +49,7 @@ public abstract class GameObject {
     public abstract void onGestureAction();
 
     public boolean wasClicked(float screenX, float screenY) {
-        boolean retVal = this.bounds.contains(screenX, screenY);
+        boolean retVal = this.state != State.DESTROYED && this.bounds.contains(screenX, screenY);
         if (retVal) {
             System.out.println("Clicked on " + this.getClass().getSimpleName());
             boundsVisible = true;
